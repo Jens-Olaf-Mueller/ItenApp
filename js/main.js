@@ -5,7 +5,9 @@ const {
     host, hostname, href, origin, pathname, port, protocol, search
 } = window.location;
 
-// includeHTML();
+const queryString = location.search.substring(1);
+const ARR_CHECKBOXES = Array.from($('input[type="checkbox"'));
+
 
 // const menu = document.getElementsByClassName('menuHH')[0];
 // const menuItems = document.getElementsByClassName('navbar-links')[0];
@@ -18,25 +20,10 @@ runApp();
 
 function runApp() {
     loadHeader();
-    if(href.includes('index.html')) createMainMenu();
+    setEventListeners();
+    // if(href.includes('index.html')) createMainMenu();
 }
 
-function loadHeader() {
-    let mnuHH = '', mnuNavBar = '', title = 'Home';
-    for (let i = 0; i < 3; i++) {
-        mnuHH += `<span class="bar"></span>`;
-    }
-    for (let i = 0; i < 5; i++) {
-        const caption = MENUS[SETTINGS.language].desktop[i];
-        mnuNavBar += `<li><a href="${PAGES[i]}.html">${caption}</a></li>`;
-        if (href.includes(PAGES[i])) title = caption;
-    }
-    $('header').innerHTML = `
-        <div class="firma"><img src="./img/logo.jpg" alt="Logo" height="48px"></div>
-        <h1 id="menu-title">${title}</h1>
-        <a href="#" class="menuHH">${mnuHH}</a>
-        <nav class="navbar"><div class="navbar-links"><ul>${mnuNavBar}</ul></div></nav>`;
-}
 
 function createMainMenu() {
     const main = $('main'),
@@ -48,33 +35,71 @@ function createMainMenu() {
         </a>`;
     }
 }
+
+function loadHeader() {
+    let mnuHH = '', subMenus = [], links = [], title = 'Home';
+
+    for (let mnu = 0; mnu < 2; mnu++) {
+        links[mnu] = '';
+        for (let i = 0; i < 3; i++) {
+            // creating the mobile menu button
+            if(mnu) mnuHH += `<span class="bar"></span>`;
+            let url = MNU_ITEMS[mnu].url + '?' + MNU_ITEMS[mnu].param[i];
+            links[mnu] += `<li><a href="${url}">${MNU_ITEMS[mnu].items[i]}</a></li>`;
+        }
+        subMenus[mnu] = renderDropdownMenu(MNU_ITEMS[mnu].caption, links[mnu]); 
+    }
+
+    $('header').innerHTML = ` 
+        <div class="logo"> <a href="index.html"><img src="./img/logo.png" alt="logo"></a></div>
+        <h3 class="title">Home</h3><nav>
+        <input type="checkbox" id="mnuHH">
+        <label for="mnuHH" class="mnuMobile"> ${mnuHH} </label>
+        <ul> <li><a href="hours.html">Stunden</a></li> 
+            ${subMenus[0]}${subMenus[1]} <li><a href="settings.html">Einstellungen</a></li> 
+        </ul></nav>`;
+}
+
+function renderDropdownMenu(caption, mnuItem) {
+    return `<li class="expandable_li">
+                <input type="radio" id="opt${caption}" name="optDropdown">
+                <label for="opt${caption}">${caption}</label>
+                <ul class="dropdown-mnu"> 
+                    ${mnuItem} 
+                </ul>
+            </li>`;
+}
+
+function getCurrentDate(date = new Date()) {
+    return [
+        date.getFullYear(),
+        padTo2Digits(date.getMonth() + 1),
+        padTo2Digits(date.getDate()),
+    ].join('-');
+}
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function setEventListeners() {
+    ARR_CHECKBOXES.forEach(chk => {
+        chk.addEventListener('click', switchBuddy);
+    });
+}
+
 /**
- * Bindet Header & Footer einer Seite ein.
- * @returns 
+ * Enables | disables a list of correspondending controls (buddies)
+ * provided in the data-buddy attribute depending on the objects checked-state.
+ * i.e.: <input id="chkBox" type="checkbox" data-buddy="buddyID1 buddyID2">
+ * Calling elements must be connected by an event listener: 
+ * CHK_SWITCHBOX.addEventListener('click', switchBuddy);
+ * @param {object} checkbox 
  */
-// function includeHTML() {
-//     let colElements, i, element, file, xhttp;
-//     // alle HTML-Elemente (Tag-Name = "*") iterativ durchlaufen:
-//     colElements = document.getElementsByTagName("*");
-//     for (i = 0; i < colElements.length; i++) {
-//         element = colElements[i];
-//         // Elemente mit Attribut 'w3-include-html' suchen:
-//         file = element.getAttribute("w3-include-html");
-//         if (file) {
-//             // http-Anfrage starten mit Attribut-Wert als Filenamen:
-//             xhttp = new XMLHttpRequest();
-//             xhttp.onreadystatechange = function() {
-//                 if (this.readyState == 4) {
-//                     if (this.status == 200) {element.innerHTML = this.responseText;}
-//                     if (this.status == 404) {element.innerHTML = "Page not found.";}
-//                     // Attribut entfernen und Funktion erneut (rekursiv) aufrufen
-//                     element.removeAttribute("w3-include-html");
-//                     includeHTML();
-//                 }
-//             }      
-//             xhttp.open("GET", file, true);
-//             xhttp.send();
-//             return;
-//         }
-//     }
-// };
+ function switchBuddy(checkbox) {   
+    if (checkbox.target.dataset.buddy === undefined) return;
+    const buddies = checkbox.target.dataset.buddy.split(' ');
+    buddies.forEach(buddy => {
+        document.getElementById(buddy).disabled = !checkbox.target.checked;
+    });     
+}

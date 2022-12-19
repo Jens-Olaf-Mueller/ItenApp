@@ -1,0 +1,214 @@
+/* :root {
+    --bg-color: navy;     
+    --darker-background-color: #020258;  
+    --accent-color: dodgerblue;  
+    --menu-color: whitesmoke;
+    --navbar-height: 4rem;
+} */
+
+/* * {
+    margin: 0;
+    padding: 0;
+    font-size: 1.15rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Verdana, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--menu-color);
+}
+
+html, body {
+    height: 100%;
+} */
+
+
+/* .logo {
+    margin-left: 1rem;
+    padding-top: 0.25rem;
+    text-decoration: none;
+}
+
+.title {
+    display: none;
+    position: absolute;
+    top: 1.25rem;
+    left: 6rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-color);
+} */
+
+nav {
+    height: var(--navbar-height);
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav * {font-size: 1.33rem;}
+
+
+
+nav ul {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    z-index: 1001;
+}
+
+nav li {
+    height: 100%;
+    width: 9.25rem;
+    text-align: center;
+    position: relative;
+}
+
+nav li:hover {
+    background: var(--accent-color);
+}
+
+nav ul a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--menu-color);
+    text-decoration: none;
+}
+
+.dropdown-mnu {
+    height: min-content;
+    width: 12rem;
+    background: var(--bg-color);
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: var(--navbar-height);   
+    transition: height 0.3s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+.dropdown-mnu li {
+    height: 4.25rem;
+    width: 100%;
+}
+
+.dropdown-mnu li a {
+    justify-content: flex-start;
+    padding-left: 2rem;
+    width: calc(100% - 2rem);
+}
+
+nav li:hover .dropdown-mnu {
+    display: flex;
+}
+
+nav input[type="checkbox"], .expandable_li input[type="radio"] {
+    display: none;
+}
+
+.expandable_li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.expandable_li label {
+    color: var(--menu-color);
+}
+
+.mnuMobile {
+    width: 2rem;
+    height: 1.5rem;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bar {
+    height: 4px;
+    width: 100%;
+    background: var(--menu-color);
+    border-radius: 100px;
+}
+
+/* ########################################################################################## */
+/* ####                               R E S P O N S I V E                                 ### */
+/* ########################################################################################## */
+@media(max-width: 850px) {
+    .mnuMobile, .title {
+        display: flex;
+    }
+
+    nav ul {
+        height: min-content;
+        width: 100%;
+        background-color: var(--bg-color);
+        display: none;
+        position: absolute;
+        left: 0;
+        top: calc(var(--navbar-height) + 4px);
+    }
+    nav li {
+        height: min-content;
+        width: 100%;
+    }
+    nav ul a {
+        padding: 1.5rem 0;
+    }
+    .expandable_li {
+        display: block;
+    }
+    .expandable_li label {
+        padding: 1.5rem 0;
+        cursor: pointer;
+        display: block;
+    }
+    .expandable_li:hover .dropdown-mnu {
+        display: none;
+    }
+    .expandable_li input[type="checkbox"]:checked~.dropdown-mnu,
+                   input[type="radio"]:checked~.dropdown-mnu {
+        display: block;
+    }
+    .dropdown-mnu {
+        position: static;
+        width: 100%;
+    }
+    .dropdown-mnu li {
+        padding: 0;
+        display: block;
+        position: static;
+        background: var(--darker-background-color);
+        border-bottom: 1px solid var(--accent-color);
+        /* height: 4rem; */
+    }
+    .dropdown-mnu li a {
+        width: 100%;
+        padding: 1.5rem 0;
+        justify-content: center;
+    }
+
+    /* .dropdown-mnu li a::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 0;
+        color: red;
+    } */
+
+    #mnuHH:checked~ul {
+        display: block;
+    }
+}

@@ -1,0 +1,327 @@
+:root {
+    --checkbox-size: 1.33rem;
+}
+
+/* formular style */
+.forms {
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    width: 66%;
+}
+
+fieldset {
+    margin: 1rem 0.25rem 0;
+    border: none;
+    padding: 0.25rem;
+}
+
+legend {
+    font-weight: bolder;
+    color: navy;
+    border-bottom: 1px solid;
+    width: 100%;
+}
+
+button {
+    width: 10rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    background-color: navy;
+    color: whitesmoke;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: dodgerblue;
+    color: navy;
+}
+
+input, select {
+    padding: 0.33rem;
+    border-radius: 4px;
+    border: 1px solid silver;
+    outline: none;
+    font-size: 1.2rem;
+}
+
+select {
+    max-width: 20rem;
+    text-align: center;
+    appearance: none;
+    box-shadow: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+input:required {
+    border: 1px solid tomato;
+}
+
+/* styling the down-arrow */
+.select {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.select::after {
+    content: '\25bc';
+    /* \25bc oder \2228 */
+    position: absolute;
+    top: 2px;
+    right: 1px;
+    height: calc(2rem - 9px);
+    background-color: navy;
+    color: whitesmoke;
+    padding: 6px 8px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    pointer-events: none;
+}
+
+.select[disabled]::after {
+    background-color: var(--disabled-color);
+}
+
+.select:hover::after {
+    background-color: dodgerblue;
+}
+
+option { 
+    font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    border: 1px solid green;
+    background-color: var(--focus-color);
+}
+
+textarea {
+    resize: both;
+    font-size: 1.2rem;
+    min-height: 6rem;
+    max-height: 12rem;
+    max-width: 100vmin;
+    min-width: 66vmin;
+}
+
+#lblHours {
+    font-size: 1.33rem;
+    font-weight: bold;
+    color: var(--autocalc-color);
+    border: 1px solid var(--autocalc-color);
+    padding: 0.33rem;
+    background-color: var(--autocalc-bg-color);
+}
+
+/* #h3Result {
+    margin: 0;
+    color: navy;
+} */
+
+.control {
+    display: flex;   
+    flex-direction: row; 
+    align-items: center;        
+    padding: 0.5rem;
+}
+
+.control > label:first-child {
+    min-width: 21rem;
+}
+
+.control > input[type="text"],[type="email"] {
+    min-width: 45% !important;
+    width: 20rem;
+}
+
+.control > input[type="date"], [type="number"] {
+    width: 10rem;            
+}
+
+.control > input[data-autocalc="result"] {
+    background-color: var(--autocalc-bg-color);
+    color: var(--autocalc-color);
+    border: 1px solid var(--autocalc-color);
+    font-weight: bold;
+}
+
+.inline {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+.inline label {
+    width: auto;
+    min-width: 10.25rem;
+}
+.inline label.short {
+    min-width: unset;
+    width: 7.25rem !important;
+}
+
+.counter input[type="number"] {
+    width: 6.66rem;
+    text-align: center;
+}
+
+input.inp-short {
+    width: 4rem;
+    text-align: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.checkbox > label:nth-child(2) {
+    min-width: calc(21rem - var(--checkbox-size) - 0.5rem);
+}
+
+/* .checkbox input[type="checkbox"],[type="radio"] { */
+input[type="checkbox"],[type="radio"] {
+    min-width: var(--checkbox-size) !important;       
+    height: var(--checkbox-size) !important;     
+    accent-color: navy;
+}
+
+.result {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+}
+
+.result table {
+    width: 100%;
+    padding: 2rem 0.25rem;
+    font-weight: bold;    
+    background-color: var(--autocalc-bg-color);
+    
+    border: 4px double green;
+    border-radius: 8px;
+}
+
+.result table td {
+    font-size: 1.33rem;
+    color: green;
+}
+
+.cell-result {
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.result button {
+    margin-top: 2rem;
+}
+
+.frm-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0.5rem;
+}
+
+.spinner-button {
+    width: 2.25rem;
+}
+
+/* ########################################################################################## */
+/* ####                               R E S P O N S I V E                                 ### */
+/* ########################################################################################## */
+@media (max-width: 1080px) {
+    .control > label:first-child {
+        display: block;
+        min-width: 12rem;
+    }
+
+    .checkbox > label:nth-child(2) {
+        min-width: calc(12rem - var(--checkbox-size) - 0.5rem);
+    }
+}
+
+@media (max-width: 850px) {
+    .control {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .control > input[type=text],[type=email] {
+        min-width: 100%;
+        width: 20rem;
+    }
+
+    select {
+        max-width: unset;
+    }
+
+    .select::after {
+        right: 1px;
+    }
+
+    textarea {
+        resize: vertical;
+        max-width: 64vmin;
+    }
+
+    button {
+        width: 8rem;
+    }
+}
+
+
+@media (max-width: 580px) {
+    .forms {
+        width: 100%;
+    }
+
+    .control {       
+        padding: 0.5rem 0;
+    }
+
+    .control > label:first-child {
+        min-width: 9rem;
+        padding-left: 0;
+    }
+
+    .control > input[type=text],[type=email], textarea {        
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .checkbox > label:nth-child(2) {
+        min-width: calc(9rem - var(--checkbox-size) - 1rem);
+    }
+
+    .counter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .counter label {
+        width: auto;
+    }
+
+    textarea {
+        resize: vertical;
+        max-height: 12rem;
+        max-width: 85vmin;
+    }
+
+    button {
+        width: auto;
+        padding: 0.5rem 1rem;
+    }
+}

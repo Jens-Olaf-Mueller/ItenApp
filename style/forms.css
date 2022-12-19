@@ -1,230 +1,253 @@
+:root {
+    --checkbox-size: 1.33rem;
+    --label-minwidth: 12rem;
+    --forms-bg-color: #f5f5f5;
+    --theme-color: navy;
+}
+
 /* formular style */
-.forms {
+form {
+    width: 75%;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5;
-    width: 66%;
+    gap: 1rem;
+    background-color: var(--forms-bg-color);
+    padding: 1rem;    
 }
 
 fieldset {
-    margin: 0.75rem;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    border: none;
+}
+
+legend {
+    margin: 0.5rem 0;
+    font-weight: bolder;
+    color: var(--theme-color);
+    border-bottom: 1px solid;
+    width: 100%;
 }
 
 button {
-    width: 10rem;
     padding: 0.5rem;
     font-size: 1.2rem;
-    background-color: navy;
+    background-color: var(--theme-color);
     color: whitesmoke;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
+.button-bar button {
+    width: 8.5rem;
+}
+
 button:hover {
     background-color: dodgerblue;
-    color: navy;
+    color: var(--theme-color);
 }
 
-input, select {
-    padding: 0.4rem;
-    border-radius: 4px;
-    border: 1px solid silver;
+/***********************************/
+/****      C O N T R O L S         */
+/***********************************/
+.control, .checkbox, .switchbox, .inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.control label:first-child {
+    min-width: var(--label-minwidth);
+}
+
+.control label:nth-child(2), .switchbox label:nth-child(2) {
+    min-width: calc(var(--label-minwidth) - var(--checkbox-size) - 0.5rem);
+}
+
+.control input, .switchbox >input:nth-child(3), select {
+    flex: 1;
+    padding: 0.25rem;
     outline: none;
-    font-size: 1.2rem;
+    border: 1px solid silver;
+    border-radius: 4px;
 }
 
-select {
+.control input[type="date"] {
     max-width: 10rem;
-    text-align: center;
+}
 
-    appearance: none;
-    box-shadow: none;
-    width: 100%;
+.control input[type="time"] {
+    max-width: 6rem;
+}
+
+/*#######################################*/
+/*###          DROPDOWN-BOX           ###*/
+/*#######################################*/
+.dropdown select{
     cursor: pointer;
 }
 
-/* styling the down-arrow */
-.select {
+.dropdown {
     position: relative;
-}
-.select::after {
-    content: '\25bc';
-    /* \25bc oder \2228 */
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    height: calc(2rem - 10px);
-    background-color: navy;
-    color: whitesmoke;
-    padding: 6px 8px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    pointer-events: none;
-    /* filter: brightness(1); */
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-width: 5.25rem;
 }
 
-.select:hover::after {
-    /* filter: brightness(1.25); */
+.dropdown-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    background-color: var(--theme-color);
+    height: 100%;
+    width: 1.75rem;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    pointer-events: none;
+}
+
+/* Styling the dropdown-arrow */
+/* for another arrow down add: .dropdown-arrow::after */
+.dropdown-arrow::before {
+    --arrow-size: 0.55rem;
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dropdown-arrow::before {
+    border-top: var(--arrow-size) solid whitesmoke;
+    border-left: var(--arrow-size) solid transparent;
+    border-right: var(--arrow-size) solid transparent;
+}
+
+.dropdown:hover .dropdown-arrow {
     background-color: dodgerblue;
 }
 
-option { 
-    font-size: 1rem;
+select[disabled]~ .dropdown-arrow {
+    background-color: grey !important;
 }
 
-input:focus, select:focus, textarea:focus {
-    border: 1px solid green;
-    background-color: #adf9ad;
-}
-
-textarea {
-    resize: both;
-    font-size: 1.2rem;
-    min-height: 6rem;
-    max-height: 12rem;
-    max-width: 100vmin;
-    min-width: 66vmin;
-}
-
-#lblHours {
-    font-size: 1.33rem;
-    font-weight: bold;
-    color: green;
-}
-
-#h3Result {
-    margin: 0;
-    color: navy;
-}
-
-.control {
-    display: flex;   
-    flex-direction: row; 
-    align-items: center;        
-    padding: 0.5rem 0;
-}
-
-.control > label:first-child {
-    min-width: 21rem;
-}
-
-.control > input[type="text"],[type="email"] {
-    min-width: 45% !important;
-    width: 20rem;
-}
-
-.control > input[type="date"],[type="number"] {
-    width: 10rem;            
-}
-
-.inline {
-    display: flex;
-    flex-direction: row !important;
-    align-items: center !important;
-}
-
-.inline label {width: auto;}
-.inline label.short {
-    min-width: unset;
-    width: 7.25rem !important;
-}
-
-.counter input {
-    width: 6.66rem;
+.counter input[type="number"], 
+.switchbox input[type="number"]:nth-child(3) {
+    max-width: 4rem;
     text-align: center;
 }
 
+.counter .dropdown {
+    flex: 0.33;
+}
+
+.switchbox select:last-child {
+     min-width: 100%;
+}
+
+[disabled] {
+    background-color: #ccc;
+}
+
+/*##################################*/
+/*###          CHECKBOX          ###*/
+/*##################################*/
 .checkbox {
+    padding: 0.25rem 0;
+}
+
+.checkbox input[type="checkbox"], input[type="radio"], .switchbox input[type="checkbox"] {
+    min-height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    accent-color: var(--theme-color);
+    margin-right: 0.5rem;
+}
+
+/*###################################*/
+/*###          BUTTONBAR          ###*/
+/*###################################*/
+.button-bar {
+    width: auto;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0;
+    justify-content: space-between;
 }
 
-.checkbox input[type="checkbox"],[type="radio"] {
-    width: 1.33rem !important;       
-    height: 1.33rem !important;     
-    accent-color: navy;
-}
-
-.frm-buttons {
-    display: flex;
-    justify-content: space-around;
-    padding: 0.75rem 0;
-    margin: 0.5rem 0.75rem 1rem;
-    border: 2px solid gray;
-    border-radius: 8px;
-}
-
-.spinner-button {
-    width: 2.25rem;
+.btn-spin {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 /* ########################################################################################## */
 /* ####                               R E S P O N S I V E                                 ### */
 /* ########################################################################################## */
-@media (max-width: 1080px) {
-    .control > label:first-child {
-        display: block;
-        min-width: 12rem;
-    }
-}
-
 @media (max-width: 850px) {
+    form {
+        width: 100%;
+    }
     .control {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .control > input[type=text],[type=email] {
-        min-width: 100%;
-        width: 20rem;
+    .control [data-control="date"], 
+        [data-control="time"], 
+        [data-control="counter"], 
+        [data-control="dropbox"], .inline {
+            flex-direction: row;
+            align-items: center;
     }
 
-    textarea {
-        resize: vertical;
-        max-width: 64vmin;
+    .control [data-control="dropbox"] {
+        justify-content: space-between;
     }
 
-    button {
-        width: 8rem;
+    .control input[type="text"], input[type="email"], select {
+        width: 100%;
+        max-width: unset;
     }
 }
 
-
-@media (max-width: 580px) {
-    .forms {
-        width: 100%;
+@media (max-width: 480px) {
+    .control [data-control="date"], 
+        [data-control="time"], 
+        [data-control="counter"],
+        [data-control="dropbox"] {
+            flex-direction: column;
+            align-items: flex-start;
     }
 
-    .control > label:first-child {
-        min-width: 11rem;
+    .control .counter label:first-child {
+        min-width: calc(var(--label-minwidth) - 3rem);
     }
 
-    .control > input[type=text],[type=email] {        
+    .dropdown {
         min-width: 100%;
-        width: 20rem;
     }
 
-    .counter {
-        display: flex;
-        flex-direction: column;
+    .counter .dropdown {
+        min-width: unset !important;
+        flex: 0.75;
     }
 
-    .counter label {
-        width: auto;
+    .switchbox label.lbl-short {
+        min-width: calc(var(--label-minwidth) - var(--checkbox-size) - 3.5rem);
     }
 
-    textarea {
-        resize: vertical;
-        max-height: 12rem;
-        max-width: 85vmin;
+    .inline {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
     }
 
-    button {
-        width: auto;
-        padding: 0.5rem 1rem;
+    .button-bar {
+        width: 100%;
     }
 }

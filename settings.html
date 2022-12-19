@@ -7,6 +7,7 @@
     <title>StundenApp - Einstellungen</title>
 
     <link rel="stylesheet" href="./style/iten.css">
+    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/forms.css">
 
     <script src="./js/const.js"></script>
@@ -19,7 +20,6 @@
     <header></header>
 
     <form class="forms" id="frmSettings" action="" method="get" autocomplete="off">
-        <!-- <fieldset class="hidden"> <legend>  Persönliche Daten  </legend> -->
         <fieldset > <legend>  Persönliche Daten  </legend>
             <div class="control">
                 <label for="inpSurname">Name</label>
@@ -73,13 +73,14 @@
                 <input id="inpSitesActive" type="number" min="1" max="12" value="3" >   Mon.
             </div>
             
-            <div class="checkbox">
-                <input id="chkHoursPlausible" type="checkbox">
-                <label for="chkHoursPlausible">Nachricht, wenn Tagesstunden</label>                
+            <div class="switchbox counter">
+                <input id="chkHoursPlausible" type="checkbox" data-buddy="inpHoursPlausible">
+                <label for="chkHoursPlausible">Plausibilität ab</label>
+                <input id="inpHoursPlausible" type="number" min="10" max="12" step="0.50" value="12.00" disabled>   Std
             </div> 
 
-            <div class="control counter checkbox inline">
-                <input id="inpHoursPlausible" type="number" min="10" max="12" step="0.50" value="12.00" disabled>  Std überschreiten
+            <div class="switchbox checkbox inline">
+                
             </div>
         </fieldset>
 
@@ -116,40 +117,40 @@
                 <input id="inpLunch" type="number" min="0" max="90" step="15" value="60" >   min
             </div> <hr>
 
-            <div class="control counter checkbox inline">
+            <div class="switchbox counter">
                 <input type="checkbox" checked disabled>
                 <label for="inp1" class="short" >Montag</label>
                 <input id="inp1" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
             </div>
 
-            <div class="control counter checkbox inline">
+            <div class="switchbox counter">
                 <input type="checkbox" checked disabled>
                 <label for="inp2" class="short" >Dienstag</label>
                 <input id="inp2" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
             </div>
 
-            <div class="control counter checkbox inline">
+            <div class="switchbox counter">
                 <input type="checkbox" checked disabled>
                 <label for="inp3" class="short" >Mittwoch</label>
                 <input id="inp3" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
             </div>
 
-            <div class="control counter checkbox inline">
+            <div class="switchbox counter">
                 <input type="checkbox" checked disabled>
                 <label for="inp4" class="short" >Donnerstag</label>
                 <input id="inp4" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
             </div>
 
-            <div class="control counter checkbox inline">
+            <div class="switchbox counter">
                 <input type="checkbox" checked disabled>
                 <label for="inp5" class="short" >Freitag</label>
                 <input id="inp5" type="number" min="1" max="16" step="0.50" value="7.00" >  Std
             </div>
 
-            <div class="control counter checkbox inline">
-                <input type="checkbox">
-                <label for="inp6" class="short" >Samstag</label>
-                <input id="inp6" type="number" min="1" max="8" step="0.50" disabled>  Std
+            <div class="switchbox counter">
+                <input id="chkSaturday" type="checkbox" data-buddy="inpSaturday">
+                <label for="chkSaturday" class="short" >Samstag</label>
+                <input id="inpSaturday" type="number" min="1" max="8" step="0.50" disabled>  Std
             </div> <hr>
 
             <div class="control counter inline">
@@ -158,10 +159,9 @@
             </div>
         </fieldset>
 
-        <div class="frm-buttons">
+        <div class="button-bar">
             <button type="reset">Abbrechen</button>
             <button type="submit">OK</button>
-            <!-- <button type="button">weiter...</button> -->
         </div>
     </form>    
 </body>

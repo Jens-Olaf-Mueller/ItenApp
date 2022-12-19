@@ -5,38 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenApp - Tools</title>
-    
+
+
+    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/iten.css">
     <link rel="stylesheet" href="./style/forms.css">
+    
 
     <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
     
     <script defer src="./js/main.js"></script>
     <script defer src="./js/tools.js"></script>
+    <script defer src="./js/tools_material.js"></script>
+    <script defer src="./js/tools_measure.js"></script>
 </head>
 
 <body>
     <header></header>
-    <form class="forms" id="frmHours" action="" method="get" autocomplete="off" onsubmit="return false">
-    <!-- <form class="forms" id="frmHours" action="" method="get" autocomplete="off"> -->
+
+    <!------  M A T E R I A L  ----->
+    <form class="forms hidden" id="frmMaterial" method="get" autocomplete="off" onsubmit="return false">
         <fieldset> <legend>  Fläche / Kleber  </legend>
             <div class="control counter inline">
                 <label for="inpLenght">Länge</label>
-                <input id="inpLenght" type="number">   mm
+                <input id="inpLenght" type="number" pattern="[0-9]{3,5}">   mm
             </div>
             <div class="control counter inline">
                 <label for="inpWidth">Breite</label>
-                <input id="inpWidth" type="number">   mm
+                <input id="inpWidth" type="number" pattern="[0-9]{3,5}">   mm
             </div>
             <div class="control counter inline">
                 <label for="inpArea"><strong>Fläche</strong></label>
                 <input id="inpArea" type="number" step="0.01" maxlength="7" required>   <strong>m²</strong>
             </div>
 
-            <div class="control inline">
+            <div class="control counter inline" data-control="dropbox">
                 <label for="selTrowel">Zahnung (mm)</label>
-                <div class="select">
+                <div class="dropdown">
                     <select name="trowel" id="selTrowel">
                         <option value="1">2</option>
                         <option value="1.25">3</option>
@@ -48,8 +54,10 @@
                         <option value="4.75">15</option>
                         <option value="6.75">Mittelbett 20</option>
                     </select>
+                    <span class="dropdown-arrow"></span>
                 </div>
             </div>
+
             <div class="checkbox" title="markieren, wenn Platten mit Kontaktschicht verlegt werden">
                 <input id="chkContact" type="checkbox">
                 <label for="chkContact">Kontaktschicht</label>                
@@ -82,15 +90,453 @@
                 <label for="chkDiagonal">Verlegung diagonal</label>                
             </div> 
         </fieldset>
-        <div class="frm-buttons">
+        <div class="button-bar">
             <button type="button" id="btnReset">Zurücksetzen</button>
             <button type="submit" id="btnCalculate">Berechnen</button>            
         </div>
-
-        <fieldset> <legend>  Ergebnis  </legend>
-            <h3 id="h3Result"></h3>
-        </fieldset>
     </form>
+
+    <!------  M E A S U R E M E N T  ----->
+    <form class="forms hidden" id="frmMeasure" method="get" autocomplete="off" onsubmit="return false">
+        <div class="wizard" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Ausmass-Typ  </legend>
+                <div class="flx-evn">
+                    <div class="checkbox">
+                        <input id="radEffective" type="radio" checked name="measuretype">
+                        <label for="radEffective">Effektiv</label>                
+                    </div>
+                    <div class="checkbox">
+                        <input id="radSIA" type="radio" name="measuretype">
+                        <label for="radSIA">nach SIA</label>                
+                    </div>
+                </div>
+                <hr style="margin: 1rem;">
+                <div class="flx-evn">
+                    <div class="checkbox">
+                        <input id="radTilesFloor" type="radio" value="floor" name="tiletype" checked>
+                        <label for="radTilesFloor">Boden</label>                
+                    </div>
+                    <div class="checkbox">
+                        <input id="radTilesWall" type="radio" value="wall" name="tiletype">
+                        <label for="radTilesWall">Wand</label>                
+                    </div>
+                    <div class="checkbox">
+                        <input id="radTilesStairs" type="radio" value="stairs" name="tiletype">
+                        <label for="radTilesStairs">Treppe</label>                
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset> <legend>  Baustelle  </legend>
+                <div class="control">
+                    <label for="inpCreatedAt">Erstellt am</label>
+                    <input id="inpCreatedAt" type="date">
+                </div>
+                <div class="control">
+                    <label for="inpCreatedBy">von Mitarbeiter</label>
+                    <input id="inpCreatedBy" type="text">
+                </div>
+
+                <div class="control" data-control="dropbox">
+                    <label for="selSite">Baustelle / Objekt</label>
+                    <div class="dropdown">
+                        <select name="sites" id="selSites" required>
+                            <option value="-1">-- bitte wählen --</option>
+                            <option value="0000-000">Magazin</option>
+                            <option value="0000-001">Büro</option>
+                            <option value="2021-001">Eichmattpark</option>
+                            <option value="2021-002">Quadrolith</option>
+                            <option value="2022-003">Ahornstrasse 20</option>
+                            <option value="2022-004">Ahornstrasse 22</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <label for="inpObjectPart">Etage / Whg / Raum</label>
+                    <input id="inpObjectPart" type="text">
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Verlegung  </legend>
+                <div class="control">
+                    <label for="inpDoneBy">verlegt durch Mitarbeiter</label>
+                    <input id="inpDoneBy" type="text">
+                </div>
+
+                <div class="control">
+                    <div class="counter inline">
+                        <label for="inpTileformatW">Plattenformat</label>
+                        <input id="inpTileformatW" class="inp-short" type="number" value="60">  X  
+                        <input id="inpTileformatW" class="inp-short" type="number" value="30">   cm
+                    </div>
+                </div>
+
+                <div class="switchbox counter inline" data-control="dropbox">
+                    <input id="chkReserve" type="checkbox" data-buddy="inpReserve selReserve">
+                    <label class="lbl-short" for="chkReserve">Reserveplatten</label>
+                    <input id="inpReserve" type="number" style="margin-right: 1rem;" disabled>
+
+                    <div class="control" data-control="dropbox">
+                        <div class="dropdown">
+                            <select id="selReserve" disabled>
+                                <option value="Pack">Pack</option>
+                                <option value="Stk">Stück</option>
+                            </select>
+                            <span class="dropdown-arrow"></span>                   
+                        </div>                
+                    </div>                
+                </div> 
+
+                <div class="control">
+                    <label for="inpGrout">Fugenmaterial</label>
+                    <input id="inpGrout" type="text" required>
+                </div>
+                <div class="control">
+                    <label for="inpSilicone">Kittfugen</label>
+                    <input id="inpSilicone" type="text" placeholder="Farbe / Nr. / Fabrikat">
+                </div>
+
+                <div class="control" data-control="dropbox">
+                    <label for="selBond">Verlegeart</label>
+                    <div class="dropdown">
+                        <select name="bond" id="selBond">
+                            <option value="-1">-- bitte wählen --</option>
+                            <option value="0">Kreuzfuge</option>
+                            <option value="1">Wild</option>
+                            <option value="2">1/3-Verband</option>
+                            <option value="3">Englisch</option>
+                            <option value="4">Sonstiger</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>
+                    </div>
+                </div>
+                <div class="checkbox">
+                    <input id="chkDiagonal" type="checkbox">
+                    <label for="chkDiagonal">Diagonal</label>                
+                </div> 
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-concerned="floor wall">
+            <fieldset> <legend>  Flächen  </legend>
+                <div class="control">
+                    <label for="inpAreaName">Bezeichnung</label>
+                    <input id="inpAreaName" type="text">
+                </div>
+
+                <div class="control counter inline">
+                    <label for="inpAreaLenght">Länge</label>
+                    <input id="inpAreaLenght" type="number" pattern="[0-9]{3,5}">   mm
+                </div>
+                <div class="control counter inline">
+                    <label for="inpAreaWidth">Breite</label>
+                    <input id="inpAreaWidth" type="number" pattern="[0-9]{3,5}">   mm
+                </div>
+
+                <div class="control counter inline">
+                    <label for="inpAreaResult"><strong>Fläche</strong></label>
+                    <input id="inpAreaResult" type="number" data-autocalc="result" disabled value="100"><strong>   m²</strong>
+                </div>
+
+                <div class="switchbox counter">
+                    <input id="chkWaterproved" type="checkbox" data-buddy="inpWaterproved">
+                    <label for="chkWaterproved">abgedichtet</label>   
+                    <input id="inpWaterproved" type="number" disabled>   m²
+                </div>                 
+
+                <div class="control counter inline">
+                    <label for="inpSumArea"><strong>Fläche total</strong></label>
+                    <input id="inpSumArea" type="number" data-autocalc="result" disabled><strong>   m²</strong>
+                </div>
+
+                <button id="btnAddArea" disabled>Weitere Fläche hinzufügen</button>
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Neben- & Vorarbeiten  </legend>
+                <div class="checkbox">
+                    <input id="chkPurged" type="checkbox">
+                    <label for="chkPurged">Fläche gereinigt</label>                
+                </div> 
+
+                <div class="checkbox">
+                    <input id="chkPrimered" type="checkbox">
+                    <label for="chkPrimered">Fläche grundiert</label>                
+                </div> 
+
+                <div class="switchbox counter" data-concerned="floor stairs">
+                    <input id="chkDecoupled" type="checkbox" data-buddy="inpDecoupled">
+                    <label for="chkDecoupled">entkoppelt</label>   
+                    <input id="inpDecoupled" type="number" disabled>   m²
+                </div> 
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkNetted" type="checkbox" data-buddy="inpNetted">
+                    <label for="chkNetted">genetzt</label>   
+                    <input id="inpNetted" type="number" disabled>   m²
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkLevelled" type="checkbox" data-buddy="inpLevelled">
+                    <label for="chkLevelled">ausnivelliert</label>   
+                    <input id="inpLevelled" type="number" disabled>   m²
+                </div> 
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkScreed" type="checkbox" data-buddy="inpScreed">
+                    <label for="chkScreed">Überzug erstellt</label>   
+                    <input id="inpScreed" type="number" disabled>   m²
+                </div> 
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkFilled" type="checkbox" data-buddy="inpFilled">
+                    <label for="chkFilled">gespachtelt</label>   
+                    <input id="inpFilled" type="number" disabled>   m²
+                </div> 
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkSistered" type="checkbox" data-buddy="inpSistered">
+                    <label for="chkSistered">aufgedoppelt</label>   
+                    <input id="inpSistered" type="number" disabled>   m²
+                </div>
+
+                <div class="switchbox counter inline" data-control="dropbox" data-concerned="floor stairs">
+                    <input id="chkCovered" type="checkbox" data-buddy="selCovered">
+                    <label for="chkCovered">abgedeckt mit</label>
+                    <div class="control" data-control="dropbox">
+                        <div class="dropdown">
+                            <select id="selCovered" disabled>
+                                <option value="Papier">Papier</option>
+                                <option value="Floorliner">Floorliner</option>
+                                <option value="Pavatex">Pavatex</option>
+                                <option value="Papier + Floorliner">Papier + Floorliner</option>
+                                <option value="Papier + Pavatex">Papier + Pavatex</option>
+                                <option value="Floorliner + Pavatex">Floorliner + Pavatex</option>
+                            </select>
+                            <span class="dropdown-arrow"></span>                   
+                        </div>                
+                    </div>                
+                </div> <hr>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkEdging" type="checkbox" data-buddy="inpEdging">
+                    <label for="chkEdging">Bordüre / Fries</label>   
+                    <input id="inpEdging" type="number" disabled>   Stück
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkDecor" type="checkbox" data-buddy="inpDecor">
+                    <label for="chkDecor">Dekor-Platten</label>   
+                    <input id="inpDecor" type="number" disabled>   Stück
+                </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor wall">
+            <fieldset> <legend>  Anschnitte  </legend>
+                <div class="switchbox counter" data-concerned="wall">
+                    <input id="chkCutsVertical" type="checkbox" data-buddy="inpCutsVertical">
+                    <label for="chkCutsVertical">gerade, senkrecht</label>   
+                    <input id="inpCutsVertical" type="number" disabled>   m
+                </div>     
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkCutsHorizontal" type="checkbox" data-buddy="inpCutsHorizontal">
+                    <label for="chkCutsHorizontal">gerade, waagerecht</label>   
+                    <input id="inpCutsHorizontal" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkCutsEvenly" type="checkbox" data-buddy="inpCutsEvenly">
+                    <label for="chkCutsEvenly">gerade</label>   
+                    <input id="inpCutsEvenly" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkCutsDiagonal" type="checkbox" data-buddy="inpCutsDiagonal">
+                    <label for="chkCutsDiagonal">schräg</label>   
+                    <input id="inpCutsDiagonal" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkCutsRound" type="checkbox" data-buddy="inpCutsRound">
+                    <label for="chkCutsRound">rund</label>   
+                    <input id="inpCutsRound" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="wall">
+                    <input id="chkCutsJolly" type="checkbox" data-buddy="inpCutsJolly">
+                    <label for="chkCutsJolly">Gehrung (Jolly)</label>   
+                    <input id="inpCutsJolly" type="number" disabled>   m
+                </div>
+
+
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="stairs">
+            <fieldset> <legend>  Stufen  </legend>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Abschlusskanten  </legend>
+                <div class="switchbox counter" data-concerned="floor wall stairs">
+                    <input id="chkEdged" type="checkbox" data-buddy="inpEdged">
+                    <label for="chkEdged">eckig</label>   
+                    <input id="inpEdged" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkEdged2" type="checkbox" data-buddy="inpEdged2">
+                    <label for="chkEdged2">2. eckig</label>   
+                    <input id="inpEdged2" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall stairs">
+                    <input id="chkRound" type="checkbox" data-buddy="inpRound">
+                    <label for="chkRound">rund</label>   
+                    <input id="inpRound" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall stairs">
+                    <input id="chkQuadro" type="checkbox" data-buddy="inpQuadro">
+                    <label for="chkQuadro">quadro</label>   
+                    <input id="inpQuadro" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkWegde" type="checkbox" data-buddy="inpWegde">
+                    <label for="chkWegde">Keilschiene</label>   
+                    <input id="inpWegde" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="wall">
+                    <input id="chkAffixed" type="checkbox" data-buddy="inpAffixed">
+                    <label for="chkAffixed">SK Eckschiene</label>   
+                    <input id="inpAffixed" type="number" disabled>   m
+                </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor wall">
+            <fieldset> <legend>  Einschrotungen  </legend>
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkMax50" type="checkbox" data-buddy="inpMax50">
+                    <label for="chkMax50">bis 50 mm</label>   
+                    <input id="inpMax50" type="number" disabled>   Stk
+                </div>
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkMax100" type="checkbox" data-buddy="inpMax100">
+                    <label for="chkMax100">über 50 mm</label>   
+                    <input id="inpMax100" type="number" disabled>   Stk
+                </div>
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkMax250" type="checkbox" data-buddy="inpMax250">
+                    <label for="chkMax250">100 - 250 mm</label>   
+                    <input id="inpMax250" type="number" disabled>   Stk
+                </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor wall">
+            <fieldset> <legend>  Dichtbänder  </legend>
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkSimple" type="checkbox" data-buddy="inpSimple">
+                    <label for="chkSimple">einfach</label>   
+                    <input id="inpSimple" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkGummed" type="checkbox" data-buddy="inpGummed">
+                    <label for="chkGummed">gummiert</label>   
+                    <input id="inpGummed" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkAdhesive" type="checkbox" data-buddy="inpAdhesive">
+                    <label for="chkAdhesive">Butylband</label>   
+                    <input id="inpAdhesive" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkNooks" type="checkbox" data-buddy="inpNooks">
+                    <label for="chkNooks">Ecken</label>   
+                    <input id="inpNooks" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor wall">
+                    <input id="chkSleeves" type="checkbox" data-buddy="inpSleeves">
+                    <label for="chkSleeves">Manschetten</label>   
+                    <input id="inpSleeves" type="number" disabled>   m
+                </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor stairs">
+            <fieldset> <legend>  Sockel  </legend>
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkManufactured" type="checkbox" data-buddy="inpManufactured">
+                    <label for="chkManufactured">Fertigsockel</label>   
+                    <input id="inpManufactured" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkSocketCut" type="checkbox" data-buddy="inpSocketCut">
+                    <label for="chkSocketCut">gescnitten</label>   
+                    <input id="inpSocketCut" type="number" disabled>   m
+                </div>
+
+                <div class="switchbox counter" data-concerned="floor">
+                    <input id="chkBevels" type="checkbox" data-buddy="inpBevels">
+                    <label for="chkBevels">Gehrungen</label>   
+                    <input id="inpBevels" type="number" disabled>   Stk
+                </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Sonstiges / Bemerkungen  </legend>
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-concerned="floor wall stairs">
+            <fieldset> <legend>  Datum & Unterschrift  </legend>
+            </fieldset>
+        </div>
+
+        <hr>
+        <div class="button-bar">            
+            <button type="button" id="btnPrevious" class="btn-wizard" value="-1" disabled>Zurück</button>
+            <button type="button" id="btnNext" class="btn-wizard" value="1">Weiter</button>            
+            <button type="submit" id="btnSend" class="hidden">Absenden</button>            
+        </div>
+    </form>
+
+    <!------  C A L C U L A T O R  ----->
+    <form class="forms hidden" id="frmCalculator" method="get" autocomplete="off" onsubmit="return false">
+        Taschenrechner
+    </form>
+
+    
+    <div class="result hidden" id="divResult">
+        <table>
+            <tr></tr>
+                <td>Kleber</td>
+                <td id="cellGlue" class="cell-result"></td>
+                <td>kg</td>
+                <td id="cellBags" class="cell-result"></td>
+            <tr></tr>
+                <td>Fugenmasse</td>
+                <td id="cellJoints" class="cell-result"></td>
+                <td>kg</td>
+                <td></td>
+            <tr></tr>
+                <td>Platten</td>
+                <td id="cellTiles" class="cell-result"></td>
+                <td>Stk.</td>
+                <td></td>
+        </table>
+        <button type="button" id="btnClose">Schliessen</button>
+    </div>
     
 </body>
 </html>

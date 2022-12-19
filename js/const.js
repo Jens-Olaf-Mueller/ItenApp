@@ -15,6 +15,18 @@ const MENUS = [
     }
 ];
 
+const MNU_ITEMS = [
+    {   caption: 'Rapport',
+        items: ['Wochenrapport','Regierapport','Baustellenrapport'],
+        url: 'report.html',
+        param: ['weekly','daily','site']
+    },
+    {   caption: 'Tools',
+        items: ['Materialrechner','Ausmass','Taschenrechner'],
+        url: 'tools.html',
+        param: ['material','measure','calculator']
+    }];
+
 // class AppSettings {
 //     setupDone = false;
 //     language = 0;
