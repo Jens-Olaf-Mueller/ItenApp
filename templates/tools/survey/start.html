@@ -1,0 +1,60 @@
+<fieldset> <legend>  Ausmass-Typ  </legend>
+    <div class="flx-evn">
+        <div class="checkbox">
+            <input id="radEffective" type="radio" checked name="measuretype">
+            <label for="radEffective">Effektiv</label>                
+        </div>
+        <div class="checkbox">
+            <input id="radSIA" type="radio" name="measuretype">
+            <label for="radSIA">nach SIA</label>                
+        </div>
+    </div>
+    <hr style="margin: 1rem;">
+    <div class="flx-evn">
+        <div class="checkbox">
+            <input id="radTilesFloor" type="radio" value="floor" name="tile-component" checked>
+            <label for="radTilesFloor">Boden</label>                
+        </div>
+        <div class="checkbox">
+            <input id="radTilesWall" type="radio" value="wall" name="tile-component">
+            <label for="radTilesWall">Wand</label>                
+        </div>
+        <div class="checkbox">
+            <input id="radTilesStairs" type="radio" value="stairs" name="tile-component">
+            <label for="radTilesStairs">Treppe</label>                
+        </div>
+    </div>
+</fieldset>
+
+<fieldset> <legend>  Baustelle  </legend>    
+    <div class="control" data-control="dropbox">
+        <label for="selSites">Baustelle / Objekt</label>
+        <div class="dropdown">
+            <select name="sites" id="selSites" required>
+                <option value="-1" disabled selected>-- bitte wählen --</option>
+                <option value="0000-000">Magazin</option>
+                <option value="0000-001">Büro</option>
+                <option value="2021-001">Eichmattpark</option>
+                <option value="2021-002">Quadrolith</option>
+                <option value="2022-003">Ahornstrasse 20</option>
+                <option value="2022-004">Ahornstrasse 22</option>
+            </select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <div class="control">
+        <label for="inpObjectPart">Etage / Whg / Raum</label>
+        <input id="inpObjectPart" type="text">
+    </div>
+    <br>
+
+    <div class="control">
+        <label for="inpCreatedAt">Erstellt am</label>
+        <input id="inpCreatedAt" type="date">
+    </div>
+    <div class="control">
+        <label for="inpCreatedBy">von Mitarbeiter</label>
+        <input id="inpCreatedBy" type="text">
+    </div>
+</fieldset>

@@ -1,23 +1,16 @@
+const FRM_MATERIAL = $('frmMaterial'),
+      FRM_MEASURE = $('frmMeasure');
 
-console.log('Settings in Tools', SETTINGS )
-
-initPage();
-
-function initPage() {
-    let form;
-    switch (queryString) {
-        case 'material': form = $('frmMaterial');           
+function initTools(tool) {
+    switch (tool) {
+        case 'material': 
+            FRM_MATERIAL.classList.remove('hidden');
+            initMaterialCalcuator('Materialrechner');        
             break;
-        case 'measure': form = $('frmMeasure');           
+        case 'measure': 
+            FRM_MEASURE.classList.remove('hidden');
+            initPageMeasure('Ausmass');        
             break;
-        case 'calculator': form = $('frmCalculator');           
-            break;
+        default: return;
     }
-    form.classList.remove('hidden');
-}
-
-function round(value, decimals = 0) {
-    const dec = decimals * 10;
-    if (dec == 0) return Math.round(value + Number.EPSILON);
-    return Math.round((value + Number.EPSILON) * dec) / dec;
 }

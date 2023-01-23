@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <link rel="stylesheet" href="./style/navigation.css">
+    <link rel="stylesheet" href="./style/iten.css">
+    <link rel="stylesheet" href="./style/calculator.css">
+
+    <script src="./js/library.js"></script>
+    <script defer src="./js/main.js"></script>
+    <script defer src="./js/calculator.js"></script>
+</head>
+<body>
+    <header w3-include-html="templates/header.html"></header>  
+    <main class="calculator-parent flx-ccc">
+        <div class="calculator-grid">
+            <div class="output">
+                <div id="divMemDisplay" class="mem-display">M</div>
+                <div id="divPrevOperand" class="prev-operand-txt">123 + </div>
+                <div id="divCurrOperand" class="curr-operand-txt">456</div>
+            </div>
+            
+            <button data-memory class="btn-memory">MR</button>
+            <button data-memory class="btn-memory">MS</button>
+            <button data-memory class="btn-memory">MC</button>
+            <button data-memory class="btn-memory">M+</button>
+            <button data-memory class="btn-memory">M-</button>
+
+            <button class="btn-special span2" data-allclear>AC</button>
+            <button data-operator class="btn-operator">(</button>
+            <button data-operator class="btn-operator">)</button>
+            <button id="btnDelete" class="btn-special" data-delete>DEL</button>
+
+            <button data-operator="execute" class="btn-operator">n!</button> 
+            <button data-operator="execute" class="btn-operator">x²</button>
+            <button data-operator="execute" class="btn-operator">√</button>
+            <button data-operator="execute" class="btn-operator">±</button>   
+            <button data-number class="btn-operator">π</button>
+            
+            <button data-number>7</button>
+            <button data-number>8</button>
+            <button data-number>9</button>        
+            <button data-operator class="btn-operator">&#247</button>  <!--  division-->
+            <button data-operator="execute" class="btn-operator">%</button>
+
+            <button data-number>4</button>
+            <button data-number>5</button>
+            <button data-number>6</button>
+            <button data-operator class="btn-operator">&#215</button>  <!--  multiplication-->
+            <button data-operator="execute" class="btn-operator">1/x</button>  
+            
+            <button data-number>1</button>
+            <button data-number>2</button>
+            <button data-number>3</button>
+            <button data-operator class="btn-operator">-</button> 
+            <button data-equals class="btn-equals col-span2">=</button>
+
+            <button class="span2" data-number>0</button>
+            <button data-number>,</button>
+            <button data-operator class="btn-operator">+</button>        
+        </div>        
+    </main>
+
+</body>
+</html>

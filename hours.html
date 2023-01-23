@@ -12,130 +12,147 @@
 
     <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
+    <script defer src="./js/classes/wizard.class.js"></script>
     <script defer src="./js/main.js"></script>
     <script defer src="./js/hours.js"></script>
 </head>
 
 <body>
-    <header></header>
+    <header w3-include-html="templates/header.html"></header>
 
     <form class="forms" id="frmHours" action="" method="get" autocomplete="off">
-
-        <fieldset class="flx-ccc"> <legend>  Tagesdaten  </legend>
-            <div class="control">
-                <!-- <label for="inpCurrentDate">Datum</label> -->
-                <div>
-                    <button type="button" class="btn-spin">-</button>
+        <div class="wizard" data-name="dayinfo"> <!--  w3-include-html="" -->        
+            <fieldset class="flx-ccc"> <legend>  Tagesdaten  </legend>
+                <div class="control inline">
+                    <button type="button" class="btn-spin">&#x2770</button>
                     <input id="inpCurrentDate" type="date">
-                    <button type="button" class="btn-spin">+</button>                    
-                </div>
-            </div>
-            <div class="flx-evn inline">
-                <div class="checkbox">
-                    <input id="radWorkday" type="radio" checked name="daytype">
-                    <label for="radWorkday">Werktag</label>                
-                </div>
-                <div class="checkbox">
-                    <input id="radHoliday" type="radio" name="daytype" disabled>
-                    <label for="radHoliday" disabled>Feiertag</label>                
-                </div>
-                <div class="checkbox">
-                    <input id="radVacation" type="radio" name="daytype">
-                    <label for="radVacation">Urlaubstag</label>                
-                </div>
-                <div class="checkbox">
-                    <input id="radSickday" type="radio" name="daytype">
-                    <label for="radSickday">Krank</label>                
-                </div>
-            </div>
-
-        </fieldset>
-
-        <fieldset> <legend>  Baustelle  </legend>
-            <div id="divBVNumber" class="control">
-                <label for="inpBVNr">BV-Nummer</label>
-                <input id="inpBVNr" type="text" placeholder="####-###" pattern="[0-9]{4}-[0-9]{3}">
-            </div>
-
-            <div class="control">
-                <label for="inpBVName">BV-Name / Kunde</label>
-                <input id="inpBVName" type="text">
-            </div>
-
-            <div class="control">
-                <label for="inpOrt">Ort</label>
-                <input id="inpOrt" type="text">
-            </div>
-
-            <div class="flx-row">
-                <div class="control">
-                    <label for="inpKommt">Ankunft</label>
-                    <input id="inpKommt" type="time" value="07:00">
+                    <button type="button" class="btn-spin">&#x2771</button>
                 </div>
 
-                <div class="control">
-                    <label for="inpGeht">Abfahrt</label>
-                    <input id="inpGeht" type="time" value="17:00">
+                <div class="flx-evn">
+                    <div class="flx-col">
+                        <div class="checkbox">
+                            <input id="radWorkday" type="radio" checked name="daytype">
+                            <label for="radWorkday">Werktag</label>                
+                        </div>
+                        <div class="checkbox">
+                            <input id="radHoliday" type="radio" name="daytype" disabled>
+                            <label for="radHoliday" disabled>Feiertag</label>                
+                        </div>
+                    </div>
+                    <div class="flx-col">
+                        <div class="checkbox">
+                            <input id="radVacation" type="radio" name="daytype">
+                            <label for="radVacation">Urlaubstag</label>                
+                        </div>
+                        <div class="checkbox">
+                            <input id="radSickday" type="radio" name="daytype">
+                            <label for="radSickday">Krank</label>                
+                        </div>                    
+                    </div>
                 </div>
-            </div>
-
-            <div class="flx-row">
-                <div class="control counter">
-                    <label for="inpPause1">Z'nüni (min)</label>
-                    <input id="inpPause1" type="number" value="30" min="0" max="60" step="15">
-                </div>
-
-                <div class="control counter">
-                    <label for="inpPause2">Mittag (min)</label>
-                    <input id="inpPause2" type="number" value="60" min="0" max="120" step="15">
-                </div>
-            </div>
-
-            <div class="flx-row">
-                <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
-                    <input id="chkRegie" type="checkbox">
-                    <label for="chkRegie">Regie</label>                
-                </div> 
-                <label id="lblHours">8,50 Std</label>
-            </div>
-
-        </fieldset>
-
-        <fieldset> <legend>  Leistung / Bemerkungen  </legend>
-            <div class="control">
-                <textarea name="" id="txtLeistung" cols="40" rows="25" placeholder="heute ausgeführte Arbeiten..."></textarea>
-            </div>
-            <div class="control">
-                <label for="inpBemerkung">Bemerkung</label>
-                <input id="inpBemerkung" type="text">
-            </div>
-        </fieldset>
-
-        <fieldset class="fldDriveBox"> <legend>  Fahr-Daten...  </legend>
-            <div class="control counter inline">
-                <label for="inpFahrzeit" class="short">Fahrzeit</label>
-                <input id="inpFahrzeit" type="number" min="0" max="120" step="10">   min
-            </div>
-            <div class="control counter inline">
-                <label for="inpKilometer" class="short">Kilometer</label>
-                <input id="inpKilometer" type="number" min="0" max="120" step="10">   km
-            </div>
-
-            <div class="control">
-                <label for="inpStart">Abfahrt von</label>
-                <input id="inpStart" type="text">
-            </div>
-            <div class="control">
-                <label for="inpZiel">Zielort</label>
-                <input id="inpZiel" type="text">
-            </div>
-        </fieldset>
-
-        <div class="button-bar">
-            <button type="reset">Abbrechen</button>
-            <button type="submit">OK</button>
-            <button type="button">Baustelle +</button>
+            </fieldset>
         </div>
+
+        <div class="wizard hidden" data-name="siteinfo"> <!--  w3-include-html="" -->
+            <fieldset> <legend>  Baustelle  </legend>
+                <div id="divBVNumber" class="control">
+                    <label for="inpBVNr">BV-Nummer</label>
+                    <input id="inpBVNr" type="text" placeholder="####-###" pattern="[0-9]{4}-[0-9]{3}">
+                </div>
+
+                <div class="control" data-control="dropbox">
+                    <label for="selBVName">Baustelle / Objekt</label>
+                    <div class="dropdown">
+                        <select name="sites" id="selBVName" required>
+                            <option value="-1" disabled selected>-- bitte wählen --</option>
+                            <option value="0000-000">Magazin</option>
+                            <option value="0000-001">Büro</option>
+                            <option value="2021-001">Eichmattpark</option>
+                            <option value="2021-002">Quadrolith</option>
+                            <option value="2022-003">Ahornstrasse 20</option>
+                            <option value="2022-004">Ahornstrasse 22</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <label for="inpOrt">Ort</label>
+                    <input id="inpOrt" type="text">
+                </div>
+
+                <div class="flx-row">
+                    <div class="control short">
+                        <label for="inpKommt">Ankunft</label>
+                        <input id="inpKommt" type="time" data-autocalc="inpHours" value="07:00">
+                    </div>
+
+                    <div class="control short flx-end-col">
+                        <label for="inpGeht">Abfahrt</label>
+                        <input id="inpGeht" type="time" data-autocalc="inpHours" value="17:00">
+                    </div>
+                </div>
+
+                <div class="flx-row">
+                    <div class="control counter short">
+                        <label for="inpPause1">Z'nüni (min)</label>
+                        <input id="inpPause1" type="number" data-autocalc="inpHours" value="30" max="60">
+                    </div>
+
+                    <div class="control counter short flx-end-col">
+                        <label for="inpPause2">Mittag (min)</label>
+                        <input id="inpPause2" type="number" data-autocalc="inpHours" value="60" max="120">
+                    </div>
+                </div>
+
+                <div class="flx-row">
+                    <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
+                        <input id="chkRegie" type="checkbox">
+                        <label for="chkRegie">Regie</label>                
+                    </div> 
+                </div>
+
+                <div class="control counter inline flx-btw">
+                    <label for="inpHours">Stunden</label>
+                    <span><input id="inpHours" type="number" value="8.50" disabled>   Std</span>                
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-name="description"> <!--  w3-include-html="" -->
+            <fieldset> <legend>  Leistung / Bemerkungen  </legend>
+                <textarea name="" id="txtLeistung" cols="40" rows="25" 
+                    placeholder="heute ausgeführte Arbeiten...">
+                </textarea>
+                <div class="control">
+                    <label for="inpBemerkung">Bemerkung</label>
+                    <input id="inpBemerkung" type="text">
+                </div>
+            </fieldset>
+
+            <fieldset class="fldDriveBox"> <legend>  Fahr-Daten...  </legend>
+                <div class="control counter inline">
+                    <label for="inpFahrzeit" class="short">Fahrzeit</label>
+                    <input id="inpFahrzeit" type="number" min="0" max="120" step="10">   min
+                </div>
+                <div class="control counter inline">
+                    <label for="inpKilometer" class="short">Kilometer</label>
+                    <input id="inpKilometer" type="number" min="0" max="120" step="10">   km
+                </div>
+
+                <div class="control">
+                    <label for="inpStart">Abfahrt von</label>
+                    <input id="inpStart" type="text">
+                </div>
+                <div class="control">
+                    <label for="inpZiel">Zielort</label>
+                    <input id="inpZiel" type="text">
+                </div>
+            </fieldset>
+        </div>
+        <hr>
     </form>    
 </body>
 </html>

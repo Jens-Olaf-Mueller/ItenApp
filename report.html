@@ -12,27 +12,28 @@
 
     <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
+    <script defer src="./js/classes/wizard.class.js"></script> 
     <script defer src="./js/main.js"></script>
+    <script defer src="./js/report.js"></script>
 </head>
 
 <body>
-    <header></header>
+    <header w3-include-html="templates/header.html"></header>
+        <!------  W O C H E N R A P P O R T  ----->
+        <form id="frmWeeklyReport" class="forms hidden" w3-include-html="templates/reports/_week.html" method="get" autocomplete="off" onsubmit="return false">
+        </form>
 
-    <form class="forms" id="frmReport" action="" method="get" autocomplete="off" onsubmit="return false">
-        <fieldset><legend>  Rapport-Typ  </legend>
-            <div class="flx-evn inline">
-                <div class="checkbox">
-                    <input id="radReportWeek" type="radio" name="rapport-type" checked>
-                    <label for="radReportWeek">Wochenrapport</label>                
-                </div>
-                <div class="checkbox">
-                    <input id="radReportHours" type="radio" name="rapport-type">
-                    <label for="radReportHours">Regierapport</label>                
-                </div>            
-            </div>
-        </fieldset>
-    </form>
-    
+        <!------  R E G I E  -  R A P O R T  ----->
+        <form id="frmRegie" class="forms hidden" w3-include-html="templates/reports/_order.html" method="get" autocomplete="off" onsubmit="return false">
+        </form>
+
+        <!------  B A U S T E L L E N R A P P O R T  ----->
+        <form id="frmSiteReport" class="forms hidden" w3-include-html="templates/reports/_site.html" method="get" autocomplete="off" onsubmit="return false">
+        </form> 
+
+        <!------  C M - M E S S U N G  ----->
+        <form id="frmCM" class="forms hidden" w3-include-html="templates/reports/_exam.html" method="get" autocomplete="off" onsubmit="return false">
+        </form>
 </body>
 
 </html>

@@ -1,0 +1,42 @@
+<fieldset> <legend>  Flächen  </legend>
+    <div class="control">
+        <label for="inpAreaName">Bezeichnung</label>
+        <input id="inpAreaName" type="text" required>
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpAreaLenght">Länge</label>
+        <span>
+            <input id="inpAreaLenght" type="number" data-autocalc="inpAreaResult" pattern="[0-9]{3,5}">
+            <span data-unit>  mm</span>
+        </span>
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label id="lblWidth" for="inpAreaWidth">Breite</label>
+        <span>
+            <input id="inpAreaWidth" type="number" data-autocalc="inpAreaResult" pattern="[0-9]{3,5}">
+            <span data-unit>  mm</span>
+        </span>
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpAreaResult"><strong>Fläche</strong></label>
+        <span><input id="inpAreaResult" type="number" disabled><strong>   m² </strong></span>        
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkWaterproved" type="checkbox" data-buddy="inpWaterproved">
+            <label for="chkWaterproved">abgedichtet</label>            
+        </span>
+        <span><input id="inpWaterproved" type="number" disabled>   m² </span>        
+    </div>                 
+
+    <div class="control counter inline flx-btw">
+        <label for="inpSumArea"><strong>Fläche total</strong></label>
+        <span><input id="inpSumArea" type="number" data-autocalc="result" disabled><strong>   m² </strong></span>
+    </div>
+
+    <button id="btnAddArea" type="button" disabled>Fläche hinzufügen</button>
+</fieldset>

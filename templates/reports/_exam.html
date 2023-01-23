@@ -1,0 +1,117 @@
+<div class="wizard" data-name="screedtype"> <!--  w3-include-html="" -->
+    <fieldset> <legend>  Bauvorhaben  </legend>    
+        <div class="control" data-control="dropbox">
+            <label for="selExaminationSites">Baustelle / Objekt</label>
+            <div class="dropdown">
+                <select name="sites" id="selExaminationSites" required>
+                    <option value="-1" disabled selected>-- bitte wählen --</option>
+                    <option value="0000-000">Magazin</option>
+                    <option value="0000-001">Büro</option>
+                    <option value="2021-001">Eichmattpark</option>
+                    <option value="2021-002">Quadrolith</option>
+                    <option value="2022-003">Ahornstrasse 20</option>
+                    <option value="2022-004">Ahornstrasse 22</option>
+                </select>
+                <span class="dropdown-arrow"></span>
+            </div>
+        </div>
+        <div class="control">
+            <label for="inpExaminationDate">Erstellt am</label>
+            <input id="inpExaminationDate" type="date">
+        </div>
+        <div class="control">
+            <label for="inpExaminer">Prüfer</label>
+            <input id="inpExaminer" type="text">
+        </div>
+    </fieldset>
+    
+    <fieldset> <legend>  Estrich-Typ  </legend>
+        <div class="control" data-control="dropbox">
+            <label for="selScreedType">Estrich-Typ</label>
+            <div class="dropdown">
+                <select name="sites" id="selScreedType" required>
+                    <option value="-1" disabled selected>-- bitte wählen --</option>
+                    <option value="CT">Zementestrich (CT)</option>
+                    <option value="CA">Kalziumsulfat-Estrich (CA)</option>
+                    <option value="CAF">Kalziumsulfat-Fließestrich (CAF)</option>
+                </select>
+                <span class="dropdown-arrow"></span>
+            </div>
+        </div>
+    
+        <div class="flx-btw">
+            <div class="checkbox">
+                <input id="radHeated" type="radio"  name="heated" checked>
+                <label for="radHeated">beheizt</label>                
+            </div>
+            <div class="checkbox">
+                <input id="radUnheated" type="radio" name="heated">
+                <label for="radUnheated">unbeheizt</label>                
+            </div>
+        </div>
+    
+        <div class="control counter inline flx-btw">
+            <label id="lblScreedThickness" for="inpScreedThickness">Dicke</label>
+            <span>
+                <input id="inpScreedThickness" type="number" value="60" pattern="[0-9]{3,5}">
+                <span data-unit>  mm</span>
+            </span>
+        </div>
+    
+        <div class="switchbox counter inline flx-btw" data-control="dropbox">
+            <label class="lbl-short" for="chkReserve">Estrichalter</label> 
+            <span class="inline">
+                <input id="inpReserve" type="number" style="margin-right: 1rem;">
+                <div class="control" data-control="dropbox">
+                    <div class="dropdown">
+                        <select id="selReserve">
+                            <option value="Pack">Tage</option>
+                            <option value="Stk">Wochen</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>                   
+                    </div>                
+                </div>  
+            </span>              
+        </div> 
+        <!-- <hr style="margin: 0.5rem;"> -->
+        <!-- <img class="icon-button" src="/img/info512.png" alt="Info"> -->
+    </fieldset>
+</div>
+
+<div class="wizard hidden" data-name="screedmeasuring"> <!--  w3-include-html="" -->
+    <fieldset> <legend>  Messung  </legend>
+        <div class="control">
+            <label for="inpExaminationPart">Etage / Whg / Raum</label>
+            <input id="inpExaminationPart" type="text">
+        </div>
+        <div class="control counter inline flx-btw">
+            <label id="lblScreedWeight" for="inpScreedWeight">Einwaage</label>
+            <span>
+                <input id="inpScreedWeight" type="number" pattern="[0-9]{3,5}">
+                <span data-unit> g   </span>
+            </span>
+        </div>
+        <div class="control counter inline flx-btw">
+            <label id="lblPressure" for="inpPressure">Manometerdruck</label>
+            <span>
+                <input id="inpPressure" type="number" pattern="[0-9]{3,5}">
+                <span data-unit> bar</span>
+            </span>
+        </div>
+        <div class="control counter inline flx-btw">
+            <label id="lblMoist" for="inpMoist">Wassergehalt</label>
+            <span>
+                <input id="inpMoist" type="number" pattern="[0-9]{3,5}">
+                <span data-unit> %  </span>
+            </span>
+        </div>
+        <!-- <img class="icon-button" src="/img/camera512.png" alt="Camera"> -->
+    </fieldset>
+    
+    <fieldset> <legend>  Unterschrift  </legend>
+        <!-- <textarea id="txtNotes" placeholder="Bemerkungen / Sonstiges"></textarea> -->
+    
+        <canvas id="cnvSignature" class="signature"></canvas>
+        <label for="cnvSignature">Unterschrift</label>    
+    </fieldset>
+</div>

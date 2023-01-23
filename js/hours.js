@@ -1,15 +1,16 @@
 const SITE_ID = $('divBVNumber'),
       DRIVEBOX = $('fldDriveBox'),
-      HOURS_TODAY = $('lblHours'),
+      HOURS_TODAY = $('inpHours'),
       FROM = $('inpKommt'), UNTIL = $('inpGeht');
 
+const clsWizard = new Wizard('frmHours', href);
 
 FROM.addEventListener('change', calcHours);
 UNTIL.addEventListener('change', calcHours);
+UNTIL.addEventListener('change', calcHours);
 
-initPage();
-
-function initPage() {
+function initPageHours(caption) {
+    clsWizard.add($('.title'), caption);
     if (SETTINGS.showSiteID) {
         SITE_ID.classList.remove('hidden');
     } else {
@@ -20,7 +21,8 @@ function initPage() {
     HOURS_TODAY.innerHTML = calcHours(FROM.value, UNTIL.value) + ' Std.';
 }
 
-function calcHours(from, until, outputID = 'lblHours') {
+function calcHours(from, until, outputID = 'inpHours') {
+    const secPerHour = 1000 * 60 * 60;
     if (typeof(from) != 'string') from = FROM.value;
     if (typeof(until) != 'string') until = UNTIL.value;
 
@@ -29,11 +31,12 @@ function calcHours(from, until, outputID = 'lblHours') {
     let startDate = new Date(0, 0, 0, from[0], from[1], 0),
         endDate = new Date(0, 0, 0, until[0], until[1], 0),
         diff = endDate.getTime() - startDate.getTime(),
-        hours = Math.floor(diff / 1000 / 60 / 60);
-    diff -= hours * 1000 * 60 * 60;
+        hours = Math.floor(diff / secPerHour);
+    diff -= hours * secPerHour;
+    // debugger
     let minutes = Math.floor(diff / 1000 / 60),
-        retVal = (hours < 9 ? '0' : '') + hours + ':' + (minutes < 9 ? '0' : '') + minutes;
+        retVal = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
     
-    if (outputID) $(outputID).innerHTML = retVal + ' Std.'
+    if (outputID) $(outputID).value = retVal;
     return retVal;
 }

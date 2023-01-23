@@ -1,18 +1,22 @@
 :root {
     --checkbox-size: 1.33rem;
-    --label-minwidth: 12rem;
+    --label-width-desk: 12rem;
+    --label-width-mobile: 8rem;
+    --label-short: 4rem;
     --forms-bg-color: #f5f5f5;
     --theme-color: navy;
+    --focus-color: #ffffc8;
 }
 
 /* formular style */
 form {
     width: 75%;
+    /* height: calc(100vh - var(--navbar-height) - 1rem);   */
     display: flex;
     flex-direction: column;
     gap: 1rem;
     background-color: var(--forms-bg-color);
-    padding: 1rem;    
+    padding: 1rem 1rem 0;    
 }
 
 fieldset {
@@ -24,7 +28,8 @@ fieldset {
 }
 
 legend {
-    margin: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    padding: 1rem 0;
     font-weight: bolder;
     color: var(--theme-color);
     border-bottom: 1px solid;
@@ -41,13 +46,38 @@ button {
     cursor: pointer;
 }
 
-.button-bar button {
+.button-bar button, .wiz-buttons button {
     width: 8.5rem;
+}
+
+.wiz-buttons #btnHome {
+    width: 2rem;
+    font-weight: bolder;
+    /* font-size: 1.75rem; */
 }
 
 button:hover {
     background-color: dodgerblue;
     color: var(--theme-color);
+}
+
+input, textarea, select {
+    padding: 0.25rem;
+    outline: none;
+    border: 1px solid silver;
+    border-radius: 4px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border: 1px solid green;
+    background-color: var(--focus-color);
+}
+
+textarea {
+    resize: vertical;
+    max-width: 100%;
+    min-height: 8.25rem;
+    max-height: 12.25rem;
 }
 
 /***********************************/
@@ -61,19 +91,15 @@ button:hover {
 }
 
 .control label:first-child {
-    min-width: var(--label-minwidth);
+    min-width: var(--label-width-desk);
 }
 
 .control label:nth-child(2), .switchbox label:nth-child(2) {
-    min-width: calc(var(--label-minwidth) - var(--checkbox-size) - 0.5rem);
+    min-width: calc(var(--label-width-desk) - var(--checkbox-size) - 0.5rem);
 }
 
-.control input, .switchbox >input:nth-child(3), select {
+.control input, .switchbox > input:nth-child(3), select {
     flex: 1;
-    padding: 0.25rem;
-    outline: none;
-    border: 1px solid silver;
-    border-radius: 4px;
 }
 
 .control input[type="date"] {
@@ -82,6 +108,10 @@ button:hover {
 
 .control input[type="time"] {
     max-width: 6rem;
+}
+
+.short {
+    width: 50%;
 }
 
 /*#######################################*/
@@ -141,7 +171,8 @@ select[disabled]~ .dropdown-arrow {
 
 .counter input[type="number"], 
 .switchbox input[type="number"]:nth-child(3) {
-    max-width: 4rem;
+    /* max-width: 4.5rem; */
+    max-width: 5.25rem;
     text-align: center;
 }
 
@@ -153,8 +184,9 @@ select[disabled]~ .dropdown-arrow {
      min-width: 100%;
 }
 
-[disabled] {
-    background-color: #ccc;
+input[disabled] {
+    background-color: #ddd;
+    border: 1px solid #888 !important;
 }
 
 /*##################################*/
@@ -171,18 +203,112 @@ select[disabled]~ .dropdown-arrow {
     margin-right: 0.5rem;
 }
 
+.checkbox span, .switchbox span {
+    display: flex;
+    align-items: center;
+}
+
 /*###################################*/
 /*###          BUTTONBAR          ###*/
 /*###################################*/
-.button-bar {
-    width: auto;
+.button-bar, .wiz-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 1rem 1rem 0;
+    padding: 0 1rem;
+}
+
+.wizard-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    margin: 1rem 1rem 1rem 0;
+    padding: 0 1rem;
 }
 
 .btn-spin {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.signature {
+    background-color: var(--focus-color);
+    border: 1px solid silver;
+    border-radius: 6px;
+    width: 100%;
+    height: 16rem;
+}
+
+/*#######################################*/
+/*###           RESULT-TABLE          ###*/
+/*#######################################*/
+
+.result {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+}
+
+.result .table-wrapper table {
+    width: 100%;
+    padding: 4rem 0.25rem;
+    font-weight: bold;    
+    background-color: var(--autocalc-bg-color);    
+    border: 4px double whitesmoke;
+    border-radius: 8px;
+}
+
+.result .table-wrapper table td {
+    font-size: 1.33rem;
+    color: whitesmoke;
+}
+
+.cell-result {
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.table-wrapper {
+    position: relative;
+}
+
+.table-wrapper>img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+/* .result button {
+    margin-top: 2rem;
+} */
+
+.icon-button {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    filter: brightness(1.2);
+}
+
+.icon-button[disabled] {
+    filter: contrast(0.15) grayscale(1);
 }
 
 /* ########################################################################################## */
@@ -213,9 +339,18 @@ select[disabled]~ .dropdown-arrow {
         width: 100%;
         max-width: unset;
     }
+
+    .button-bar {
+        justify-content: space-between;
+        padding: 0 1rem;
+    }
 }
 
 @media (max-width: 480px) {
+    form {
+        min-height: calc(100vh - var(--navbar-height) - 0.33rem);  
+    }
+
     .control [data-control="date"], 
         [data-control="time"], 
         [data-control="counter"],
@@ -225,7 +360,11 @@ select[disabled]~ .dropdown-arrow {
     }
 
     .control .counter label:first-child {
-        min-width: calc(var(--label-minwidth) - 3rem);
+        min-width: calc(var(--label-width-mobile) - var(--checkbox-size));
+    }
+
+    .control label:first-child {
+        min-width: unset;
     }
 
     .dropdown {
@@ -237,8 +376,12 @@ select[disabled]~ .dropdown-arrow {
         flex: 0.75;
     }
 
+    label.lbl-short {
+        min-width: calc(var(--label-short) - var(--checkbox-size)) !important;
+    }
+
     .switchbox label.lbl-short {
-        min-width: calc(var(--label-minwidth) - var(--checkbox-size) - 3.5rem);
+        min-width: var(--label-short) !important;
     }
 
     .inline {
@@ -247,7 +390,9 @@ select[disabled]~ .dropdown-arrow {
         justify-content: flex-start;
     }
 
-    .button-bar {
-        width: 100%;
+    .flx-btw {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between !important;
     }
 }

@@ -1,0 +1,66 @@
+<fieldset> <legend>  Verlegung  </legend>
+    <div class="control">
+        <label for="inpDoneBy">verlegt durch Mitarbeiter</label>
+        <input id="inpDoneBy" type="text">
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label class="lbl-short" for="inpTileformatW">Plattenformat</label>
+        <span class="inline">
+            <input id="inpTileformatW" class="inp-short" type="number" value="60">  X  
+            <input id="inpTileformatW" class="inp-short" type="number" value="30">   cm                
+        </span>
+    </div>
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkReserve" type="checkbox" data-buddy="inpReserve selReserve">
+            <label class="lbl-short" for="chkReserve">Reserveplatten</label>            
+        </span>
+        <span class="inline">
+            <input id="inpReserve" type="number" style="margin-right: 1rem;" disabled>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selReserve" disabled>
+                        <option value="Pack">Pack</option>
+                        <option value="Stk">Stück</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>  
+        </span>              
+    </div> 
+
+    <div class="control">
+        <label for="inpGrout">Fugenmaterial</label>
+        <input id="inpGrout" type="text" required>
+    </div>
+    <div class="control">
+        <label for="inpSilicone">Kittfugen</label>
+        <input id="inpSilicone" type="text" placeholder="Farbe / Nr. / Fabrikat">
+    </div>
+
+    <div class="control" data-control="dropbox">
+        <label for="selBond">Verlegeart</label>
+        <div class="dropdown">
+            <select name="bond" id="selBond">
+                <option value="-1">-- bitte wählen --</option>
+                <option value="0">Kreuzfuge</option>
+                <option value="1">Wild</option>
+                <option value="2">1/3-Verband</option>
+                <option value="3">Englisch</option>
+                <option value="4">Sonstiger</option>
+            </select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <div class="control">
+        <input type="text" disabled>  
+    </div>  
+    
+    <div class="checkbox">
+        <input id="chkDiagonal" type="checkbox">
+        <label for="chkDiagonal">Diagonal</label>                
+    </div> 
+</fieldset>

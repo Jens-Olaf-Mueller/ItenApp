@@ -6,163 +6,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenApp - Einstellungen</title>
 
+    <link rel="stylesheet" href="./style/navigation.css">   
     <link rel="stylesheet" href="./style/iten.css">
-    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/forms.css">
 
     <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
+    <script defer src="./js/classes/wizard.class.js"></script>
     <script defer src="./js/main.js"></script>
-    <script src="./js/settings.js"></script>
+    <script defer src="./js/settings.js"></script>
 </head>
 
 <body>
-    <header></header>
+    <header w3-include-html="templates/header.html"></header>
 
     <form class="forms" id="frmSettings" action="" method="get" autocomplete="off">
-        <fieldset > <legend>  Persönliche Daten  </legend>
-            <div class="control">
-                <label for="inpSurname">Name</label>
-                <input id="inpSurname" type="text">
-            </div>
-    
-            <div class="control">
-                <label for="inpFirstName">Vorname</label>
-                <input id="inpFirstName" type="text">
-            </div>
-    
-            <div class="control">
-                <label for="inpLocation">Wohnort</label>
-                <input id="inpLocation" type="text">
-            </div>
-    
-            <div class="control">
-                <label for="inpBirthday">Geburtstag</label>
-                <input id="inpBirthday" type="date">
-            </div>
-    
-            <div class="control">
-                <label for="inpMail">Email</label>
-                <input id="inpMail" type="email">
-            </div>                    
-        </fieldset>
-
-        <fieldset> <legend>  Programmeinstellungen  </legend>
-            <div class="checkbox" title="wenn Formular leer ist">
-                <input id="chkAutoComplete" type="checkbox" checked>
-                <label for="chkAutoComplete">Daten vom Vortag übernehmen</label>                
-            </div> 
-
-            <div class="checkbox">
-                <input id="chkShowDriveBox" type="checkbox" checked>
-                <label for="chkShowDriveBox">Box für Fahrdaten anzeigen</label>                
-            </div> 
-
-            <div class="checkbox" title="zeigt die eindeutige Baustellen-ID an">
-                <input id="chkShowSiteID" type="checkbox">
-                <label for="chkShowSiteID">Baustellen-Nummer anzeigen</label>                
-            </div> 
-
-            <div class="control counter inline">
-                <label for="inpSites">Baustellen pro Tag</label>
-                <input id="inpSites" type="number" min="1" max="8" value="4" >
-            </div>
-
-            <div class="control counter inline">
-                <label for="inpSitesActive">Baustellen aktiv für  </label>
-                <input id="inpSitesActive" type="number" min="1" max="12" value="3" >   Mon.
-            </div>
-            
-            <div class="switchbox counter">
-                <input id="chkHoursPlausible" type="checkbox" data-buddy="inpHoursPlausible">
-                <label for="chkHoursPlausible">Plausibilität ab</label>
-                <input id="inpHoursPlausible" type="number" min="10" max="12" step="0.50" value="12.00" disabled>   Std
-            </div> 
-
-            <div class="switchbox checkbox inline">
-                
-            </div>
-        </fieldset>
-
-        <fieldset> <legend>  Arbeitszeiten  </legend>
-            <div class="flx-evn">
-                <div class="checkbox">
-                    <input id="radSummerTime" type="radio" checked name="season">
-                    <label for="radSummerTime">Sommerzeit</label>                
+        <div class="wizard" data-name="details"> <!--  w3-include-html="" -->
+            <fieldset > <legend>  Persönliche Daten  </legend>
+                <div class="control">
+                    <label for="inpSurname">Name</label>
+                    <input id="inpSurname" type="text">
                 </div>
-    
-                <div class="checkbox">
-                    <input id="radWinterTime" type="radio" name="season">
-                    <label for="radWinterTime">Winterzeit</label>                
-                </div>                
-            </div> <hr>
-
-            <div class="control inline">
-                <label for="inpStartWork">Arbeitsbeginn</label>
-                <input id="inpStartWork" type="time" value="07:00" >   Uhr
-            </div>
-
-            <div class="control inline">
-                <label for="inpEndWork">Feierabend</label>
-                <input id="inpEndWork" type="time" value="17:00" >   Uhr
-            </div>
-
-            <div class="control counter inline">
-                <label for="inpBreakfast">Frühstück (Z'nüni)</label>
-                <input id="inpBreakfast" type="number" min="0" max="30" step="15" value="30" >   min
-            </div>
-
-            <div class="control counter inline">
-                <label for="inpLunch">Mittag</label>
-                <input id="inpLunch" type="number" min="0" max="90" step="15" value="60" >   min
-            </div> <hr>
-
-            <div class="switchbox counter">
-                <input type="checkbox" checked disabled>
-                <label for="inp1" class="short" >Montag</label>
-                <input id="inp1" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
-            </div>
-
-            <div class="switchbox counter">
-                <input type="checkbox" checked disabled>
-                <label for="inp2" class="short" >Dienstag</label>
-                <input id="inp2" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
-            </div>
-
-            <div class="switchbox counter">
-                <input type="checkbox" checked disabled>
-                <label for="inp3" class="short" >Mittwoch</label>
-                <input id="inp3" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
-            </div>
-
-            <div class="switchbox counter">
-                <input type="checkbox" checked disabled>
-                <label for="inp4" class="short" >Donnerstag</label>
-                <input id="inp4" type="number" min="1" max="16" step="0.50" value="8.50" >  Std
-            </div>
-
-            <div class="switchbox counter">
-                <input type="checkbox" checked disabled>
-                <label for="inp5" class="short" >Freitag</label>
-                <input id="inp5" type="number" min="1" max="16" step="0.50" value="7.00" >  Std
-            </div>
-
-            <div class="switchbox counter">
-                <input id="chkSaturday" type="checkbox" data-buddy="inpSaturday">
-                <label for="chkSaturday" class="short" >Samstag</label>
-                <input id="inpSaturday" type="number" min="1" max="8" step="0.50" disabled>  Std
-            </div> <hr>
-
-            <div class="control counter inline">
-                <label for="inpWeek">Wochenstunden</label>
-                <input id="inpWeek" type="number" min="24" max="60" step="8" value="41.00" disabled>   Std
-            </div>
-        </fieldset>
-
-        <div class="button-bar">
-            <button type="reset">Abbrechen</button>
-            <button type="submit">OK</button>
+        
+                <div class="control">
+                    <label for="inpFirstName">Vorname</label>
+                    <input id="inpFirstName" type="text">
+                </div>
+        
+                <div class="control">
+                    <label for="inpLocation">Wohnort</label>
+                    <input id="inpLocation" type="text">
+                </div>
+        
+                <div class="control">
+                    <label for="inpBirthday">Geburtstag</label>
+                    <input id="inpBirthday" type="date">
+                </div>
+        
+                <div class="control">
+                    <label for="inpMail">Email</label>
+                    <input id="inpMail" type="email">
+                </div>                    
+            </fieldset>
         </div>
+
+        <div class="wizard hidden" data-name="app-settings"> <!--  w3-include-html="" -->
+            <fieldset> <legend>  Programmeinstellungen  </legend>
+                <div class="checkbox" title="wenn Formular leer ist">
+                    <input id="chkAutoComplete" type="checkbox" checked>
+                    <label for="chkAutoComplete">Daten vom Vortag übernehmen</label>                
+                </div> 
+
+                <div class="checkbox">
+                    <input id="chkShowDriveBox" type="checkbox" checked>
+                    <label for="chkShowDriveBox">Box für Fahrdaten anzeigen</label>                
+                </div> 
+
+                <div class="checkbox" title="zeigt die eindeutige Baustellen-ID an">
+                    <input id="chkShowSiteID" type="checkbox">
+                    <label for="chkShowSiteID">Baustellen-Nummer anzeigen</label>                
+                </div> 
+
+                <div class="control counter flx-btw">
+                    <label for="inpSites">Baustellen pro Tag</label>
+                    <span><input id="inpSites" type="number" min="1" value="4">   max</span> 
+                </div>
+
+                <div class="control counter flx-btw">
+                    <label for="inpSitesActive">Baustellen aktiv für</label>
+                    <span><input id="inpSitesActive" type="number" max="12" value="3">  Mon</span>
+                </div>
+                
+                <div class="switchbox counter flx-btw">
+                    <span>
+                        <input id="chkHoursPlausible" type="checkbox" data-buddy="inpHoursPlausible">
+                        <label for="chkHoursPlausible">Plausibilität ab</label>                        
+                    </span>
+                    <span><input id="inpHoursPlausible" type="number" max="12" step="0.50" value="12.00" disabled>    Std</span>                    
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="wizard hidden" data-name="worktime"> <!--  w3-include-html="" -->
+            <fieldset> <legend>  Arbeitszeiten  </legend>
+                <div class="flx-evn">
+                    <div class="checkbox">
+                        <input id="radSummerTime" type="radio" checked name="season">
+                        <label for="radSummerTime">Sommerzeit</label>                
+                    </div>
+        
+                    <div class="checkbox">
+                        <input id="radWinterTime" type="radio" name="season">
+                        <label for="radWinterTime">Winterzeit</label>                
+                    </div>                
+                </div> <hr>
+
+                <div class="control inline flx-btw">
+                    <label for="inpStartWork">Arbeitsbeginn</label>
+                    <span><input id="inpStartWork" type="time" value="07:00" >   Uhr</span>
+                </div>
+
+                <div class="control inline flx-btw">
+                    <label for="inpEndWork">Feierabend</label>
+                    <span><input id="inpEndWork" type="time" value="17:00" >   Uhr</span>                
+                </div>
+
+                <div class="control counter flx-btw">
+                    <label for="inpBreakfast">Frühstück (Z'nüni)</label>
+                    <span><input id="inpBreakfast" type="number" max="30" step="15" value="30" >   min</span>
+                </div>
+
+                <div class="control counter flx-btw">
+                    <label for="inpLunch">Mittag</label>
+                    <span><input id="inpLunch" type="number" max="120" step="15" value="60">   min</span>
+                </div> 
+                <hr>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp1" class="short" >Montag</label>
+                    <input id="inp1" type="number" min="1" max="16" step="0.50" value="8.50" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp2" class="short" >Dienstag</label>
+                    <input id="inp2" type="number" min="1" max="16" step="0.50" value="8.50" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp3" class="short" >Mittwoch</label>
+                    <input id="inp3" type="number" min="1" max="16" step="0.50" value="8.50" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp4" class="short" >Donnerstag</label>
+                    <input id="inp4" type="number" min="1" max="16" step="0.50" value="8.50" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp5" class="short" >Freitag</label>
+                    <input id="inp5" type="number" min="1" max="16" step="0.50" value="7.00" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input id="chkSaturday" type="checkbox" data-buddy="inpSaturday">
+                    <label for="chkSaturday" class="short" >Samstag</label>
+                    <input id="inpSaturday" type="number" min="1" max="8" step="0.50" disabled> Std
+                </div> <hr>
+
+                <div class="control counter inline flx-btw">
+                    <label for="inpHoursWeekly">Wochenstunden</label>
+                    <span><input id="inpHoursWeekly" type="number" value="41.00" disabled>   Std</span>                
+                </div>
+            </fieldset>
+        </div>
+        <hr>
     </form>    
 </body>
 </html>

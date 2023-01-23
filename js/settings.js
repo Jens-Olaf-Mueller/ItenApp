@@ -1,6 +1,7 @@
+const clsWizard = new Wizard('frmSettings', href);
 
-console.log('Settings ', SETTINGS )
+// console.log('Settings ', SETTINGS );
 
-function loadSettings() {
-
+function initSettings(caption) {
+    clsWizard.add($('.title'), caption);
 }

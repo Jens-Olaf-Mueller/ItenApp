@@ -1,43 +1,10 @@
-/* :root {
+:root {
     --bg-color: navy;     
     --darker-background-color: #020258;  
     --accent-color: dodgerblue;  
     --menu-color: whitesmoke;
     --navbar-height: 4rem;
-} */
-
-/* * {
-    margin: 0;
-    padding: 0;
-    font-size: 1.15rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Verdana, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: var(--menu-color);
 }
-
-html, body {
-    height: 100%;
-} */
-
-
-/* .logo {
-    margin-left: 1rem;
-    padding-top: 0.25rem;
-    text-decoration: none;
-}
-
-.title {
-    display: none;
-    position: absolute;
-    top: 1.25rem;
-    left: 6rem;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--bg-color);
-} */
 
 nav {
     height: var(--navbar-height);
@@ -63,7 +30,7 @@ nav ul {
 
 nav li {
     height: 100%;
-    width: 9.25rem;
+    width: 10.5rem;
     text-align: center;
     position: relative;
 }
@@ -80,6 +47,18 @@ nav ul a {
     align-items: center;
     color: var(--menu-color);
     text-decoration: none;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+}
+
+ul li img {
+    display: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin: 0 1rem;
 }
 
 .dropdown-mnu {
@@ -102,8 +81,8 @@ nav ul a {
 
 .dropdown-mnu li a {
     justify-content: flex-start;
-    padding-left: 2rem;
-    width: calc(100% - 2rem);
+    padding-left: 1rem;
+    width: calc(100% - 1rem);
 }
 
 nav li:hover .dropdown-mnu {
@@ -166,6 +145,7 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
     nav ul a {
         padding: 1.5rem 0;
     }
+
     .expandable_li {
         display: block;
     }
@@ -187,11 +167,10 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
     }
     .dropdown-mnu li {
         padding: 0;
-        display: block;
+        /* display: block; */
         position: static;
         background: var(--darker-background-color);
         border-bottom: 1px solid var(--accent-color);
-        /* height: 4rem; */
     }
     .dropdown-mnu li a {
         width: 100%;
@@ -199,16 +178,16 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
         justify-content: center;
     }
 
-    /* .dropdown-mnu li a::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        position: absolute;
-        left: 0;
-        color: red;
-    } */
-
     #mnuHH:checked~ul {
         display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    /* .expandable_li {
+        display: flex;
+    } */
+    ul li img {
+        display: flex;
     }
 }

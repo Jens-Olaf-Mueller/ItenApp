@@ -1,0 +1,29 @@
+<fieldset> <legend>  Sockel  </legend>
+    <div class="switchbox counter flx-btw" data-concerned="floor stairs">
+        <span>
+            <input id="chkSocketCut" type="radio" name="socket" data-buddy="inpSocket inpSocketHeight chkBevels">
+            <label for="chkSocketCut">geschnitten</label>  
+        </span>
+        <span><input id="inpSocketHeight" type="number" disabled>  cm</span>
+    </div>
+
+    <div class="checkbox counter flx-btw" data-concerned="floor stairs">
+        <span>
+            <input id="chkManufactured" type="radio" name="socket" data-buddy="inpSocket chkBevels">
+            <label for="chkManufactured">Fertigsockel</label>  
+        </span>
+    </div>
+
+    <div class="control counter flx-btw" data-concerned="floor stairs">
+        <label for="inpSocket">Länge</label>  
+        <span><input id="inpSocket" type="number" disabled>    m</span>
+    </div>
+
+    <div class="switchbox counter flx-btw" data-concerned="floor stairs">
+        <span>
+            <input id="chkBevels" type="checkbox" data-buddy="inpBevels" disabled>
+            <label id="lblBevels" for="chkBevels">Gehrungen</label>  
+        </span>
+        <span><input id="inpBevels" type="number" disabled>  Stk</span>
+    </div>
+</fieldset>

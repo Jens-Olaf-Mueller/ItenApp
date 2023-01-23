@@ -1,72 +1,160 @@
-const BTN_WIZARD = Array.from($('.btn-wizard'));
-const TILETYPES = Array.from($('[name=tiletype]'));
+let appTitle = '',
+    btnAdd,
+    tileComponents,
+    chkWaterproofed,
+    txtDescription,
+    arrSurface = [],
+    oSurface = new Surface();
+    
+const clsWizard = new Wizard(FRM_MEASURE, href),
+      clsSurvey = new Survey(FRM_MEASURE);
 
-let wizardPage = 0;
-
-initPage();
-
-function initPage() {
-    BTN_WIZARD.forEach(btn => {
-        btn.addEventListener('click', moveWizard, btn);
+function initPageMeasure(caption) {  
+    appTitle = caption;
+    clsWizard.add($('.title'), caption);
+    $('inpCreatedAt').value = getCurrentDate();
+    Array.from($('[data-autocalc="inpAreaResult"]')).forEach(fld => {
+        fld.addEventListener('input', displayArea);
     });
-    TILETYPES.forEach(type => {
+    tileComponents = Array.from($('[name=tile-component]'));
+    tileComponents.forEach(type => {
         type.addEventListener('click', getMeasuringType, type);
     });
+    chkWaterproofed = $('chkWaterproved');
+    chkWaterproofed.addEventListener('change', handleWaterproofedState);
+    txtDescription = $('inpAreaName');
+    txtDescription.addEventListener('input', validateSurface);
+    btnAdd = $('btnAddArea');
+    btnAdd.addEventListener('click', addNewSurface);
+}
 
-    $('inpCreatedAt').value = getCurrentDate();
+function displayArea() {
+    const txtResult = $('inpAreaResult');
+    readInput();
+    txtResult.value = (oSurface.area > 0.01) ?  oSurface.area.toFixed(2) : '';   
+    validateSurface();
+}
+
+function handleWaterproofedState() {
+    const waterProofedArea = $('inpWaterproved');
+    if (chkWaterproofed.checked == false) {
+        waterProofedArea.value = '';
+    } else if (waterProofedArea.value == '') {
+        displayArea();
+        oSurface.waterproofedArea = oSurface.area;
+        waterProofedArea.value = oSurface.waterproofedArea.toFixed(2);
+    }    
+    validateSurface();
+}
+
+function validateSurface() {
+    readInput();
+    const state = oSurface.description.length > 2 &&
+        oSurface.area > 0.01 &&
+        (oSurface.waterproofed == false ||
+        (oSurface.waterproofed && oSurface.waterproofedArea != 0));
+    // btnAdd.innerHTML = arrSurface.length == 0 ? 'Fläche hinzufügen' : 'Weitere Fläche hinzufügen';
+    btnAdd.disabled = !state;
+    return state;
+}
+
+function addNewSurface() {
+    let defHeight = oSurface.height,
+        txtWaterproofed = $('inpWaterproved'); 
+    arrSurface.push(oSurface);
+    oSurface = new Surface(defHeight);
+    txtDescription.value = '';
+    $('inpAreaLenght').value = '';
+    $('inpAreaWidth').value = '';
+    $('inpAreaResult').value = '';
+    chkWaterproofed.checked = false;
+    txtWaterproofed.disabled = true;
+    txtWaterproofed.value = '';
+    btnAdd.disabled = true;
+    sumArea();
+}
+
+function sumArea() {
+    let areaTotal = 0;
+    for (let i = 0; i < arrSurface.length; i++) {
+        areaTotal += arrSurface[i].area;
+    }
+    $('inpSumArea').value = areaTotal.toFixed(2);
+}
+
+function readInput() {
+    oSurface.description = txtDescription.value;
+    oSurface.length = $('inpAreaLenght').value / 1000;
+    oSurface.width = $('inpAreaWidth').value / 1000;
+    oSurface.height = oSurface.width;
+    oSurface.waterproofed = $('chkWaterproved').checked;
+    oSurface.waterproofedArea = parseFloat(+$('inpWaterproved').value);    
 }
 
 
 function getMeasuringType(radiobox) {
     let concerns;
     if (radiobox == undefined) {
-        for (let i = 0; i < TILETYPES.length; i++) {
-            if (TILETYPES[i].checked) concerns = TILETYPES[i].value;
+        for (let i = 0; i < tileComponents.length; i++) {
+            if (tileComponents[i].checked) concerns = tileComponents[i].value;
         }
     } else {
         concerns = radiobox.target.value;
     }
+    enableElements();
     return getWizardPages(concerns);
 }
 
-function moveWizard(button) {
-    const step = parseInt(button.target.value),
-          lastPage = getMeasuringType().length - 1;
-    wizardPage += step;
-    if (wizardPage < 1) {
-        wizardPage = 0;
-        BTN_WIZARD[0].setAttribute('disabled', 'disabled');
-    } else if (wizardPage >= lastPage) {
-        wizardPage = lastPage;
-        BTN_WIZARD[1].classList.add('hidden');
-        $('btnSend').classList.remove('hidden');
-    } else {
-        BTN_WIZARD[0].removeAttribute('disabled');
-        BTN_WIZARD[1].classList.remove('hidden');
-        $('btnSend').classList.add('hidden');
-    }
-    displayWizardPage(wizardPage);
 
-    console.log(wizardPage + ' / ' + lastPage )
-}
 
-function displayWizardPage(page) {
-    let arrPages = getMeasuringType();
-    arrPages.forEach(pge => {
-        pge.classList.add('hidden');
-    });
-    arrPages[page].classList.remove('hidden');
-}
-
-function getWizardPages(includes) {
+function getWizardPages(concerns) {
+    let selector = `div.wizard[data-concerned="${concerns}"]`;
+    let arrTest = $(selector);
+    console.log(arrTest)
     let arr = Array.from($('.wizard'));
-    if (includes == undefined) return arr;
+    if (concerns == undefined) return arr;
 
     for (let i = 0; i < arr.length; i++) {
         const item = arr[i];
-        if (item.dataset.concerned.includes(includes) == false) {
+        if (item.dataset.concerned.includes(concerns) == false) {
+            console.log('Name: ' + item.dataset.name + ' removed', item.dataset.concerned)
             arr.splice(i, 1);
         }
     }
+    enableElements(concerns);
     return arr;
+}
+
+
+function enableElements(concerns) {
+    const dataElements = $('[data-concerned]'),
+          lblWidth = $('lblWidth');
+    // if parameter is omitted, we RESET ALL elements, since the radiobox has changed
+    if (concerns === undefined) {
+        for (let i = 0; i < dataElements.length; i++) {
+            const element = dataElements[i];
+            // skip the wizard-pages!
+            if (!element.classList.contains('wizard')) {
+                element.classList.remove('hidden');
+            }
+        }
+        return;
+    }
+    
+    for (let i = 0; i < dataElements.length; i++) {        
+        const element = dataElements[i];
+        // we don't hide the parent containers!
+        if (!element.classList.contains('wizard')) {
+            if (!element.dataset.concerned.includes(concerns)) {
+                element.classList.add('hidden');
+            }
+        }        
+    }
+
+    if (concerns == 'wall') {
+        lblWidth.innerHTML = 'Höhe';
+    } else {
+        lblWidth.innerHTML = 'Breite';
+    }
+     
 }

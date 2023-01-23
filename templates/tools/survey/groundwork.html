@@ -1,0 +1,101 @@
+<fieldset> <legend>  Neben- & Vorarbeiten  </legend>
+    <div class="checkbox flx-btw">
+        <span>
+            <input id="chkPurged" type="checkbox">
+            <label for="chkPurged">Fläche gereinigt</label>
+        </span>                        
+    </div> 
+
+    <div class="checkbox flx-btw">
+        <span>
+            <input id="chkPrimered" type="checkbox">
+            <label for="chkPrimered">Fläche grundiert</label>               
+        </span>             
+    </div> 
+
+    <div class="switchbox counter flx-btw" data-concerned="floor stairs">
+        <span>
+            <input id="chkDecoupled" type="checkbox" data-buddy="inpDecoupled">
+            <label for="chkDecoupled">entkoppelt</label>
+        </span>   
+        <span><input id="inpDecoupled" type="number" disabled>   m²</span>
+    </div> 
+
+    <div class="switchbox counter flx-btw" data-concerned="floor wall">
+        <span>
+            <input id="chkNetted" type="checkbox" data-buddy="inpNetted">
+            <label for="chkNetted">genetzt</label>             
+        </span>
+        <span><input id="inpNetted" type="number" disabled>   m²</span>
+    </div>
+
+    <div class="switchbox counter flx-btw" data-concerned="floor">
+        <span>
+            <input id="chkLevelled" type="checkbox" data-buddy="inpLevelled">
+            <label for="chkLevelled">ausnivelliert</label>
+        </span>
+        <span><input id="inpLevelled" type="number" disabled>   m²</span>        
+    </div> 
+
+    <div class="switchbox counter flx-btw" data-concerned="floor">
+        <span>
+            <input id="chkScreed" type="checkbox" data-buddy="inpScreed">
+            <label for="chkScreed">Überzug erstellt</label>
+        </span>
+        <span><input id="inpScreed" type="number" disabled>   m²</span>             
+    </div> 
+
+    <div class="switchbox counter flx-btw" data-concerned="floor wall">
+        <span>
+            <input id="chkFilled" type="checkbox" data-buddy="inpFilled">
+            <label for="chkFilled">gespachtelt</label>            
+        </span>
+        <span><input id="inpFilled" type="number" disabled>   m²</span>   
+    </div> 
+
+    <div class="switchbox counter flx-btw" data-concerned="floor wall stairs">
+        <span>
+            <input id="chkSistered" type="checkbox" data-buddy="inpSistered">
+            <label for="chkSistered">aufgedoppelt</label>             
+        </span>
+        <span><input id="inpSistered" type="number" disabled>   m²</span>
+    </div>
+
+    <div class="switchbox inline flx-btw" data-control="dropbox" data-concerned="floor stairs">
+        <span>
+            <input id="chkCovered" type="checkbox" data-buddy="selCovered">
+            <label for="chkCovered">abgedeckt mit</label>            
+        </span>        
+        <span>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selCovered" disabled>
+                        <option value="Papier">Papier</option>
+                        <option value="Floorliner">Floorliner</option>
+                        <option value="Pavatex">Pavatex</option>
+                        <option value="Papier + Floorliner">Papier + Floorliner</option>
+                        <option value="Papier + Pavatex">Papier + Pavatex</option>
+                        <option value="Floorliner + Pavatex">Floorliner + Pavatex</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>            
+        </span>                
+    </div> <hr data-concerned="floor wall">
+
+    <div class="switchbox counter flx-btw" data-concerned="floor wall">
+        <span>
+            <input id="chkEdging" type="checkbox" data-buddy="inpEdging">
+            <label for="chkEdging">Bordüre / Fries</label>            
+        </span>
+        <span><input id="inpEdging" type="number" disabled>  Stk</span>
+    </div>
+
+    <div class="switchbox counter flx-btw" data-concerned="floor wall">
+        <span>
+            <input id="chkDecor" type="checkbox" data-buddy="inpDecor">
+            <label for="chkDecor">Dekor-Platten</label>             
+        </span>
+        <span><input id="inpDecor" type="number" disabled>  Stk</span>
+    </div>
+</fieldset>

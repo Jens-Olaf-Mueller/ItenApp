@@ -1,6 +1,7 @@
 const APP_NAME = 'StundenApp';
 const PAGES = ['index','hours','report','tools','settings'];
 const TILES = ['hours','report','report','tools','tools','settings'];
+const HOME = 0, PREV = 1, CAM  = 2, INFO = 3, NEXT = 4, SEND = 5; // indizes of wizard-buttons
 
 const MENUS = [
     {   // german

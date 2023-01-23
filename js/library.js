@@ -97,6 +97,34 @@ function isNumeric(expression, strAllowed) {
     
 }
 
+
+/**
+ * loads HTML-templates at run time to the page.
+ * Iterates through all elements containing the attribute 'w3-include-html'.
+ * i.e.: 
+ *  
+ * header w3-include-html="templates/header.html" will load a given header
+ */
+async function includeHTML() {
+    // let includeElements = $('[w3-include-html]'); 
+    // = document.querySelectorAll('[w3-include-html]')
+    const W3_ATTR = 'w3-include-html';
+    let includeElements = document.querySelectorAll(`[${W3_ATTR}]`)
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        let file = element.getAttribute(W3_ATTR),
+            resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+            element.removeAttribute(W3_ATTR);
+        } else {
+            element.innerHTML = `Page not found: "${file}"`;
+        }        
+    }
+}
+
+
+
 function random (min = 0, max = 1) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
