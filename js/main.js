@@ -28,6 +28,7 @@ async function runApp() {
     if (href.includes('report')) initReports(queryString);
     if (href.includes('calculator')) $('.title').innerHTML = 'Taschenrechner';
     setCheckboxBuddies();
+    setCheckboxBuddies('off'); // for those who switch corresponding controls off!
     setInputAutoSelection();
 }
 
@@ -46,11 +47,16 @@ function setInputAutoSelection() {
 }
 
 
-function setCheckboxBuddies() {
-    const checkBoxes = Array.from($('input[type="checkbox"], [type="radio"]'));
-    checkBoxes.forEach(chk => {
-        chk.addEventListener('click', switchBuddy);
-    });
+function setCheckboxBuddies(off = '') {
+    let tmpBoxes = $(`input[data-buddy${off}]`);
+    if (tmpBoxes instanceof NodeList) {
+        const checkBoxes = Array.from(tmpBoxes);
+        checkBoxes.forEach(chk => {
+            chk.addEventListener('click', switchBuddy);
+        });
+    } else { 
+        tmpBoxes.addEventListener('click', switchBuddy);
+    }
 }
 
 /**
@@ -61,12 +67,23 @@ function setCheckboxBuddies() {
  * CHK_SWITCHBOX.addEventListener('click', switchBuddy);
  * @param {object} checkbox 
  */
- function switchBuddy(checkbox) {   
-    if (checkbox.target.dataset.buddy === undefined) return;
-    const buddies = checkbox.target.dataset.buddy.split(' ');
-    buddies.forEach(buddy => {
-        document.getElementById(buddy).disabled = !checkbox.target.checked;
-    });     
+ function switchBuddy(checkbox) {
+    const chkBuddy = checkbox.target.dataset.buddy,
+          chkBuddyOff = checkbox.target.dataset.buddyoff,
+          state = checkbox.target.checked;
+    if (chkBuddy) {
+        const buddies = chkBuddy.split(' ');
+        buddies.forEach(buddy => {
+            // this switches corresponding controls ON !
+            document.getElementById(buddy).disabled = !state;
+        }); 
+    } else if (chkBuddyOff) {
+        const buddies = chkBuddyOff.split(' ');
+        buddies.forEach(buddy => {
+            // this switches corresponding controls OFF !
+            document.getElementById(buddy).disabled = state;
+        });
+    }    
 }
 
 function getCurrentDate(date = new Date()) {
@@ -74,6 +91,13 @@ function getCurrentDate(date = new Date()) {
         date.getFullYear(),
         padTo2Digits(date.getMonth() + 1),
         padTo2Digits(date.getDate())].join('-');
+}
+
+function getKW (date = new Date()) {
+    const startDate = new Date(date.getFullYear(), 0, 1),
+          MS_PER_DAY = (24 * 60 * 60 * 1000);
+    let days = Math.floor((date - startDate) / MS_PER_DAY);
+    return padTo2Digits(Math.ceil(days / 7));
 }
 
 function padTo2Digits(num) {

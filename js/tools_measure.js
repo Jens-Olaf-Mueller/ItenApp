@@ -14,7 +14,7 @@ function initPageMeasure(caption) {
     clsWizard.add($('.title'), caption);
     $('inpCreatedAt').value = getCurrentDate();
     Array.from($('[data-autocalc="inpAreaResult"]')).forEach(fld => {
-        fld.addEventListener('input', displayArea);
+        fld.addEventListener('input', displaySurfaceArea);
     });
     tileComponents = Array.from($('[name=tile-component]'));
     tileComponents.forEach(type => {
@@ -28,7 +28,7 @@ function initPageMeasure(caption) {
     btnAdd.addEventListener('click', addNewSurface);
 }
 
-function displayArea() {
+function displaySurfaceArea() {
     const txtResult = $('inpAreaResult');
     readInput();
     txtResult.value = (oSurface.area > 0.01) ?  oSurface.area.toFixed(2) : '';   
@@ -40,7 +40,7 @@ function handleWaterproofedState() {
     if (chkWaterproofed.checked == false) {
         waterProofedArea.value = '';
     } else if (waterProofedArea.value == '') {
-        displayArea();
+        displaySurfaceArea();
         oSurface.waterproofedArea = oSurface.area;
         waterProofedArea.value = oSurface.waterproofedArea.toFixed(2);
     }    

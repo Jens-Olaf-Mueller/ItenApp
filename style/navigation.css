@@ -146,6 +146,10 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
         padding: 1.5rem 0;
     }
 
+    /* nav ul .dropdown-root {
+        min-height: unset;
+    } */
+
     .expandable_li {
         display: block;
     }
@@ -189,5 +193,22 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
     } */
     ul li img {
         display: flex;
+    }
+
+    nav ul a {
+        justify-content: flex-start;
+    }
+
+    .dropdown-root {
+        min-height: 100vh;
+    }
+
+    .expandable_li label {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .dropdown-mnu li a {
+        justify-content: flex-start;
     }
 }

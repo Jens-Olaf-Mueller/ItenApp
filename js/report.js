@@ -12,11 +12,12 @@ function initReports(report) {
             FRM_WEEKLY.classList.remove('hidden');
             $('inpWeekFromDate').value = getCurrentDate();
             $('inpWeekUntilDate').value = getCurrentDate();
+            $('legendKW').innerText = '  Kalenderwoche ' + getKW();
             break;
         case 'ordered':
             FRM_REGIE.classList.remove('hidden');
             $('.title').innerHTML = 'Regierapport';
-            
+            $('inpRegieDate').value = getCurrentDate();
             break;
         case 'site':
             $('.title').innerHTML = 'Baustellenrapport';

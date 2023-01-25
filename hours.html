@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/forms.css">
 
-    <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
+    <script src="./js/classes/settings.class.js"></script>
+    <script src="./js/const.js"></script>
+        
     <script defer src="./js/classes/wizard.class.js"></script>
     <script defer src="./js/main.js"></script>
     <script defer src="./js/hours.js"></script>
@@ -82,6 +84,17 @@
                     <input id="inpOrt" type="text">
                 </div>
 
+                <div class="flx-btw">
+                    <div class="checkbox">
+                        <input id="radSingleSite" type="radio" checked name="sitesperday">
+                        <label for="radSingleSite">eine Baustelle</label>                
+                    </div>
+                    <div class="checkbox">
+                        <input id="radMultiSite" type="radio" name="sitesperday">
+                        <label for="radMultiSite">mehrere Baustellen</label>                
+                    </div>
+                </div>
+
                 <div class="flx-row">
                     <div class="control short">
                         <label for="inpKommt">Ankunft</label>
@@ -115,7 +128,7 @@
 
                 <div class="control counter inline flx-btw">
                     <label for="inpHours">Stunden</label>
-                    <span><input id="inpHours" type="number" value="8.50" disabled>   Std</span>                
+                    <span><input id="inpHours" class="computed" type="number" value="8.50" disabled>   Std</span>                
                 </div>
 
             </fieldset>
@@ -150,6 +163,27 @@
                     <label for="inpZiel">Zielort</label>
                     <input id="inpZiel" type="text">
                 </div>
+            </fieldset>
+        </div>
+        <div class="wizard hidden" data-name="expenses"> <!--  w3-include-html="" -->
+            <fieldset> <legend>  Spesen  </legend>
+                <div class="switchbox counter flx-btw" data-concerned="floor stairs">
+                    <span>
+                        <input id="chkExpenses" type="checkbox" data-buddy="inpExpenses">
+                        <label for="chkExpenses">Verpflegung</label>
+                    </span>   
+                    <span><input id="inpExpenses" type="number" disabled>   CHF</span>
+                </div>
+                <div class="switchbox counter flx-btw" data-concerned="floor stairs">                    
+                    <span>
+                        <input id="chkOtherExpenses" type="checkbox" data-buddy="inpOtherExpenses inpOtherExpensesDescr">
+                        <label for="chkOtherExpenses">sonstige Spesen</label>
+                    </span>   
+                    <span><input id="inpOtherExpenses" type="number" disabled>   CHF</span>                    
+                </div>
+                <div class="control">
+                    <input id="inpOtherExpensesDescr" type="text" disabled>
+                </div>                              
             </fieldset>
         </div>
         <hr>

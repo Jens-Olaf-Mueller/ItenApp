@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="./style/iten.css">
     <link rel="stylesheet" href="./style/forms.css">
 
-    <script src="./js/const.js"></script>
     <script src="./js/library.js"></script>
+    <script src="./js/classes/settings.class.js"></script>
+    <script src="./js/const.js"></script>
+
     <script defer src="./js/classes/wizard.class.js"></script>
     <script defer src="./js/main.js"></script>
     <script defer src="./js/settings.js"></script>
@@ -53,8 +55,8 @@
         <div class="wizard hidden" data-name="app-settings"> <!--  w3-include-html="" -->
             <fieldset> <legend>  Programmeinstellungen  </legend>
                 <div class="checkbox" title="wenn Formular leer ist">
-                    <input id="chkAutoComplete" type="checkbox" checked>
-                    <label for="chkAutoComplete">Daten vom Vortag übernehmen</label>                
+                    <input id="chkUsePreviousDayData" type="checkbox" checked>
+                    <label for="chkUsePreviousDayData">Daten vom Vortag übernehmen</label>                
                 </div> 
 
                 <div class="checkbox">
@@ -68,21 +70,21 @@
                 </div> 
 
                 <div class="control counter flx-btw">
-                    <label for="inpSites">Baustellen pro Tag</label>
-                    <span><input id="inpSites" type="number" min="1" value="4">   max</span> 
+                    <label for="inpMaxSitesPerDay">Baustellen pro Tag</label>
+                    <span><input id="inpMaxSitesPerDay" type="number" min="1" value="4">   max</span> 
                 </div>
 
                 <div class="control counter flx-btw">
-                    <label for="inpSitesActive">Baustellen aktiv für</label>
-                    <span><input id="inpSitesActive" type="number" max="12" value="3">  Mon</span>
+                    <label for="inpSitesActiveFor">Baustellen aktiv für</label>
+                    <span><input id="inpSitesActiveFor" type="number" max="12" value="3">  Mon</span>
                 </div>
                 
                 <div class="switchbox counter flx-btw">
                     <span>
-                        <input id="chkHoursPlausible" type="checkbox" data-buddy="inpHoursPlausible">
-                        <label for="chkHoursPlausible">Plausibilität ab</label>                        
+                        <input id="chkValidateHours" type="checkbox" data-buddy="inpValidateHours">
+                        <label for="chkValidateHours">Plausibilitätsprüfung ab</label>                        
                     </span>
-                    <span><input id="inpHoursPlausible" type="number" max="12" step="0.50" value="12.00" disabled>    Std</span>                    
+                    <span><input id="inpValidateHours" type="number" max="12" step="0.50" value="12.00">    Std</span>                    
                 </div>
             </fieldset>
         </div>
@@ -113,43 +115,43 @@
 
                 <div class="control counter flx-btw">
                     <label for="inpBreakfast">Frühstück (Z'nüni)</label>
-                    <span><input id="inpBreakfast" type="number" max="30" step="15" value="30" >   min</span>
+                    <span><input id="inpBreakfast" type="number" max="30" step="15">   min</span>
                 </div>
 
                 <div class="control counter flx-btw">
                     <label for="inpLunch">Mittag</label>
-                    <span><input id="inpLunch" type="number" max="120" step="15" value="60">   min</span>
+                    <span><input id="inpLunch" type="number" max="120" step="15">   min</span>
                 </div> 
                 <hr>
 
                 <div class="switchbox counter flx-btw">
                     <input type="checkbox" checked disabled>
-                    <label for="inp1" class="short" >Montag</label>
+                    <label for="inp0" class="short" >Montag</label>
+                    <input id="inp0" type="number" min="1" max="16" step="0.50" value="8.50" > Std
+                </div>
+
+                <div class="switchbox counter flx-btw">
+                    <input type="checkbox" checked disabled>
+                    <label for="inp1" class="short" >Dienstag</label>
                     <input id="inp1" type="number" min="1" max="16" step="0.50" value="8.50" > Std
                 </div>
 
                 <div class="switchbox counter flx-btw">
                     <input type="checkbox" checked disabled>
-                    <label for="inp2" class="short" >Dienstag</label>
+                    <label for="inp2" class="short" >Mittwoch</label>
                     <input id="inp2" type="number" min="1" max="16" step="0.50" value="8.50" > Std
                 </div>
 
                 <div class="switchbox counter flx-btw">
                     <input type="checkbox" checked disabled>
-                    <label for="inp3" class="short" >Mittwoch</label>
+                    <label for="inp3" class="short" >Donnerstag</label>
                     <input id="inp3" type="number" min="1" max="16" step="0.50" value="8.50" > Std
                 </div>
 
                 <div class="switchbox counter flx-btw">
                     <input type="checkbox" checked disabled>
-                    <label for="inp4" class="short" >Donnerstag</label>
-                    <input id="inp4" type="number" min="1" max="16" step="0.50" value="8.50" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp5" class="short" >Freitag</label>
-                    <input id="inp5" type="number" min="1" max="16" step="0.50" value="7.00" > Std
+                    <label for="inp4" class="short" >Freitag</label>
+                    <input id="inp4" type="number" min="1" max="16" step="0.50" value="7.00" > Std
                 </div>
 
                 <div class="switchbox counter flx-btw">
@@ -160,7 +162,7 @@
 
                 <div class="control counter inline flx-btw">
                     <label for="inpHoursWeekly">Wochenstunden</label>
-                    <span><input id="inpHoursWeekly" type="number" value="41.00" disabled>   Std</span>                
+                    <span><input id="inpHoursWeekly" class="computed" type="number" disabled>   Std</span>                
                 </div>
             </fieldset>
         </div>
