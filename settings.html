@@ -22,149 +22,21 @@
 <body>
     <header w3-include-html="templates/header.html"></header>
 
-    <form class="forms" id="frmSettings" action="" method="get" autocomplete="off">
-        <div class="wizard" data-name="details"> <!--  w3-include-html="" -->
-            <fieldset > <legend>  Persönliche Daten  </legend>
-                <div class="control">
-                    <label for="inpSurname">Name</label>
-                    <input id="inpSurname" type="text">
-                </div>
-        
-                <div class="control">
-                    <label for="inpFirstName">Vorname</label>
-                    <input id="inpFirstName" type="text">
-                </div>
-        
-                <div class="control">
-                    <label for="inpLocation">Wohnort</label>
-                    <input id="inpLocation" type="text">
-                </div>
-        
-                <div class="control">
-                    <label for="inpBirthday">Geburtstag</label>
-                    <input id="inpBirthday" type="date">
-                </div>
-        
-                <div class="control">
-                    <label for="inpMail">Email</label>
-                    <input id="inpMail" type="email">
-                </div>                    
-            </fieldset>
+    <form id="frmSettings">
+        <div class="wizard" data-wizard="settings" data-name="Persönliche Daten" 
+        w3-include-html="templates/settings/_personal.html">
         </div>
 
-        <div class="wizard hidden" data-name="app-settings"> <!--  w3-include-html="" -->
-            <fieldset> <legend>  Programmeinstellungen  </legend>
-                <div class="checkbox" title="wenn Formular leer ist">
-                    <input id="chkUsePreviousDayData" type="checkbox" checked>
-                    <label for="chkUsePreviousDayData">Daten vom Vortag übernehmen</label>                
-                </div> 
-
-                <div class="checkbox">
-                    <input id="chkShowDriveBox" type="checkbox" checked>
-                    <label for="chkShowDriveBox">Box für Fahrdaten anzeigen</label>                
-                </div> 
-
-                <div class="checkbox" title="zeigt die eindeutige Baustellen-ID an">
-                    <input id="chkShowSiteID" type="checkbox">
-                    <label for="chkShowSiteID">Baustellen-Nummer anzeigen</label>                
-                </div> 
-
-                <div class="control counter flx-btw">
-                    <label for="inpMaxSitesPerDay">Baustellen pro Tag</label>
-                    <span><input id="inpMaxSitesPerDay" type="number" min="1" value="4">   max</span> 
-                </div>
-
-                <div class="control counter flx-btw">
-                    <label for="inpSitesActiveFor">Baustellen aktiv für</label>
-                    <span><input id="inpSitesActiveFor" type="number" max="12" value="3">  Mon</span>
-                </div>
-                
-                <div class="switchbox counter flx-btw">
-                    <span>
-                        <input id="chkValidateHours" type="checkbox" data-buddy="inpValidateHours">
-                        <label for="chkValidateHours">Plausibilitätsprüfung ab</label>                        
-                    </span>
-                    <span><input id="inpValidateHours" type="number" max="12" step="0.50" value="12.00">    Std</span>                    
-                </div>
-            </fieldset>
+        <div class="wizard hidden" data-wizard="settings" data-name="Stundenerfassung" 
+        w3-include-html="templates/settings/_hours.html">
         </div>
 
-        <div class="wizard hidden" data-name="worktime"> <!--  w3-include-html="" -->
-            <fieldset> <legend>  Arbeitszeiten  </legend>
-                <div class="flx-evn">
-                    <div class="checkbox">
-                        <input id="radSummerTime" type="radio" checked name="season">
-                        <label for="radSummerTime">Sommerzeit</label>                
-                    </div>
-        
-                    <div class="checkbox">
-                        <input id="radWinterTime" type="radio" name="season">
-                        <label for="radWinterTime">Winterzeit</label>                
-                    </div>                
-                </div> <hr>
+        <div class="wizard hidden" data-wizard="settings" data-name="Arbeitszeiten"
+        w3-include-html="templates/settings/_time.html">
+        </div>
 
-                <div class="control inline flx-btw">
-                    <label for="inpStartWork">Arbeitsbeginn</label>
-                    <span><input id="inpStartWork" type="time" value="07:00" >   Uhr</span>
-                </div>
-
-                <div class="control inline flx-btw">
-                    <label for="inpEndWork">Feierabend</label>
-                    <span><input id="inpEndWork" type="time" value="17:00" >   Uhr</span>                
-                </div>
-
-                <div class="control counter flx-btw">
-                    <label for="inpBreakfast">Frühstück (Z'nüni)</label>
-                    <span><input id="inpBreakfast" type="number" max="30" step="15">   min</span>
-                </div>
-
-                <div class="control counter flx-btw">
-                    <label for="inpLunch">Mittag</label>
-                    <span><input id="inpLunch" type="number" max="120" step="15">   min</span>
-                </div> 
-                <hr>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp0" class="short" >Montag</label>
-                    <input id="inp0" type="number" min="1" max="16" step="0.50" value="8.50" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp1" class="short" >Dienstag</label>
-                    <input id="inp1" type="number" min="1" max="16" step="0.50" value="8.50" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp2" class="short" >Mittwoch</label>
-                    <input id="inp2" type="number" min="1" max="16" step="0.50" value="8.50" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp3" class="short" >Donnerstag</label>
-                    <input id="inp3" type="number" min="1" max="16" step="0.50" value="8.50" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input type="checkbox" checked disabled>
-                    <label for="inp4" class="short" >Freitag</label>
-                    <input id="inp4" type="number" min="1" max="16" step="0.50" value="7.00" > Std
-                </div>
-
-                <div class="switchbox counter flx-btw">
-                    <input id="chkSaturday" type="checkbox" data-buddy="inpSaturday">
-                    <label for="chkSaturday" class="short" >Samstag</label>
-                    <input id="inpSaturday" type="number" min="1" max="8" step="0.50" disabled> Std
-                </div> <hr>
-
-                <div class="control counter inline flx-btw">
-                    <label for="inpHoursWeekly">Wochenstunden</label>
-                    <span><input id="inpHoursWeekly" class="computed" type="number" disabled>   Std</span>                
-                </div>
-            </fieldset>
+        <div class="wizard hidden" data-wizard="settings" data-name="Defaultwerte" 
+        w3-include-html="templates/settings/_defaults.html">
         </div>
         <hr>
     </form>    

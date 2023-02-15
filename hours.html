@@ -22,8 +22,8 @@
 <body>
     <header w3-include-html="templates/header.html"></header>
 
-    <form class="forms" id="frmHours" action="" method="get" autocomplete="off">
-        <div class="wizard" data-name="dayinfo"> <!--  w3-include-html="" -->        
+    <form id="frmHours">
+        <div class="wizard" data-wizard="hours" data-name="dayinfo"> <!--  w3-include-html="" -->        
             <fieldset class="flx-ccc"> <legend>  Tagesdaten  </legend>
                 <div class="control inline">
                     <button type="button" class="btn-spin">&#x2770</button>
@@ -56,7 +56,7 @@
             </fieldset>
         </div>
 
-        <div class="wizard hidden" data-name="siteinfo"> <!--  w3-include-html="" -->
+        <div class="wizard hidden" data-wizard="hours" data-name="siteinfo"> <!--  w3-include-html="" -->
             <fieldset> <legend>  Baustelle  </legend>
                 <div id="divBVNumber" class="control">
                     <label for="inpBVNr">BV-Nummer</label>
@@ -134,7 +134,7 @@
             </fieldset>
         </div>
 
-        <div class="wizard hidden" data-name="description"> <!--  w3-include-html="" -->
+        <div class="wizard hidden" data-wizard="hours" data-name="description"> <!--  w3-include-html="" -->
             <fieldset> <legend>  Leistung / Bemerkungen  </legend>
                 <textarea name="" id="txtLeistung" cols="40" rows="25" 
                     placeholder="heute ausgeführte Arbeiten...">
@@ -165,7 +165,8 @@
                 </div>
             </fieldset>
         </div>
-        <div class="wizard hidden" data-name="expenses"> <!--  w3-include-html="" -->
+
+        <div class="wizard hidden" data-wizard="hours" data-name="expenses"> <!--  w3-include-html="" -->
             <fieldset> <legend>  Spesen  </legend>
                 <div class="switchbox counter flx-btw" data-concerned="floor stairs">
                     <span>

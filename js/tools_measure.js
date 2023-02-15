@@ -6,13 +6,15 @@ let appTitle = '',
     arrSurface = [],
     oSurface = new Surface();
     
-const clsWizard = new Wizard(FRM_MEASURE, href),
+const clsWizard = new Wizard(FRM_MEASURE, href, 'survey'),
       clsSurvey = new Survey(FRM_MEASURE);
 
-function initPageMeasure(caption) {  
+function initPageMeasure(caption) {
     appTitle = caption;
+    document.addEventListener('onwizard', executeWizardEvent);
     clsWizard.add($('.title'), caption);
     $('inpCreatedAt').value = getCurrentDate();
+    $('inpCreatedBy').value = SETTINGS.fullname;
     Array.from($('[data-autocalc="inpAreaResult"]')).forEach(fld => {
         fld.addEventListener('input', displaySurfaceArea);
     });
@@ -26,6 +28,14 @@ function initPageMeasure(caption) {
     txtDescription.addEventListener('input', validateSurface);
     btnAdd = $('btnAddArea');
     btnAdd.addEventListener('click', addNewSurface);
+}
+
+function executeWizardEvent(event) {
+    if (event.detail.action == 'send') {
+        clsWizard.submitForm();
+    } else if (event.detail.action == 'save') {
+        SETTINGS.save();
+    }
 }
 
 function displaySurfaceArea() {

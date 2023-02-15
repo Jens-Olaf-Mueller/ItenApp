@@ -1,0 +1,126 @@
+:root {
+    --checkbox-size: 1.33rem;
+    --label-width-desk: 12rem;
+    --label-width-mobile: 8rem;
+    --label-short: 4rem;
+    --forms-bg-color: #f5f5f5;
+    --theme-color: navy;
+    --focus-color: #ffffc8;    
+    --autocalc-bg-color: #4169E1; /* #94afff;*/
+}
+/* --------------------------------- */
+/* Styling the different controls... */
+/* --------------------------------- */
+
+/* valid for all: */
+div[data-control] {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; 
+}
+
+/* for short controls such as checkboxes and switchboxes */
+div[data-control].mobile-flx-btw {
+    justify-content: flex-start;
+}
+
+div[data-control]>label {
+    min-width: 9rem;
+    padding: 0.25rem 0;
+    /* this cuts the label texts and shows dots at the end if necessary */
+    /* i.e. [x] Please select the... */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div[data-control]>label.unit {
+    min-width: 5.5rem;
+    text-align: end;
+}
+
+div[data-control] input, 
+div[data-control] textarea, 
+div[data-control] select {
+    outline: none;
+    border: 1px solid silver;
+}
+
+div[data-control] input:focus,
+div[data-control] textarea:focus, 
+div[data-control] select:focus {
+    background-color: var(--focus-color);
+    border: 1px solid green;
+}
+
+div[data-control] input[type="checkbox"],
+div[data-control] input[type="radio"] {
+    min-height: var(--checkbox-size);
+    min-width: var(--checkbox-size);
+    accent-color: var(--theme-color);
+}
+
+div[data-control="counter"] input[type="number"] {
+    width: 3.5rem;
+    text-align: center;
+}
+
+div[data-control="numeric"] input[type="number"] {
+    width: 3.5rem;
+    text-align: right;
+    padding-right: 0.25rem;
+}
+
+div[data-control="phone"] input:first-of-type {
+    width: 3.5rem;
+}
+div[data-control="phone"] input:last-of-type,
+div[data-control] input[type="date"] {
+    width: 8rem;
+}
+
+/* switch spin arrows off */
+div[data-control] input[type="number"]::-webkit-inner-spin-button, 
+div[data-control] input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+div[data-control] input[type="text"], 
+div[data-control] input[type="email"], 
+div[data-control] input[type="password"], 
+div[data-control] select {
+    flex: 1;
+}
+
+div[data-control]>label.lbl-autosize {
+    min-width: 3rem;
+    margin-right: 1rem;
+}
+
+/* ****************************************************************************************** */
+/*                                   R E S P O N S I V E                                      */
+/* ****************************************************************************************** */
+@media (width <= 580px) {
+    form {
+        width: 100%;
+    }
+
+    div[data-control]:not(
+        [data-control="checkbox"], 
+        [data-control="radio"],
+        [data-control="switch"],
+        [data-control="counter"]) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    div[data-control]>input[type="text"], 
+    div[data-control="dropbox"]>select {
+        min-width: 100%;
+    }
+
+    div[data-control].mobile-flx-btw {
+        justify-content: space-between;
+    }
+}

@@ -1,100 +1,92 @@
-//  #######################################################################################################
-//  PURPOSE		: Universal 'all-in-one' function that unites the DOM-functions
-//                => document.getElementById
-//                => document.getElementsByTagName
-//                => document.getElementsByClassName
-//                => document.getElementsByName
-//                => document.querySelectorAll
-//   			  
-//  PARAMETER 	: selector 	= ID | classname | .class | [type] | >sub-element or <tag>
-//                            if ID is not found as a valid selector, search continues 
-//                            in the order: HTML-tags ==> classNames ===> names
-//                            So if there is no ID matching to 'selector' but a valid
-//                            HTML-tag or a class, they will be returned
-//  			: [child]           	=   optional. Ignored if valid ID was found!
-//              : omitted               =   a node list or HTML-collection will be returned!
-//              : '~' or ':last-child'  =   returns the last child of the nodelist
-//              : 0                     =   returns the first child of the nodelist
-//              : number | numeric string = child[number] will be returned
-//  			
-//  RETURNS 	: a single element (if selector is a valid ID or child is specified)
-//                in all other cases a zero-based nodelist or HTML-collection,
-//                matching the selector-parameter
-//                If the list contains ONLY ONE element, this element is returned only!
-//
-//  CALL        : $('main-content')     -   returns an element with ID 'main-content'
-//                $('div','~')          -   returns the last div-container of the document
-//                $('a',0)              -   returns the first link (<a>-element)
-//                $('div.myClass')      -   returns a list with all div's containing class 'myClass'
-//                $('div.myClass','~')  -   returns last div containing class 'myClass'
-//                $('.clsNames',3)      -   returns the 4th(!) child of the wanted class list
-//                $('input[type=text]') -   returns a list with all input elements, being text fields
-//                $('[name]')           -   returns a list with all elements, having a 'name' attribute
-//  #######################################################################################################
-// prepend 'export' if you wanna import the function in a module 
+/**
+ * Universal 'all-in-one' function that unites the DOM-functions
+ * => document.getElementById
+ * => document.getElementsByTagName
+ * => document.getElementsByClassName
+ * => document.getElementsByName
+ * => document.querySelectorAll
+ *  
+ * prepend 'export' if you wanna import the function in a module!
+ * 
+ * @param {string} selector any valid selector, used like CSS selectors
+ * @param {number | string} child optional,
+ * determines which child of the found nodelist or HTML-collection
+ * is supposed to be returned. A number returns the child of the given index. A tilde '~' or the
+ * string expression ':last-child' returns the last child of the list / collection.
+ * @returns a single element (if selector is a valid ID or child is specified)
+ * in all other cases a zero-based nodelist or HTML-collection, matching the selector-parameter
+ * If the list contains ONLY ONE element, this element is returned only!
+ * @usage   $('main-content')     -   returns an element with ID 'main-content'
+ *          $('div','~')          -   returns the last div-container of the document
+ *          $('a',0)              -   returns the first link (<a>-element)
+ *          $('div.myClass')      -   returns a list with all div's containing class 'myClass'
+ *          $('div.myClass','~')  -   returns last div containing class 'myClass'
+ *          $('.clsNames',3)      -   returns the 4th(!) child of the wanted class list
+ *          $('input[type=text]') -   returns a list with all input elements, being text fields
+ *          $('[name]')           -   returns a list with all elements, having a 'name' attribute
+ */
 function $(selector, child) {
-    let clsNames;
-    // is last-child wanted?
-    let getLastChild = (child == '~' || child == ':last-child') ? true : false;
+    // is the last child wanted?
+    const getLastChild = (child == '~' || child == ':last-child') ? true : false;
     // check, if 'child' is numeric!
-    if (!isNumeric(child,true) || child < 0 ) {child = false}
+    if (!isNumeric(child, true) || child < 0) child = false;
 
     // query-selector provided?
-    if (selector.includes('[') || selector.includes('.') || selector.includes('#')  || selector.includes(':') || selector.includes('>')) {
-        let elements = document.querySelectorAll(selector);
-        if (elements.length == 1) {return elements[0]}
-        child = getLastChild ? elements.length - 1 : child;
-        return (child === false) ? elements : elements[child];
-    }
-
-    // now search for ID...
-    let element = document.getElementById(selector);
-    if (element) { // ID was found!
-        return element;     
-    } else { // no ID found: continue in HTML-tags...
-        let htmlTags = document.getElementsByTagName(selector);
-        if (htmlTags.length > 0) {
-            // don't return a collection or list, if only 1 child is contained, 
-            // return this single element instead
-            if (htmlTags.length == 1) {return htmlTags[0]} 
-            child = getLastChild ? htmlTags.length - 1 : child;
-            return (child === false) ? htmlTags : htmlTags[child];
-        } else { // is the selector a class...?            
-            clsNames = document.getElementsByClassName(selector);
-            if (clsNames.length > 0) { 
-                if (clsNames.length == 1) {return clsNames[0]}
-                child = getLastChild ? clsNames.length - 1 : child;          
-                return (child === false) ?  clsNames : clsNames[child];
-            } else {
-                // ...or is it a name finally?
-                let elNames = document.getElementsByName(selector);
-                if (elNames.length > 0) {
-                    if (elNames.length == 1) {return elNames[0]}
-                    child = getLastChild ? elNames.length - 1 : child;
-                    return (child === false) ?  elNames : elNames[child];
-                }                
-            }
-        }
-    }
-}
-
-//  #####################################################################################
-//  PURPOSE 	: Checks properly(!!!), if 'expression' is numeric
-//   			  recognizes: undefined, NaN, Null, infinity etc.
-//  PARAMETER 	: expression    -   expression to be ckecked
-//              : [strAllowed]  -   boolean, optional
-//                                  tells if string literals are allowed or not (default)
-//  RETURNS 	: true | false
-//  #####################################################################################
-// prepend 'export' if you wanna import the function in a module 
-// function isNumeric(expression, strAllowed) { 
-function isNumeric(expression, strAllowed) {
-    if (!strAllowed) {
-        return Number.isFinite(expression); 
-    } else {
-        return Number.isFinite(parseFloat(expression)); 
+    const querySelector = ['[', '.', '#', ':', '>'].some(char => {
+        return selector.includes(char);
+    });
+    if (querySelector) {
+        const elements = getElements(document.querySelectorAll(selector), child, getLastChild);
+        if (elements) return elements;
     }
     
+    const element = document.getElementById(selector); // now search for ID...
+    if (element) return element; // ID was found!    
+    const htmlTags = document.getElementsByTagName(selector);
+    if (htmlTags.length > 0) return getElements(htmlTags, child, getLastChild); // no ID! continue in HTML-tags...     
+    const classNames = document.getElementsByClassName(selector);// is the selector a class...? 
+    if (classNames.length > 0) return getElements(classNames, child, getLastChild);
+    const names = document.getElementsByName(selector); // ...or is it a name finally?
+    if (names.length > 0) return getElements(names, child, getLastChild);
+    return null;
+}
+
+function getElements(nodeList, child, getLastChild) {
+    // don't return a node list, with only ONE child! 
+    // but this single child-element instead 
+    if (nodeList.length == 1) return nodeList[0];
+    if (getLastChild) child = nodeList.length - 1;
+    return (child === false) ? nodeList : nodeList[child];
+}
+
+/**
+ * extends the Math-Object by a special round-function that allows to
+ * round a given number toa given amount of decimal digits
+ * @param {number} number numeric expression
+ * @param {number} decimals count of decimal digits
+ * @returns the rounded number with assignet decimal digits
+ */
+ Math.roundDec = function(number, decimals = 0) {
+    const dec = decimals * 10;
+    if (dec == 0) return Math.round(number + Number.EPSILON);
+    return Math.round((number + Number.EPSILON) * dec) / dec;
+}
+
+
+Math.randomExt = function (min = 0, max = 1) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+/**
+ * Checks properly (!), if the given expression is numeric.
+ * recognizes: undefined, NaN, Null, infinity etc.
+ * @param {number | numeric string} expression 
+ * @param {boolean} allowStringNumbers optional, tells if string literals are allowed or not (default)
+ * @returns true | false
+ */
+function isNumeric(expression, allowStringNumbers) {
+    if (allowStringNumbers == true) return Number.isFinite(parseFloat(expression));
+    return Number.isFinite(expression);
 }
 
 
@@ -124,10 +116,6 @@ async function includeHTML() {
 }
 
 
-function random (min = 0, max = 1) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
 //  #####################################################################################
 //  PURPOSE 	: Pauses the code for the provided amount of milliseconds
 //  			  Calling function must be 'async' in order to make it work!
@@ -139,14 +127,6 @@ function random (min = 0, max = 1) {
 //  #####################################################################################
 function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-
-function loadArray (path, count, extension = '.png') {
-    let arr = [];
-    for (let i = 0; i < count; i++) {
-        arr.push(path + i + extension)
-    }
-    return arr;
 }
 
 

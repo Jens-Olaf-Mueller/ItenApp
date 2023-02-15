@@ -45,7 +45,7 @@ header {
 }
 
 .title {
-    /* display: none; */
+    display: none;
     position: absolute;
     top: 1.25rem;
     left: 6rem;

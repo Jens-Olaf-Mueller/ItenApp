@@ -1,13 +1,33 @@
 class Wizard {
-    parentForm;
+    #form = null;
+    get form() { return this.#form }
+    set form(frm) { 
+        if (typeof frm == 'string') {
+            this.#form = document.getElementById(frm);
+        } else if (typeof frm == 'object') {
+            this.#form = frm;
+        } else {
+            this.#form = null;
+        }
+    }
+    name; // wizard="commission"
     title;
     location;
     #wizID = 'divWizardbar';
     get ID() { return this.#wizID; }
     #page = 0;    
     get page() { return this.#page; }
-    get lastPage() { return this.pages.length - 1; }
-    get pages() { return Array.from($('.wizard')); }    
+    get lastPage() { return this.pages.length - 1; }   
+    get pages() { 
+        let pages = $(`[data-wizard="${this.name}"]`)
+        if (pages instanceof NodeList) {
+            return Array.from(pages);
+        } else { // we got only a single element and convert it to an array!
+            let arrPages = [];
+            arrPages.push(pages);
+            return arrPages; 
+        }
+    }    
     #arrButtons = [];
     get buttons() { return this.#arrButtons; }
     set buttons(arr) { this.#arrButtons = arr; }
@@ -24,25 +44,22 @@ class Wizard {
         this.#setButtonState();
     }   
     caption = '';
+    action = 'send'; // save
 
-
-    constructor(parentID, href) {
-        if (typeof parentID == 'string') {
-            this.parentForm = $(parentID);
-        } else if (typeof parentID == 'object') {
-            this.parentForm = parentID;
-        }   
+    constructor(form, href, name) {
+        this.form = form;
         this.location = href;
+        this.name = name ? name : null;
     }
 
     remove() {
-        this.parentForm.removeChild($(this.ID));
+        this.form.removeChild($(this.ID));
     }   
 
     add(titleElement, caption = '') {
         this.title = titleElement;
         this.caption = caption;
-        this.#updateCaption();
+        this.#updateCaption();        
         this.#renderButtons();
         // now we add the event-listeners!
         this.buttons = Array.from($('img[data-wizard-button]'));
@@ -56,10 +73,15 @@ class Wizard {
 
     #switchPage(event, $this) {
         if (event.target.hasAttribute('disabled')) return;
-        const buttons = $this.#arrButtons,
-              step = parseInt(event.target.alt);     
-        $this.#setButtonState();        
-        if (step == SEND) $this.#submitForm();
+        const step = parseInt(event.target.alt);     
+        $this.#setButtonState();
+        // raise custom event:
+        if (step == SEND) document.dispatchEvent(new CustomEvent('onwizard', {
+            detail: {
+                action: this.action,
+                source: this
+            }}
+        ));
         if (step > 1) return;
         $this.#updatePage(step);
         $this.#displayWizardPage($this.#page)
@@ -114,16 +136,18 @@ class Wizard {
         this.title.innerHTML = this.caption + ' ' + (this.#page + 1) + '/' + (this.lastPage + 1);
     }
 
-    #submitForm() {
-        this.parentForm.submit(); // Submit the form. Preferably do server side validation!
-        // Simulate HTTP redirect and avoid back button issues.
-        // this is better than: window.location.href("destination.html"); 
-         window.location.replace(this.location);
+    submitForm(form = this.form) {
+        if (form && typeof form == 'object') {
+            form.submit(); // Submit the form. Preferably do server side validation!
+            // Simulate HTTP redirect and avoid back button issues.
+            // this is better than: window.location.href("destination.html"); 
+            window.location.replace(this.location);
+        }
     }
 
     // HOME = 0, PREV = 1, CAM  = 2, INFO = 3, NEXT = 4, SEND = 5
     #renderButtons() {
-        this.parentForm.innerHTML += `
+        this.form.innerHTML += `
         <div id="${this.ID}" class="wizard-bar">
             <div>
                 <img class="icon-button" data-wizard-button src="./img/first512.png" alt="${HOME}" disabled>
@@ -132,7 +156,7 @@ class Wizard {
             <img class="icon-button" data-wizard-button src="./img/camera512.png" alt="${CAM}">    
             <img class="icon-button" data-wizard-button src="./img/info512.png" alt="${INFO}">
             <img class="icon-button" data-wizard-button src="./img/next512.png" alt="1">
-            <img class="icon-button hidden" data-wizard-button src="./img/send512.png" alt="${SEND}">
+            <img class="icon-button hidden" data-wizard-button src="./img/${this.action}512.png" alt="${SEND}">
         </div>`;
     }
 }

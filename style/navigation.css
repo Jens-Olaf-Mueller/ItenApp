@@ -150,6 +150,10 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
         min-height: unset;
     } */
 
+    .desk_li {
+        display: none;
+    }
+
     .expandable_li {
         display: block;
     }

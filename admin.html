@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StundenApp - Administrator</title>
+
+
+    <link rel="stylesheet" href="./style/navigation.css">
+    <link rel="stylesheet" href="./style/iten.css">
+    <link rel="stylesheet" href="./style/forms.css">
+    <link rel="stylesheet" href="./style/new_form.css">
+    
+    <script src="./js/library.js"></script>
+    <script src="./js/classes/settings.class.js"></script>
+    <script src="./js/classes/color.class.js"></script>
+    <script src="./js/classes/site.class.js"></script>
+    <script src="./js/classes/messagebox.class.js"></script>
+    <script src="./js/const.js"></script>
+
+    <script defer src="./js/classes/wizard.class.js"></script>
+    <script defer src="./js/main.js"></script>
+    <script defer src="./js/admin.js"></script>
+
+</head>
+<body>
+    <header w3-include-html="templates/header.html"></header>
+
+    <form id="frmLogin" class="frm-login">
+        <fieldset> <legend>  Administrator-Login  </legend>
+            <div data-control="textbox">
+                <label for="txtLoginUsername">Benutzername</label>
+                <input id="inpUsername" type="text" name="txtLoginUsername">            
+            </div>
+            <div data-control="textbox">
+                <label for="txtLoginPassword">Passwort</label>
+                <input id="inpPassword" type="password" name="txtLoginPassword" minlenght="8">            
+            </div>
+            <div class="wiz-buttons">
+                <button id="btnLogin" type="button">Login</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <form id="frmSites" class="admin">
+        <div>
+            <fieldset> <legend>  Neue Baustelle  </legend>
+                <div data-control="counter">
+                    <label for="txtProjectID">Projekt-Nr. / ID</label>
+                    <input id="inpProjectYear" type="number" name="txtProjectYear" disabled>-         
+                    <input type="number" name="txtProjectID" pattern="[0-9]{3}" >           
+                </div>
+
+                <div data-control="textbox">
+                    <label for="txtProjectDescription">Beschreibung</label>
+                    <input type="text" name="txtProjectDescription">            
+                </div>
+                <div data-control="numeric">
+                    <label for="txtProjectStreet">Strasse, Nr.</label>
+                    <input type="text" name="txtProjectStreet">
+                    <input type="number" name="txtProjectHomeNumber">
+                </div>
+
+                <div data-control="numeric">
+                    <label for="txtProjectZipCode">PLZ, Ort</label>
+                    <input type="number" name="txtProjectZipCode">
+                    <input type="text" name="txtProjectLocation">
+                </div>
+
+                <div data-control="date">
+                    <label for="dtProjectStart">Beginn</label>
+                    <input type="date" name="dtProjectStart">
+                </div>
+
+                <div data-control>
+                    <label>Status</label>
+                    <div data-control="radio">
+                        <input type="radio" name="siteStatus" value="pendent" checked>
+                        <label for="siteStatus" class="lbl-autosize">pendent</label>
+                    </div>
+                    <div data-control="radio">
+                        <input type="radio" name="siteStatus" value="active">
+                        <label for="siteStatus" class="lbl-autosize">aktiv</label>
+                    </div>
+                    <div data-control="radio">
+                        <input type="radio" name="siteStatus" value="closed">
+                        <label for="siteStatus" class="lbl-autosize">abgeschlossen</label>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset> <legend>  Bauherrschaft  </legend>
+                <div data-control="dropbox">
+                    <label for="selSalutation">Anrede</label>
+                    <select name="selSalutation">
+                        <option value="false" selected>-- bitte wählen --</option>
+                        <option value="Frau">Frau</option>
+                        <option value="Herr">Herr</option>                    
+                        <option value="Familie">Familie</option>
+                        <option value="Bauherrschaft">Bauherrschaft</option>
+                        <option value="Firma">Firma</option>
+                    </select>
+                </div>
+
+                <div data-control="textbox">
+                    <label for="txtClientSurname">Nachname</label>
+                    <input type="text" name="txtClientSurname">            
+                </div>
+
+                <div data-control="textbox">
+                    <label for="txtClientFirstname">Vorname(n)</label>
+                    <input type="text" name="txtClientFirstname">            
+                </div>
+
+                <div data-control="textbox">
+                    <label for="txtClientMail">Email</label>
+                    <input type="email" name="txtClientMail">            
+                </div>
+
+                <div data-control="phone">
+                    <label for="numClientPhone">Telefon</label>
+                    <input type="number" name="numClientAreaCode" pattern="[0-9]{3}">-       
+                    <input type="number" name="numClientPhone" pattern="[0-9]{7}">           
+                </div>
+
+                <div data-control="phone">
+                    <label for="numClientMobile">Mobil</label>
+                    <input type="number" name="numClientMobileCode" pattern="[0-9]{3}">-       
+                    <input type="number" name="numClientMobile" pattern="[0-9]{7}">           
+                </div>
+            </fieldset>
+        </div>
+
+        <fieldset> <legend>  Bauleitung / Architekt  </legend>
+            <div data-control="dropbox">
+                <label for="selSalutationArchitect">Anrede</label>
+                <select name="selSalutationArchitect">
+                    <option value="false" selected>-- bitte wählen --</option>
+                    <option value="Frau">Frau</option>
+                    <option value="Herr">Herr</option>
+                    <option value="Firma">Firma</option>
+                </select>
+            </div>
+
+            <div data-control="textbox">
+                <label for="txtArchitectSurname">Nachname</label>
+                <input type="text" name="txtArchitectSurname">            
+            </div>
+
+            <div data-control="textbox">
+                <label for="txtArchitectFirstname">Vorname(n)</label>
+                <input type="text" name="txtArchitectFirstname">            
+            </div>
+
+            <div data-control="textbox">
+                <label for="txtArchitectMail">Email</label>
+                <input type="email" name="txtArchitectMail">            
+            </div>
+
+            <div data-control="phone">
+                <label for="numArchitectPhone">Telefon</label>
+                <input type="number" name="numArchitectAreaCode" pattern="[0-9]{3}">-       
+                <input type="number" name="numArchitectPhone" pattern="[0-9]{7}">           
+            </div>
+            
+            <div data-control="phone">
+                <label for="numArchitectMobile">Mobil</label>
+                <input type="number" name="numArchitectMobileCode" pattern="[0-9]{3}">-       
+                <input type="number" name="numArchitectMobile" pattern="[0-9]{7}">           
+            </div>
+            <hr>
+            <div class="wiz-buttons">
+                <button id="btnSaveSite" type="button">Speichern</button>
+                <button id="btnCancelSite" type="button">Abbrechen</button>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

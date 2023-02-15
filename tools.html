@@ -21,6 +21,7 @@
     <script defer src="./js/classes/surface.class.js"></script>
     <script defer src="./js/classes/wizard.class.js"></script>    
     <script defer src="./js/classes/material.class.js"></script>
+    <!-- <script defer src="./js/settings.js"></script> -->
     <script defer src="./js/main.js"></script>
     <script defer src="./js/tools.js"></script>
     <script defer src="./js/tools_material.js"></script>
@@ -29,60 +30,57 @@
 
 <body>
     <header w3-include-html="templates/header.html"></header>
-    <!------  M A T E R I A L  ----->
-    <form id="frmMaterial" class="forms hidden" w3-include-html="templates/tools/material_calc.html" method="get" autocomplete="off" onsubmit="return false">
-    </form>
+    <!------  M A T E R I A L R E C H N E R ----->
+    <form id="frmMaterial" w3-include-html="templates/tools/material_calc.html"></form>
 
     <!------  A U F M A S S  ----->
-    <form id="frmMeasure" class="forms hidden" method="get" autocomplete="off" onsubmit="return false">
-
-        <div class="wizard" data-concerned="floor wall stairs" data-name="start"
+    <form id="frmMeasure">
+        <div class="wizard" data-wizard="survey" data-concerned="floor wall stairs" data-name="start"
         w3-include-html="templates/tools/survey/start.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall stairs" data-name="install"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="install"
         w3-include-html="templates/tools/survey/install.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall" data-name="surface"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="surface"
         w3-include-html="templates/tools/survey/surface.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall stairs" data-name="groundwork"          w3-include-html="templates\tools\survey\groundwork.html">
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="groundwork"       w3-include-html="templates\tools\survey\groundwork.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall" data-name="cuts"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="cuts"
         w3-include-html="templates/tools/survey/cuts.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="stairs" data-name="stairs"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="stairs" data-name="stairs"
         w3-include-html="templates/tools/survey/stairs.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall stairs" data-name="edges"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="edges"
         w3-include-html="templates/tools/survey/edges.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall" data-name="holes"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="holes"
         w3-include-html="templates/tools/survey/holes.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall" data-name="tapes"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="tapes"
         w3-include-html="templates/tools/survey/tapes.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor stairs" data-name="socket"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor stairs" data-name="socket"
         w3-include-html="templates/tools/survey/sockets.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall stairs" data-name="silicone"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="silicone"
         w3-include-html="templates/tools/survey/silicone.html">
         </div>
 
-        <div class="wizard hidden" data-concerned="floor wall stairs" data-name="notes"
+        <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="notes"
         w3-include-html="templates/tools/survey/notes.html">
         </div>
-
         <hr>
     </form>
 </body>

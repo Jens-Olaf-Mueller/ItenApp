@@ -1,0 +1,75 @@
+<fieldset> <legend>  Arbeitszeiten  </legend>
+    <div class="flx-evn">
+        <div class="checkbox">
+            <input id="radSummerTime" type="radio" name="summerTime">
+            <label for="radSummerTime">Sommerzeit</label>                
+        </div>
+
+        <div class="checkbox">
+            <input id="radWinterTime" type="radio" name="summerTime">
+            <label for="radWinterTime">Winterzeit</label>                
+        </div>                
+    </div> <hr>
+
+    <div class="control inline flx-btw">
+        <label for="inpStartWork">Arbeitsbeginn</label>
+        <span><input id="inpStartWork" type="time" name="workFrom" value="07:00" >   Uhr</span>
+    </div>
+
+    <div class="control inline flx-btw">
+        <label for="inpEndWork">Feierabend</label>
+        <span><input id="inpEndWork" type="time" name="workUntil" value="17:00" >   Uhr</span>                
+    </div>
+
+    <div class="control counter flx-btw">
+        <label for="inpBreakfast">Frühstück (Z'nüni)</label>
+        <span><input id="inpBreakfast" type="number" name="breakfast" max="30" step="15">   min</span>
+    </div>
+
+    <div class="control counter flx-btw">
+        <label for="inpLunch">Mittag</label>
+        <span><input id="inpLunch" type="number" name="lunch" max="120" step="15">   min</span>
+    </div> 
+    <hr>
+
+    <div class="switchbox counter flx-btw">
+        <input type="checkbox" checked disabled>
+        <label for="inp0" class="short" >Montag</label>
+        <input id="inp0" type="number" name="weekdays" min="1" max="16" step="0.50"> Std
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <input type="checkbox" checked disabled>
+        <label for="inp1" class="short" >Dienstag</label>
+        <input id="inp1" type="number" name="weekdays" min="1" max="16" step="0.50"> Std
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <input type="checkbox" checked disabled>
+        <label for="inp2" class="short" >Mittwoch</label>
+        <input id="inp2" type="number" name="weekdays" min="1" max="16" step="0.50"> Std
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <input type="checkbox" checked disabled>
+        <label for="inp3" class="short" >Donnerstag</label>
+        <input id="inp3" type="number" name="weekdays" min="1" max="16" step="0.50"> Std
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <input type="checkbox" checked disabled>
+        <label for="inp4" class="short" >Freitag</label>
+        <input id="inp4" type="number" name="weekdays" min="1" max="16" step="0.50"> Std
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <input id="chkSaturday" type="checkbox" name="saturday" data-buddy="inpSaturday">
+        <label for="chkSaturday" class="short" >Samstag</label>
+        <input id="inpSaturday" type="number" name="weekdays" min="1" max="8" step="0.50" disabled> Std
+    </div> <hr>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpHoursWeekly">Wochenstunden</label>
+        <span><input id="inpHoursWeekly" class="computed" type="number" name="weeklyhours" disabled>   Std</span>                
+    </div>
+</fieldset>

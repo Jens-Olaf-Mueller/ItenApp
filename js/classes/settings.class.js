@@ -1,5 +1,6 @@
 class Settings {
     setupDone = false;
+    get properties() { return Object.keys(this) }
     #form = null;
     get form() { return this.#form }
     set form(frm) { 
@@ -15,13 +16,16 @@ class Settings {
     get key() { return this.#lsKey }
     set key(value) { this.#lsKey = value }
     language = 0;
-    surname = 'Müller';
-    firstname = 'Olaf';
-    location = 'Cham';
-    // birthday = null;
-    birthday = '1970-01-06'; // yyyy-mm-dd
-    email = 'jens.olaf.mueller@gmail.com';
-    usePrevDayData = true;
+    surname = '';
+    firstname = '';
+    get fullname() { 
+        let name = this.surname + ', ' + this.firstname;
+        return name == ', ' ? '' : name;
+    }
+    location = '';
+    birthday = null; // yyyy-mm-dd
+    email = '';
+    copyPreviousDay = true;
     showDriveBox = false;
     showSiteID = false;
     maxSitesPerDay = 4;
@@ -29,72 +33,146 @@ class Settings {
     validateHours = true;
     alertHours = 12;
     summerTime = true;
-    workTime = [{from: '07:30', until: '17:00'}, {from: '07:00', until: '17:00'}];
-    breaks = {breakfast: 30, lunch: 60};
-    // daily = {mon: 8.5, tue: 8.5, wed: 8.5, thur: 8.5, fri: 7, sat: 0};
-    daily = [8.5, 8.5, 8.5, 8.5, 7, 0];
+    workFrom = '07:00';
+    workUntil = '17:00';
+    breakfast = 30;
+    lunch = 60;
+    defaultlength = 600;
+    defaultwidth = 300;
+    saturday = false;
+    weekdays = [8.5, 8.5, 8.5, 8.5, 7, 0]; // worktime for monday, tuesday, wednesday... etc.
     get weeklyHours() {
         let hrs = 0;
-        for (let i = 0; i < this.daily.length; i++) { hrs += this.daily[i]; }
+        for (let i = 0; i < this.weekdays.length; i++) { hrs += +this.weekdays[i]; }
         return hrs;
     }
 
 
     constructor(key, form) {
-        if (key !== undefined) this.key = key;
+        if (key) this.key = key;
         this.form = form;
-
         this.load();
-        // if (this.setupDone) this.storeToForm();
     }
 
     load(key) {
         if (key === undefined) key = this.key;
-        const ls = localStorage.getItem(key);
-        let tmpSettings = ls ? JSON.parse(ls) : null;
-        if (tmpSettings) {
-            console.log(tmpSettings)
-            this.displaySettings();
+        const ls = localStorage.getItem(key), settings = [];
+        let jsonSettings = ls ? JSON.parse(ls) : null;
+        // convert json-file into a settings-object
+        if (jsonSettings) {
+            for (const [key, value] of Object.entries(jsonSettings)) { 
+                let obj = {};
+                obj[key] = value;
+                settings.push(obj); 
+            } 
+            this.#assignProperties(settings);
         } else {
             console.warn('Settings could not be loaded! Using default settings...');
-            this.displaySettings();
+            this.#assignProperties(DEFAULT_SETTINGS);
         }
     }
 
     save(key = this.key) {
-        // localStorage.setItem(key, JSON.stringify(gameSettings));
+        this.setupDone = this.#validateInputs();
+        let pbBag = this.#applyChanges(); 
+        pbBag.key = key;
+        localStorage.setItem(key, JSON.stringify(pbBag));
+        if (this.form) this.form.submit();
     }
 
-    displaySettings() {
-        if (this.form == null) return;
-        const frmElements = Array.from(this.form.elements);
-        frmElements.forEach(elm => {
-            if (elm.id == 'inpSurname') elm.value = this.surname;
-            if (elm.id == 'inpFirstName') elm.value = this.firstname;
-            if (elm.id == 'inpMail') elm.value = this.email;
-            if (elm.id == 'inpLocation') elm.value = this.location;
-            if (elm.id == 'inpBirthday') elm.value = this.birthday;
+    #validateInputs() {
+        return true;
+    }
 
-            if (elm.id == 'chkUsePreviousDayData') elm.checked = this.usePrevDayData;
-            if (elm.id == 'chkShowDriveBox') elm.checked = this.showDriveBox;            
-            if (elm.id == 'chkShowSiteID') elm.checked = this.showSiteID;
-            if (elm.id == 'inpMaxSitesPerDay') elm.value = this.maxSitesPerDay;
-            if (elm.id == 'inpSitesActiveFor') elm.value = this.sitesActiveFor;
-            if (elm.id == 'chkValidateHours') elm.checked = this.validateHours;
-            if (elm.id == 'inpValidateHours') elm.value = this.alertHours;
+    #applyChanges() {
+        let entries = this.#readFormData();
+        for (const prop of this.properties) {  
+            const value = entries[prop];          
+            if (value != undefined) {       
+                this[prop] = (value === 'on') ? true : value;
+            } 
+        }
+        return {...this}; // create a property object!
+    }
 
-            if (elm.id == 'radSummerTime') elm.checked = this.summerTime;
-            if (elm.id == 'radWinterTime') elm.checked = !this.summerTime;
-            if (elm.id == 'inpStartWork') elm.value = this.summerTime ? this.workTime[1].from : this.workTime[0].from;
-            if (elm.id == 'inpEndWork') elm.value = this.summerTime ? this.workTime[1].until : this.workTime[0].until;
-            if (elm.id == 'inpBreakfast') elm.value = this.breaks.breakfast;
-            if (elm.id == 'inpLunch') elm.value = this.breaks.lunch;
+    // https://stackabuse.com/convert-form-data-to-javascript-object/
+    #readFormData(form = this.form) {
+        const frmData = new FormData(form),
+              objFormData = Object.fromEntries(frmData.entries());
+        objFormData.weekdays = frmData.getAll('weekdays');
+        // handling the radio buttons separately!!! it sucks! :-(
+        objFormData.summerTime = Array.from($('[name="summerTime"]')).map(elm => {
+            return elm.checked;
+        });
+        // handling all named checkboxes to get also UNchecked boxes!
+        Array.from($('[type="checkbox"][name]')).map(box => {
+            objFormData[box.name] = box.checked;
+        });
+        return objFormData;
+    }
 
-            // if (elm.id == '') elm.value = this;
-            // if (elm.id == '') elm.value = this;
-            // if (elm.id == '') elm.value = this;
-            // if (elm.id == '') elm.value = this;
-            if (elm.id == 'inpHoursWeekly') elm.value = this.weeklyHours.toFixed(2);
-        });        
+    #assignProperties(settings = DEFAULT_SETTINGS) {
+        settings.forEach(setting => {
+            // assign the setting to the class property
+            for (const key in setting) {
+                if (setting.hasOwnProperty(key)) this[key] = setting[key];
+            }      
+        });
+        if (this.form) this.#displaySettings(settings);
+    }
+
+    // => https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_elements_nameditem
+    #displaySettings(settings) {  
+        const frmElements = this.form.elements;
+        settings.forEach(setting => {
+            for (const key in setting) {
+                if (setting.hasOwnProperty(key)) {
+                    const element = frmElements.namedItem(key), value = setting[key];
+                    if (element) {
+                        this.#assignValue(element, value);
+                    } else {
+                        this[key] = value; // assign the setting to the class itself!!!
+                    }                    
+                }
+            }      
+        });
+        frmElements.namedItem('weeklyhours').value = this.weeklyHours.toFixed(2);
+    }
+
+    #assignValue(control, value) {
+        if (control instanceof NodeList) {
+            for (let i = 0; i < control.length; i++) {
+                const ctr = control[i], val = value[i];
+                this.#assignValue(ctr, val); // recursive call
+            }
+        } else if (control.type == 'checkbox' || control.type == 'radio') {
+            control.checked = value;        
+        } else {
+            control.value = value == 0 ? '' : value;
+        }
     }
 }
+
+const DEFAULT_SETTINGS = [
+    {surname: ''},
+    {firstname: ''},
+    {location: ''},
+    {birthday: null},
+    {email: ''},
+    {copyPreviousDay: true},
+    {showDriveBox: false},
+    {showSiteID: false},
+    {maxSitesPerDay: 4},
+    {sitesActiveFor: 3},
+    {validateHours: true},
+    {alertHours: '12.00'},
+    {summerTime: [true, false]},
+    {workFrom: '07:00'},
+    {workUntil: '17:00'},
+    {breakfast: 30},
+    {lunch: 60},
+    {weekdays: ['8.50', '8.50', '8.50', '8.50', '7.00', 0]},
+    {saturday: false},
+    {defaultlength: 600},
+    {defaultwidth: 300}    
+];

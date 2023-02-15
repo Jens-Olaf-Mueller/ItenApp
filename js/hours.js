@@ -1,24 +1,35 @@
-const SITE_ID = $('divBVNumber'),
-      DRIVEBOX = $('fldDriveBox'),
-      HOURS_TODAY = $('inpHours'),
-      FROM = $('inpKommt'), UNTIL = $('inpGeht');
-
-const clsWizard = new Wizard('frmHours', href);
-
-FROM.addEventListener('change', calcHours);
-UNTIL.addEventListener('change', calcHours);
-UNTIL.addEventListener('change', calcHours);
+const FRM_HOURS = $('frmHours');
+const clsWizard = new Wizard(FRM_HOURS, href, 'hours');
 
 function initPageHours(caption) {
+    FRM_HOURS.classList.remove('hidden');
+    setEventListeners();    
     clsWizard.add($('.title'), caption);
-    if (SETTINGS.showSiteID) {
-        SITE_ID.classList.remove('hidden');
-    } else {
-        SITE_ID.classList.add('hidden');
-    }
-    DRIVEBOX.classList.toggle('hidden', !SETTINGS.showDriveBox);
+
+    // if (SETTINGS.showSiteID) {
+    //     $('divBVNumber').classList.remove('hidden');
+    // } else {
+    //     $('divBVNumber').classList.add('hidden');
+    // }
+
+    $('divBVNumber').classList.toggle('hidden', !SETTINGS.showSiteID);
+    $('fldDriveBox').classList.toggle('hidden', !SETTINGS.showDriveBox);
     $('inpCurrentDate').value = getCurrentDate();
-    HOURS_TODAY.innerHTML = calcHours(FROM.value, UNTIL.value) + ' Std.';
+    // $('inpHours').innerHTML = calcHours(FROM.value, UNTIL.value) + ' Std.';
+}
+
+function setEventListeners() {
+    document.addEventListener('onwizard', executeWizardEvent);
+    $('inpKommt').addEventListener('change', calcHours);
+    $('inpGeht').addEventListener('change', calcHours);
+}
+
+function executeWizardEvent(event) {
+    if (event.detail.action == 'send') {
+        clsWizard.submitForm();
+    } else if (event.detail.action == 'save') {
+        SETTINGS.save();
+    }
 }
 
 function calcHours(from, until, outputID = 'inpHours') {
