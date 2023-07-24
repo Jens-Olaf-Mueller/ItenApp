@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StundenApp - Administrator</title>
+    <title>StundenApp - Baustelle...</title>
 
 
     <link rel="stylesheet" href="./style/navigation.css">
@@ -15,6 +15,7 @@
     <script src="./js/library.js"></script>
     <script src="./js/classes/settings.class.js"></script>
     <script src="./js/classes/color.class.js"></script>
+    <script src="./js/classes/library.class.js"></script>
     <script src="./js/classes/site.class.js"></script>
     <script src="./js/classes/messagebox.class.js"></script>
     <script src="./js/const.js"></script>
@@ -26,22 +27,6 @@
 </head>
 <body>
     <header w3-include-html="templates/header.html"></header>
-
-    <form id="frmLogin" class="frm-login">
-        <fieldset> <legend>  Administrator-Login  </legend>
-            <div data-control="textbox">
-                <label for="txtLoginUsername">Benutzername</label>
-                <input id="inpUsername" type="text" name="txtLoginUsername" value="Olaf">            
-            </div>
-            <div data-control="textbox">
-                <label for="txtLoginPassword">Passwort</label>
-                <input id="inpPassword" type="password" name="txtLoginPassword" minlenght="8" value="Iten">            
-            </div>
-            <div class="wiz-buttons">
-                <button id="btnLogin" type="button" class="desk">Login</button>
-            </div>
-        </fieldset>
-    </form>
 
     <form id="frmSites" class="grid">
         <div class="left-column">
@@ -77,22 +62,6 @@
                     <label for="dtProjectStart">Beginn</label>
                     <input type="date" name="dtProjectStart">
                 </div>
-
-                <!-- <div data-control>
-                    <label>Status</label>
-                    <div data-control="radio">
-                        <input type="radio" name="siteStatus" value="pendent" checked>
-                        <label for="siteStatus" class="lbl-autosize">pendent</label>
-                    </div>
-                    <div data-control="radio">
-                        <input type="radio" name="siteStatus" value="active">
-                        <label for="siteStatus" class="lbl-autosize">aktiv</label>
-                    </div>
-                    <div data-control="radio">
-                        <input type="radio" name="siteStatus" value="closed">
-                        <label for="siteStatus" class="lbl-autosize">abgeschlossen</label>
-                    </div>
-                </div> -->
             </fieldset>
 
             <fieldset> <legend>  Bauherrschaft  </legend>

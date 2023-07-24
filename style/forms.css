@@ -12,7 +12,7 @@
 /* formular style */
 form {
     width: 75%;
-    height: calc(100vh - var(--navbar-height) - 0.5rem);  
+    height: calc(100vh - var(--navbar-height) - 1.5rem);  
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -25,7 +25,7 @@ form.frm-login {
     height: 16rem;
 }
 
-form.admin {
+form.grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -51,9 +51,8 @@ legend {
     width: 100%;
 }
 
-button {
+button.desk {
     padding: 0.5rem;
-    font-size: 1.2rem;
     background-color: var(--theme-color);
     color: whitesmoke;
     border: none;
@@ -61,19 +60,26 @@ button {
     cursor: pointer;
 }
 
-.button-bar button, .wiz-buttons button {
-    width: 8.5rem;
+.button-bar button, 
+.wiz-buttons button {
+    min-width: 8.5rem;
+    width: 10rem;
+    border: none;
+    outline: none;
 }
 
 .wiz-buttons #btnHome {
     width: 2rem;
     font-weight: bolder;
-    /* font-size: 1.75rem; */
 }
 
-button:hover {
+button.desk:hover, button.desk:focus {
     background-color: dodgerblue;
     color: var(--theme-color);
+}
+
+button.desk:focus {
+    box-shadow: inset 0 0 0 2px;
 }
 
 input, textarea, select {
@@ -97,6 +103,10 @@ textarea {
 
 textarea[name="regie"] {
     max-height: 20rem;
+}
+
+textarea.txt-fixed {
+    resize: none;
 }
 
 /***********************************/
@@ -124,6 +134,7 @@ textarea[name="regie"] {
 
 .control input[type="date"] {
     max-width: 10rem;
+    text-align: center;
 }
 
 .control input[type="time"] {
@@ -135,6 +146,12 @@ textarea[name="regie"] {
 }
 .long {
     width: 100%;
+}
+
+.input-error {
+    background-color: lightsalmon !important;
+    color: red;
+    border: 1px solid red !important;
 }
 
 /*#######################################*/
@@ -209,7 +226,8 @@ select[disabled]~ .dropdown-arrow {
 
 input[disabled] {
     background-color: #ddd;
-    border: 1px solid #888 !important;
+    border: 1px solid #888;
+    /* border: 1px solid #888 !important; */
 }
 
 /*##################################*/
@@ -244,13 +262,11 @@ input[disabled] {
 
 .wizard-bar {
     position: absolute;
-    bottom: 0;
-    /* left: 0; */
+    bottom: 0.75rem;
     width: 72%;
     display: flex;
     justify-content: space-between;
-    margin: 1rem 1rem 1rem 0;
-    padding: 0 1rem;
+    padding: 0.75rem;
 }
 
 .btn-spin {
@@ -270,10 +286,19 @@ input[disabled] {
 }
 
 .computed[disabled] {
-    background-color: var(--autocalc-bg-color) !important;
-    border: 1px solid navy !important;
+    background-color: var(--autocalc-bg-color);
+    /* background-color: var(--autocalc-bg-color) !important; */
+    /* border: 1px solid navy !important; */
+    border: 1px solid navy;
     font-weight: bold;
     filter: grayscale(0);
+}
+
+.icon-small {
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
 }
 
 /*#######################################*/
@@ -333,9 +358,16 @@ input[disabled] {
     filter: brightness(1.2);
 }
 
-.icon-button[disabled] {
+.icon-button[disabled], button[disabled] {
     filter: contrast(0.15) grayscale(1);
 }
+
+button[disabled]:hover {
+    color: #999;
+    background-color: dodgerblue;
+    filter: grayscale(1);
+}
+
 
 /* ########################################################################################## */
 /* ####                               R E S P O N S I V E                                 ### */
@@ -373,6 +405,7 @@ input[disabled] {
 
     .wizard-bar {
         left: 0;
+        bottom: 0;
         width: 100%;
     }
 }

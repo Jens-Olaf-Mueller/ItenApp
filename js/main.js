@@ -1,83 +1,43 @@
+import $ from './library.js';
+
 /**
- * creates constants containing informations about the current page
+ * Renders all tiles on the home-screen for quick launch access.
+ * @param {object} tiles from settings to be rendered
  */
-const {host, hostname, href, origin, pathname, port, protocol, search} = window.location;
-const queryString = search.substring(1);
-// const msgBox = new MessageBox('../style/msgbox.css');
-window.addEventListener('DOMContentLoaded', runApp);
-
-// /**
-//  * extends the Math-Object by a special round-function that allows to
-//  * round a given number toa given amount of decimal digits
-//  * @param {number} number numeric expression
-//  * @param {number} decimals count of decimal digits
-//  * @returns the rounded number with assignet decimal digits
-//  */
-// Math.roundDec = function(number, decimals = 0) {
-//     const dec = decimals * 10;
-//     if (dec == 0) return Math.round(number + Number.EPSILON);
-//     return Math.round((number + Number.EPSILON) * dec) / dec;
-// }
-
-async function runApp() {
-    await includeHTML();
-    SETTINGS.load();
-    setFormAttributes();
-    if (href.includes('hours')) initPageHours('Stunden');
-    if (href.includes('tools')) initTools(queryString);
-    if (href.includes('settings')) initSettings('Einstellungen');
-    if (href.includes('report')) initReports(queryString);
-    if (href.includes('admin')) initAdmin(queryString);
-    if (href.includes('calculator')) $('.title').innerHTML = 'Taschenrechner';
-    setCheckboxBuddies();
-    setCheckboxBuddies('off'); // for those who switch corresponding controls off!
-    setInputAutoSelection();
-    
-    // const box = new MessageBox('../style/msgbox.css');
-    // msgBox.gradient = false;
-    // box.gradientColorFrom = 'whitesmoke';
-    // box.gradientColorTo = 'yellow';
-    // msgBox.backGroundColor = 'purple';
-    // msgBox.borderRadius = '8px'
-    // msgBox.buttonColor = 'firebrick'
-    // let answer = await msgBox.show('Datei wirklich löschen?   ','Bitte bestätigen!',' Abbrechen, OK, Wiederholen ');
-    // console.log(answer)
-    // msgBox.gradient = true;
-    // if (answer == 'Wiederholen') console.log( await msgBox.show('Hallo Welt! <br> Ich bin modeless...', '' ,null, false))
-}
-
-function setFormAttributes() {
-    const forms = $('form');
-    if (forms == null) return;
-    let arrForms = [];
-    if (forms instanceof NodeList || forms instanceof HTMLCollection) {
-        arrForms = Array.from(forms);
-    } else {
-        arrForms.push(forms);
+function renderLaunchPad(tiles) {
+    const board = $('divTiles');
+    board.innerHTML = '';
+    for (let i = 0; i < tiles.length; i++) {
+        const values = tiles[i].split('|'),
+              path = values[0], link = values[1], caption = values[2];
+        board.innerHTML += `
+            <a href="${link}">
+                <figure class="tiles">
+                    <img src="./img/${path}" width="100%">
+                    <figcaption>${caption}</figcaption>
+                </figure>
+            </a>`;
     }
-    arrForms.forEach(frm => {
-        frm.classList.add('forms', 'hidden');
-        frm.setAttribute('method','get');
-        frm.setAttribute('autocomplete','off');
-        frm.setAttribute('onsubmit','return false');
-    });
 }
+
 
 function setInputAutoSelection() {
     const txtBoxes = Array.from($('input[type="text"], [type="number"]'));
     txtBoxes.forEach(txt => {
         txt.addEventListener('click', function() {
             this.select();
-        })
+        });
     });
 }
 
-
+/**
+ * Installs event listeners to checkboxes switching corresponding input fields on or off.
+ * @param {string} off empty string or 'off'
+ */
 function setCheckboxBuddies(off = '') {
     let tmpBoxes = $(`input[data-buddy${off}]`);
     if (tmpBoxes instanceof NodeList) {
-        const checkBoxes = Array.from(tmpBoxes);
-        checkBoxes.forEach(chk => {
+        Array.from(tmpBoxes).forEach(chk => {
             chk.addEventListener('click', switchBuddy);
         });
     } else { 
@@ -120,7 +80,7 @@ function dateAdd(date, days) {
     // return endDate;
   }
 
-function getCurrentDate(date = new Date()) {
+function formatDate(date = new Date()) {
     return [
         date.getFullYear(),
         padTo2Digits(date.getMonth() + 1),
@@ -148,10 +108,17 @@ function firstDayOfWeek(date, firstDayOfWeek = 1) {
         diff = dayOfWeek >= firstDayOfWeek ? dayOfWeek - firstDayOfWeek : 6 - dayOfWeek;
     mondayOfWeek.setDate(date.getDate() - diff)
     mondayOfWeek.setHours(0,0,0,0)
-    return getCurrentDate(mondayOfWeek);
+    return formatDate(mondayOfWeek);
 }
 
 
 function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
 }
+
+function formatField(field, digits = 2) {
+    const input = (field instanceof Event) ? field.target : $(field);
+    input.value = Number(input.value).toFixed(digits);
+}
+
+export { renderLaunchPad, setCheckboxBuddies, setInputAutoSelection, formatField, formatDate };

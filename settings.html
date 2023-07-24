@@ -6,17 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenApp - Einstellungen</title>
 
-    <link rel="stylesheet" href="./style/navigation.css">   
     <link rel="stylesheet" href="./style/iten.css">
+    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/forms.css">
 
-    <script src="./js/library.js"></script>
-    <script src="./js/classes/settings.class.js"></script>
-    <script src="./js/const.js"></script>
-
-    <script defer src="./js/classes/wizard.class.js"></script>
-    <script defer src="./js/main.js"></script>
-    <script defer src="./js/settings.js"></script>
+    <script defer src="./js/app.js" type="module"></script>
+    <!-- https://github.com/szimek/signature_pad -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 </head>
 
 <body>
@@ -24,19 +20,27 @@
 
     <form id="frmSettings">
         <div class="wizard" data-wizard="settings" data-name="Persönliche Daten" 
-        w3-include-html="templates/settings/_personal.html">
+             w3-include-html="templates/settings/_personal.html">
         </div>
 
         <div class="wizard hidden" data-wizard="settings" data-name="Stundenerfassung" 
-        w3-include-html="templates/settings/_hours.html">
+             w3-include-html="templates/settings/_hours.html">
         </div>
 
         <div class="wizard hidden" data-wizard="settings" data-name="Arbeitszeiten"
-        w3-include-html="templates/settings/_time.html">
+             w3-include-html="templates/settings/_time.html">
         </div>
 
-        <div class="wizard hidden" data-wizard="settings" data-name="Defaultwerte" 
-        w3-include-html="templates/settings/_defaults.html">
+        <div class="wizard hidden" data-wizard="settings" data-name="Programmeinstellungen" 
+             w3-include-html="templates/settings/_homescreen.html">
+        </div>
+
+        <div class="wizard hidden" data-wizard="settings" data-name="Taschenrechner" 
+            w3-include-html="templates/settings/_calculator.html">
+        </div>
+
+        <div class="wizard hidden" data-wizard="settings" data-name="Materialrechner" 
+            w3-include-html="templates/settings/_material.html">
         </div>
         <hr>
     </form>    

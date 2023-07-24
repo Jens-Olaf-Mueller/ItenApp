@@ -1,53 +1,69 @@
-const FRM_HOURS = $('frmHours');
-const clsWizard = new Wizard(FRM_HOURS, href, 'hours');
+'use strict';
+import $ from './library.js';
+import { SETTINGS } from './app.js';
+import { formatDate, formatField } from './main.js';
+import { FormHandler } from './classes/library_class.js';
+import { Wizard } from './classes/wizard_class.js';
+
+const clsWizard = new Wizard('frmHours', 'hours'),
+      frmHOURS = new FormHandler('frmHours');
 
 function initPageHours(caption) {
-    FRM_HOURS.classList.remove('hidden');
-    setEventListeners();    
-    clsWizard.add($('.title'), caption);
-
-    // if (SETTINGS.showSiteID) {
-    //     $('divBVNumber').classList.remove('hidden');
-    // } else {
-    //     $('divBVNumber').classList.add('hidden');
-    // }
-
-    $('divBVNumber').classList.toggle('hidden', !SETTINGS.showSiteID);
-    $('fldDriveBox').classList.toggle('hidden', !SETTINGS.showDriveBox);
-    $('inpCurrentDate').value = getCurrentDate();
-    // $('inpHours').innerHTML = calcHours(FROM.value, UNTIL.value) + ' Std.';
+    frmHOURS.show();
+    clsWizard.add($('h3Title'), caption);
+    loadDefaultSettings();       
+    // set event listeners at the end!!!
+    frmHOURS.addEvents(
+        {element: 'inpKommt', event: 'input', func: calcHours},
+        {element: 'inpGeht', event: 'input', func: calcHours},
+        {element: 'inpPause1', event: 'input', func: calcHours},
+        {element: 'inpPause2', event: 'input', func: calcHours},
+        {element: document, event: 'onwizard', func: executeWizardEvent}
+    );
 }
 
-function setEventListeners() {
-    document.addEventListener('onwizard', executeWizardEvent);
-    $('inpKommt').addEventListener('change', calcHours);
-    $('inpGeht').addEventListener('change', calcHours);
+/**
+ * Fills the form with the defaults from user settings or previous inputs
+ */
+function loadDefaultSettings() {
+    $('inpCurrentDate').value = formatDate();
+    $('inpKommt').value = SETTINGS.workFrom;
+    $('inpGeht').value = SETTINGS.workUntil;
+    $('inpPause1').value = SETTINGS.breakfast;
+    $('inpPause2').value = SETTINGS.lunch;
+    $('divBVNumber').classList.toggle('hidden', !SETTINGS.showSiteID);
+    $('fldDriveBox').classList.toggle('hidden', !SETTINGS.showDriveBox);
 }
 
 function executeWizardEvent(event) {
-    if (event.detail.action == 'send') {
-        clsWizard.submitForm();
-    } else if (event.detail.action == 'save') {
+    const wizAction = event.detail.action;
+    if (wizAction == 'send') {
+        const sender = event.detail.source;
+        sender.submitForm('index.html');
+    } else if (wizAction == 'save') {
         SETTINGS.save();
     }
 }
 
-function calcHours(from, until, outputID = 'inpHours') {
-    const secPerHour = 1000 * 60 * 60;
-    if (typeof(from) != 'string') from = FROM.value;
-    if (typeof(until) != 'string') until = UNTIL.value;
+function calcHours(event) {
+    // new Date(year value, IndexOfMonth, day value, hours, minutes, seconds)
+    const sender = event.target, output = $('inpHours'),
+          inpFrom = $('inpKommt').value.split(':').map(Number),
+          inpUntil = $('inpGeht').value.split(':').map(Number),
+          breakfast = Number($('inpPause1').value),
+          lunch = Number($('inpPause2').value),
+          dtFrom = new Date(2022, 0, 1, inpFrom[0], inpFrom[1]), 
+          dtUntil = new Date(2022, 0, 1, inpUntil[0], inpUntil[1]);
 
-    from = from.split(':');
-    until = until.split(':');
-    let startDate = new Date(0, 0, 0, from[0], from[1], 0),
-        endDate = new Date(0, 0, 0, until[0], until[1], 0),
-        diff = endDate.getTime() - startDate.getTime(),
-        hours = Math.floor(diff / secPerHour);
-    diff -= hours * secPerHour;
-    // debugger
-    let minutes = Math.floor(diff / 1000 / 60),
-        retVal = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
-    
-    if (outputID) $(outputID).value = retVal;
-    return retVal;
+    output.classList.remove('input-error');
+    if (this.hasAttribute('maxlength')) {
+        if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);
+    }
+
+    let hours = ((dtUntil.getTime() - dtFrom.getTime()) / 1000 / 60 - breakfast - lunch) / 60;
+    output.value = hours.toFixed(2);
+    if (hours < 0) output.classList.add('input-error');
+    return hours;
 }
+
+export { initPageHours };

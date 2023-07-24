@@ -1,0 +1,30 @@
+<fieldset class="flx-ccc"> <legend>  Tagesdaten  </legend>
+    <div class="control inline">
+        <button id="btnPrevDay" class="btn-spin desk" type="button"  value="-1">&#x2770</button>
+        <input id="inpCurrentDate" type="date">
+        <button id="btnNextDay" class="btn-spin desk" type="button" value="1">&#x2771</button>
+    </div>
+
+    <div class="flx-evn">
+        <div class="flx-col">
+            <div class="checkbox">
+                <input id="radWorkday" type="radio" checked name="daytype">
+                <label for="radWorkday">Werktag</label>                
+            </div>
+            <div class="checkbox">
+                <input id="radHoliday" type="radio" name="daytype" disabled>
+                <label for="radHoliday" disabled>Feiertag</label>                
+            </div>
+        </div>
+        <div class="flx-col">
+            <div class="checkbox">
+                <input id="radVacation" type="radio" name="daytype">
+                <label for="radVacation">Urlaubstag</label>                
+            </div>
+            <div class="checkbox">
+                <input id="radSickday" type="radio" name="daytype">
+                <label for="radSickday">Krank</label>                
+            </div>                    
+        </div>
+    </div>
+</fieldset>

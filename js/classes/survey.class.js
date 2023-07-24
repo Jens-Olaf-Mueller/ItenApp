@@ -24,3 +24,5 @@ class Survey {
         });
     }
 }
+
+export { Survey };

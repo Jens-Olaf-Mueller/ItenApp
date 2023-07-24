@@ -1,3 +1,13 @@
+'use strict';
+import $ from './library.js';
+import { SETTINGS } from './app.js';
+import { formatDate } from './main.js';
+import { Surface } from './classes/material_class.js';
+import { Wizard } from './classes/wizard_class.js';
+import { Survey } from './classes/survey.class.js';
+
+import { FormHandler } from './classes/library_class.js';
+
 let appTitle = '',
     btnAdd,
     tileComponents,
@@ -5,16 +15,22 @@ let appTitle = '',
     txtDescription,
     arrSurface = [],
     oSurface = new Surface();
+
+const FRM_MEASURE = $('frmMeasure');
     
-const clsWizard = new Wizard(FRM_MEASURE, href, 'survey'),
+const clsWizard = new Wizard(FRM_MEASURE, 'survey'),
       clsSurvey = new Survey(FRM_MEASURE);
 
 function initPageMeasure(caption) {
     appTitle = caption;
     document.addEventListener('onwizard', executeWizardEvent);
-    clsWizard.add($('.title'), caption);
-    $('inpCreatedAt').value = getCurrentDate();
-    $('inpCreatedBy').value = SETTINGS.fullname;
+    clsWizard.add($('h3Title'), caption);
+    $('inpCreatedAt').value = formatDate();
+
+    debugger
+    $('inpCreatedBy').value = SETTINGS.fullname || 'TODO: tools_measure.js.initPageMeasure()';
+
+    // $('[data-units="tiles"]').forEach(drop => loadDropDown(drop, UNITS.tiles));
     Array.from($('[data-autocalc="inpAreaResult"]')).forEach(fld => {
         fld.addEventListener('input', displaySurfaceArea);
     });
@@ -168,3 +184,5 @@ function enableElements(concerns) {
     }
      
 }
+
+export { initPageMeasure };

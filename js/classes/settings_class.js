@@ -1,56 +1,22 @@
-class Settings {
-    setupDone = false;
-    get properties() { return Object.keys(this) }
-    #form = null;
-    get form() { return this.#form }
-    set form(frm) { 
-        if (typeof frm == 'string') {
-            this.#form = document.getElementById(frm);
-        } else if (typeof frm == 'object') {
-            this.#form = frm;
-        } else {
-            this.#form = null;
-        }
-    }
-    #lsKey = APP_NAME;
+import {APP_NAME} from '../const.js';
+import $ from '../library.js';
+import {FormHandler, Address, CLASS_PROPERTIES} from './library_class.js';
+
+class Settings extends FormHandler {
+    #lsKey = null;
     get key() { return this.#lsKey }
-    set key(value) { this.#lsKey = value }
-    language = 0;
-    surname = '';
-    firstname = '';
-    get fullname() { 
-        let name = this.surname + ', ' + this.firstname;
-        return name == ', ' ? '' : name;
-    }
-    location = '';
-    birthday = null; // yyyy-mm-dd
-    email = '';
-    copyPreviousDay = true;
-    showDriveBox = false;
-    showSiteID = false;
-    maxSitesPerDay = 4;
-    sitesActiveFor = 3; // sites inactivated after xx months
-    validateHours = true;
-    alertHours = 12;
-    summerTime = true;
-    workFrom = '07:00';
-    workUntil = '17:00';
-    breakfast = 30;
-    lunch = 60;
-    defaultlength = 600;
-    defaultwidth = 300;
-    saturday = false;
-    weekdays = [8.5, 8.5, 8.5, 8.5, 7, 0]; // worktime for monday, tuesday, wednesday... etc.
+    set key(value = APP_NAME) { this.#lsKey = value }
+
     get weeklyHours() {
         let hrs = 0;
         for (let i = 0; i < this.weekdays.length; i++) { hrs += +this.weekdays[i]; }
         return hrs;
     }
 
-
     constructor(key, form) {
-        if (key) this.key = key;
-        this.form = form;
+        super(form, CLASS_PROPERTIES.settings);
+        this.key = key;
+        this.user = new Address();
         this.load();
     }
 
@@ -69,55 +35,66 @@ class Settings {
         } else {
             console.warn('Settings could not be loaded! Using default settings...');
             this.#assignProperties(DEFAULT_SETTINGS);
+            // this.#assignProperties(CLASS_PROPERTIES.settings);
         }
     }
 
     save(key = this.key) {
-        this.setupDone = this.#validateInputs();
-        let pbBag = this.#applyChanges(); 
+        this.setupDone = this.validate();
+        let pbBag = this.#applyChanges();         
         pbBag.key = key;
         localStorage.setItem(key, JSON.stringify(pbBag));
         if (this.form) this.form.submit();
     }
 
-    #validateInputs() {
-        return true;
-    }
-
     #applyChanges() {
         let entries = this.#readFormData();
-        for (const prop of this.properties) {  
-            const value = entries[prop];          
-            if (value != undefined) {       
-                this[prop] = (value === 'on') ? true : value;
-            } 
-        }
-        return {...this}; // create a property object!
+        const objPb = {}; // create a property object!    
+        this.properties.forEach(prop => {
+            const value = entries[prop];
+            if (value !== undefined) {
+                objPb[prop] = (value === 'on') ? true : value;
+            }        
+        })
+        return objPb;
     }
 
     // https://stackabuse.com/convert-form-data-to-javascript-object/
     #readFormData(form = this.form) {
         const frmData = new FormData(form),
-              objFormData = Object.fromEntries(frmData.entries());
-        objFormData.weekdays = frmData.getAll('weekdays');
+              frmEntries = Object.fromEntries(frmData.entries());
+            //   console.log(frmEntries)
+            //   debugger
+
+        frmEntries.weekdays = frmData.getAll('weekdays');
         // handling the radio buttons separately!!! it sucks! :-(
-        objFormData.summerTime = Array.from($('[name="summerTime"]')).map(elm => {
+        frmEntries.summerTime = Array.from($('[name="summerTime"]')).map(elm => {
             return elm.checked;
         });
         // handling all named checkboxes to get also UNchecked boxes!
         Array.from($('[type="checkbox"][name]')).map(box => {
-            objFormData[box.name] = box.checked;
+            frmEntries[box.name] = box.checked;
         });
-        return objFormData;
+        // handling icons on the home screen must be last!!!
+        frmEntries.homescreen = frmData.getAll('homescreen');
+        return frmEntries;
     }
 
+
+    /**
+     * Private method.
+     * Assigns the passed settings to the class.
+     * If no settings are available (i.e. first start), default settings are used.
+     * @param {object} settings settings to be assigned to the class and form (if available)
+     */
     #assignProperties(settings = DEFAULT_SETTINGS) {
         settings.forEach(setting => {
-            // assign the setting to the class property
+            // assign the setting to the class property...
             for (const key in setting) {
                 if (setting.hasOwnProperty(key)) this[key] = setting[key];
             }      
         });
+        // ...and if a form is connected we display the settings!
         if (this.form) this.#displaySettings(settings);
     }
 
@@ -128,7 +105,13 @@ class Settings {
             for (const key in setting) {
                 if (setting.hasOwnProperty(key)) {
                     const element = frmElements.namedItem(key), value = setting[key];
-                    if (element) {
+                    if (element instanceof RadioNodeList && element[0].type == 'radio') {
+                        // iterating over the radio group.
+                        // if the values match, we check the element
+                        [...element].forEach(function(radio) {
+                            if (radio.value == value) radio.checked = true;
+                        });
+                    } else if (element) {
                         this.#assignValue(element, value);
                     } else {
                         this[key] = value; // assign the setting to the class itself!!!
@@ -139,6 +122,12 @@ class Settings {
         frmElements.namedItem('weeklyhours').value = this.weeklyHours.toFixed(2);
     }
 
+    /**
+     * Assigns a value to the given control.
+     * If 'control' is a NodeList, the method calls itself recursively.
+     * @param {object | NodeList} control form control (input, checkbox, etc.) or a list of form controls
+     * @param {any} value value to be assigned to the control.
+     */
     #assignValue(control, value) {
         if (control instanceof NodeList) {
             for (let i = 0; i < control.length; i++) {
@@ -153,12 +142,15 @@ class Settings {
     }
 }
 
+export { Settings };
+
 const DEFAULT_SETTINGS = [
     {surname: ''},
     {firstname: ''},
     {location: ''},
     {birthday: null},
     {email: ''},
+    {employeetype: -1},
     {copyPreviousDay: true},
     {showDriveBox: false},
     {showSiteID: false},
@@ -174,5 +166,6 @@ const DEFAULT_SETTINGS = [
     {weekdays: ['8.50', '8.50', '8.50', '8.50', '7.00', 0]},
     {saturday: false},
     {defaultlength: 600},
-    {defaultwidth: 300}    
+    {defaultwidth: 300},
+    {homescreen: ['clock512.png|hours.html','tiles512.png|tools.html?material','calculator512.png|calculator.html']}   
 ];

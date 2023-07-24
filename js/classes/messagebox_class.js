@@ -195,3 +195,5 @@ class MessageBox {
         document.querySelector(':root').style.setProperty(`--${varName}`, value);
     }
 }
+
+export { MessageBox };

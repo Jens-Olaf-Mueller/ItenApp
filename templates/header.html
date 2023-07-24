@@ -2,7 +2,7 @@
     <a href="index.html"><img src="./img/logo.png" alt="logo"></a>
 </div>
 
-<h3 class="title">Home</h3>
+<h3 id="h3Title" class="title">Home</h3>
 <nav>
     <!-- Hamburger Menu -->
     <input type="checkbox" id="mnuHH">
@@ -14,6 +14,18 @@
 
     <ul class="dropdown-root">
         <li class="desk_li"><a href="admin.html">Administrator</a></li>
+        <li class="expandable_li">
+            <input type="radio" id="optSite" name="optDropdown">            
+            <label for="optSite"><img src="./img/construction100.png">Baustellen</label>
+            <ul class="dropdown-mnu">
+                <li class="desk_li"><a href="site.html?new">Neu...</a></li>
+                <li class="desk_li"><a href="site.html?edit">Bearbeiten</a></li>
+                <li><img src="./img/info-light512.png"><a href="site.html?info">Info</a></li>
+                <li><img src="./img/search512.png"><a href="site.html?search">Suchen...</a></li>
+                <li class="desk_li"><a href="site.html?print">Liste drucken</a></li>
+            </ul>
+        </li>
+
         <li><img src="./img/clock512.png"><a href="hours.html">Stunden erfassen</a></li>
         <li class="expandable_li">
             <!-- <img src="./img/report512.png"> -->

@@ -1,0 +1,74 @@
+<fieldset> <legend>  Baustelle  </legend>
+    <div id="divBVNumber" class="control">
+        <label for="inpBVNr">BV-Nummer</label>
+        <input id="inpBVNr" type="text" placeholder="####-###" pattern="[0-9]{4}-[0-9]{3}">
+    </div>
+
+    <div class="control" data-control="dropbox">
+        <label for="selBVName">Baustelle / Objekt</label>
+        <div class="dropdown">
+            <select name="sites" id="selBVName" required>
+                <option value="-1" disabled selected>-- bitte wählen --</option>
+                <option value="0000-000">Magazin</option>
+                <option value="0000-001">Büro</option>
+                <option value="2021-001">Eichmattpark</option>
+                <option value="2021-002">Quadrolith</option>
+                <option value="2022-003">Ahornstrasse 20</option>
+                <option value="2022-004">Ahornstrasse 22</option>
+            </select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <div class="control">
+        <label for="inpOrt">Ort</label>
+        <input id="inpOrt" type="text">
+    </div>
+
+    <div class="flx-btw">
+        <div class="checkbox">
+            <input id="radSingleSite" type="radio" checked name="sitesperday">
+            <label for="radSingleSite">eine Baustelle</label>                
+        </div>
+        <div class="checkbox">
+            <input id="radMultiSite" type="radio" name="sitesperday">
+            <label for="radMultiSite">mehrere Baustellen</label>                
+        </div>
+    </div>
+
+    <div class="flx-row">
+        <div class="control short">
+            <label for="inpKommt">Ankunft</label>
+            <input id="inpKommt" type="time" data-autocalc="inpHours">
+        </div>
+
+        <div class="control short flx-end-col">
+            <label for="inpGeht">Abfahrt</label>
+            <input id="inpGeht" type="time" data-autocalc="inpHours">
+        </div>
+    </div>
+
+    <div class="flx-row">
+        <div class="control counter short">
+            <label for="inpPause1">Z'nüni (min)</label>
+            <input id="inpPause1" type="number" data-autocalc="inpHours" value="30" max="60" maxlength="3">
+        </div>
+
+        <div class="control counter short flx-end-col">
+            <label for="inpPause2">Mittag (min)</label>
+            <input id="inpPause2" type="number" data-autocalc="inpHours" value="60" max="120" maxlength="3">
+        </div>
+    </div>
+
+    <div class="flx-row">
+        <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
+            <input id="chkRegie" type="checkbox">
+            <label for="chkRegie">Regie</label>                
+        </div> 
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpHours">Stunden</label>
+        <span><input id="inpHours" class="computed" type="number" value="8.50" disabled>   Std</span>                
+    </div>
+</fieldset>

@@ -6,8 +6,8 @@ const LOGIN_PASSWORD = 'Iten', USER_NAME = 'Olaf';
 const msgBox = new MessageBox('../style/msgbox.css');
 
 function initAdmin() {
-    FRM_ADMIN.classList.remove('hidden');
-    // FRM_LOGIN.classList.remove('hidden');
+    // FRM_ADMIN.classList.remove('hidden');
+    FRM_LOGIN.classList.remove('hidden');
     $('btnLogin').addEventListener('click', showAdminScreen);
     $('btnSaveSite').addEventListener('click', saveNewProject);
     $('inpProjectYear').value = new Date().getFullYear();

@@ -1,17 +1,17 @@
 <fieldset > <legend>  Persönliche Daten  </legend>
     <div class="control">
         <label for="inpSurname">Name</label>
-        <input id="inpSurname" name="surname" type="text">
+        <input id="inpSurname" name="surname" type="text" required>
     </div>
 
     <div class="control">
         <label for="inpFirstName">Vorname</label>
-        <input id="inpFirstName" name="firstname" type="text">
+        <input id="inpFirstName" name="firstname" type="text" required>
     </div>
 
     <div class="control">
         <label for="inpLocation">Wohnort</label>
-        <input id="inpLocation" name="location" type="text">
+        <input id="inpLocation" name="location" type="text" required>
     </div>
 
     <div class="control">
@@ -21,8 +21,14 @@
 
     <div class="control">
         <label for="inpMail">Email</label>
-        <input id="inpMail" name="email" type="email">
-    </div>           
+        <input id="inpMail" name="email" type="email" required>
+    </div>      
     
-    Angestellt als...
+    <div class="control" data-control="dropbox">
+        <label for="selProfession">Angestellt als...</label>
+        <div class="dropdown">
+            <select name="employeetype" id="selProfession" required></select>            
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
 </fieldset>

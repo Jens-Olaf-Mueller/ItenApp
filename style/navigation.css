@@ -125,7 +125,7 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
 /* ####                               R E S P O N S I V E                                 ### */
 /* ########################################################################################## */
 @media(max-width: 850px) {
-    .mnuMobile, .title {
+    .mnuMobile {
         display: flex;
     }
 

@@ -8,7 +8,7 @@
  *  
  * prepend 'export' if you wanna import the function in a module!
  * 
- * @param {string} selector any valid selector, used like CSS selectors
+ * @param {string} selector any valid CSS selector
  * @param {number | string} child optional,
  * determines which child of the found nodelist or HTML-collection
  * is supposed to be returned. A number returns the child of the given index. A tilde '~' or the
@@ -25,7 +25,7 @@
  *          $('input[type=text]') -   returns a list with all input elements, being text fields
  *          $('[name]')           -   returns a list with all elements, having a 'name' attribute
  */
-function $(selector, child) {
+export default function $(selector, child) {
     // is the last child wanted?
     const getLastChild = (child == '~' || child == ':last-child') ? true : false;
     // check, if 'child' is numeric!
@@ -112,6 +112,26 @@ async function includeHTML() {
         } else {
             element.innerHTML = `Page not found: "${file}"`;
         }        
+    }
+}
+
+function initDropDownlist (id, list) {
+    const dropdown = (id instanceof HTMLSelectElement) ? id : $(id);
+    dropdown.innerHTML = '';
+    if (typeof list[0] == 'object') {
+        for (let i = 0; i < list.length; i++) {
+            const item = list[i];
+            // const option = `<option value="${item.value}">${item.text}</option>`;
+            const option = document.createElement('option');
+            for (const key in item) {
+                if (key === 'text') {
+                    option.innerText = item[key];
+                } else {
+                    option.setAttribute(key, item[key]);
+                }                
+            }
+            dropdown.appendChild(option);
+        }
     }
 }
 
@@ -261,7 +281,4 @@ function getTime$(dtDate) {
             ${padLeft(dtDate.getSeconds())}`;
 }
 
-// function todo (msgtext, title = 'Coming soon') {
-//     playSound('notify.mp3');
-//     msgBox(msgtext, title,'Ok',false,true);
-// }
+export { includeHTML, initDropDownlist};

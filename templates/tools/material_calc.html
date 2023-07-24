@@ -1,20 +1,20 @@
 <fieldset> <legend>  Fläche / Kleber  </legend>
     <div class="control counter inline flx-btw">
         <label for="inpLength">Länge</label>
-        <span><input id="inpLength" type="number" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
+        <span><input id="inpLength" type="number" name="areaLength" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
     </div>
 
     <div class="control counter inline flx-btw">
         <label for="inpWidth">Breite</label>
-        <span><input id="inpWidth" type="number" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
+        <span><input id="inpWidth" type="number" name="areaWidth" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
     </div>
 
     <div class="switchbox counter  flx-btw">
         <span>
-            <input id="chkArea" type="checkbox" data-buddy="inpArea">
+            <input id="chkArea" type="checkbox" name="areaManual" data-buddy="inpArea">
             <label for="inpArea"><strong>Fläche</strong></label>
         </span>
-        <span><input id="inpArea" class="computed" type="number" maxlength="7" required disabled>    <strong>m²</strong></span>
+        <span><input id="inpArea" class="computed" type="number" name="area" maxlength="7" required disabled>    <strong>m²</strong></span>
     </div>
 
     <div class="control counter inline flx-btw" data-control="dropbox">
@@ -36,34 +36,34 @@
     </div>
 
     <div class="checkbox" title="markieren, wenn Platten mit Kontaktschicht verlegt werden">
-        <input id="chkContact" type="checkbox">
+        <input id="chkContact" type="checkbox" name="contactLayer">
         <label for="chkContact">Kontaktschicht</label>                
     </div>
 </fieldset>
 
 <fieldset> <legend>  Platten / Fugen  </legend>
     <div class="control counter inline flx-btw">
-        <label for="inpTileLenght">Plattenlänge</label>
-        <span><input id="inpTileLenght" type="number" value="600">   mm</span>        
+        <label for="inpTileLength">Plattenlänge</label>
+        <span><input id="inpTileLength" type="number" name="tileLength">   mm</span>        
     </div>
     <div class="control counter inline flx-btw">
         <label for="inpTileWidth">Plattenbreite</label>
-        <span><input id="inpTileWidth" type="number" value="300">   mm</span>        
+        <span><input id="inpTileWidth" type="number" name="tileWidth">   mm</span>        
     </div>
     <div class="control counter inline flx-btw">
-        <label for="inpWaste">Verschnitt</label>
-        <span><input id="inpWaste" type="number" value="3">  %    </span>        
+        <label for="inpOffcut">Verschnitt</label>
+        <span><input id="inpOffcut" type="number" name="offcut" value="3">  %    </span>        
     </div> <hr>
     <div class="control counter inline flx-btw">
         <label for="inpJointWidth">Fugenbreite</label>
-        <span><input id="inpJointWidth" type="number" value="3">   mm</span>        
+        <span><input id="inpJointWidth" type="number" name="jointWidth" value="3">   mm</span>        
     </div>
     <div class="control counter inline flx-btw">
         <label for="inpJointDepth">Fugentiefe</label>
-        <span><input id="inpJointDepth" type="number" value="10">   mm</span>        
+        <span><input id="inpJointDepth" type="number" name="jointDepth" value="10">   mm</span>        
     </div>
     <div class="checkbox" title="markieren, wenn Platten diagonal verlegt werden">
-        <input id="chkDiagonal" type="checkbox">
+        <input id="chkDiagonal" type="checkbox" name="diagonal">
         <label for="chkDiagonal">Verlegung diagonal</label>                
     </div> 
 </fieldset>

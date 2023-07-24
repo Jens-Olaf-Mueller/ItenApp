@@ -4,13 +4,13 @@
             <label for="selRegieSites">Baustelle / Objekt</label>
             <div class="dropdown">
                 <select name="sites" id="selRegieSites" required>
-                    <option value="-1" disabled selected>-- bitte wählen --</option>
+                    <!-- <option value="-1" disabled selected>-- bitte wählen --</option>
                     <option value="0000-000">Magazin</option>
                     <option value="0000-001">Büro</option>
                     <option value="2021-001">Eichmattpark</option>
                     <option value="2021-002">Quadrolith</option>
                     <option value="2022-003">Ahornstrasse 20</option>
-                    <option value="2022-004">Ahornstrasse 22</option>
+                    <option value="2022-004">Ahornstrasse 22</option> -->
                 </select>
                 <span class="dropdown-arrow"></span>
             </div>
@@ -46,14 +46,7 @@
         <div class="control" data-control="dropbox">
             <!-- <label for="selEmployeeType">Baustelle / Objekt</label> -->
             <div class="dropdown">
-                <select name="employeetype" id="selEmployeeType" required>
-                    <option value="-1" disabled selected>-- bitte wählen --</option>
-                    <option value="0">Lehrling</option>
-                    <option value="1">Plattenleger</option>
-                    <option value="2">Vorarbeiter</option>
-                    <option value="3">Hilfsarbeiter</option>
-                    <option value="4">Kundenmaurer</option>
-                </select>
+                <select name="employeetype" id="selEmployeeType" required></select>
                 <span class="dropdown-arrow"></span>
             </div>
         </div>
@@ -65,28 +58,7 @@
 
         <textarea name="regie" id="txtWorkDesription" cols="40" rows="25" placeholder="ausgeführte Regie-Arbeiten..."></textarea>
 
-        <button id="btnAddEmployee" type="button" disabled>Hinzufügen</button>
-        <!-- <div class="switchbox">
-            <input id="chkForeman" type="checkbox" data-buddy="inpForeman inpForemanName">
-            <label for="chkForeman" class="lbl-short">Vorarbeiter</label>
-        </div>
-        <div class="control counter">
-            <span class="control long flx-btw">
-                <input id="inpForemanName" type="text" disabled>
-                <input id="inpForeman" class="short" type="number" disabled>  Std
-            </span>
-        </div>
-
-        <div class="switchbox">
-            <input id="chkForeman" type="checkbox" data-buddy="inpForeman inpForemanName">
-            <label for="chkForeman" class="lbl-short">Plattenleger</label>
-        </div>
-        <div class="control counter">
-            <span class="control long flx-btw">
-                <input id="inpForemanName" type="text" disabled>
-                <input id="inpForeman" class="short" type="number" disabled>  Std
-            </span>
-        </div> -->
+        <button id="btnAddEmployee" class="desk" type="button" disabled>Hinzufügen</button>
     </fieldset>
 </div>
 
@@ -170,7 +142,7 @@
             <div class="control" data-control="dropbox" style="flex: 1">
                 <div class="dropdown">
                     <select id="selTools" disabled>
-                        <option value="0" selected>-- Sonstige --</option>                       
+                        <option value="0" selected disabled>-- Sonstige --</option>                       
                         <option value="Luftreiniger">Luftreiniger (Staubschutzfilter)</option>
                         <option value="Stichsäge">Stichsäge</option>
                         <option value="Sanierungsfräse">Sanierungsfräse (Roto-Chipper)</option>
@@ -204,10 +176,7 @@
                 <input id="inpGlueGray" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selGlueGray" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selGlueGray" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -223,10 +192,7 @@
                 <input id="inpGlueWhite" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selGlueWhite" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selGlueWhite" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -242,10 +208,7 @@
                 <input id="inpScreed" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selScreed" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selScreed" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -261,10 +224,7 @@
                 <input id="inpLevelling" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selLevelling" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selLevelling" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -280,18 +240,12 @@
                 <input id="inpPlaster" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selPlaster" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selPlaster" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
             </span>              
         </div>
-
-
-
 
         <div class="switchbox counter inline flx-btw" data-control="dropbox">
             <span>
@@ -302,10 +256,7 @@
                 <input id="inpGrout" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selGrout" data-units disabled>
-                            <option value="kg">kg</option>
-                            <option value="Sack">Sack</option>
-                        </select>
+                        <select id="selGrout" data-units="powder" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -403,11 +354,11 @@
 <div class="wizard hidden" data-wizard="commission" data-name="material2"> <!--  w3-include-html="" -->
     <fieldset> <legend>  Material 2 / 2  </legend>
         <div class="switchbox inline" data-control="dropbox">
-            <input id="chkCoveringMaterial" type="checkbox" data-buddy="selCoveringMaterial inpCoveringMaterial">
+            <input id="chkCoveringMaterial" type="checkbox" data-buddy="selCoveringMaterial">
             <div class="control" data-control="dropbox" style="flex: 1">
                 <div class="dropdown">
                     <select id="selCoveringMaterial" disabled>
-                        <option value="0" selected>-- Abdeck- u. Schutzmaterial --</option>                       
+                        <option value="0" selected disabled>-- Abdeck- u. Schutzmaterial --</option>                       
                         <option value="Luftreiniger">Floorliner</option>
                         <option value="Stichsäge">Kraftpapier</option>
                         <option value="Sanierungsfräse">Baufolie / Plastik</option>
@@ -454,11 +405,7 @@
                 <input id="inpWaste1" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selWaste1" data-units disabled>
-                            <option value="m³">m³</option>
-                            <option value="ltr">ltr</option>
-                            <option value="psch">psch</option>
-                        </select>
+                        <select id="selWaste1" data-units="volume" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
@@ -473,11 +420,7 @@
                 <input id="inpWaste2" type="number" style="margin-right: 1rem;" disabled>
                 <div class="control" data-control="dropbox">
                     <div class="dropdown">
-                        <select id="selWaste2" data-units disabled>
-                            <option value="m³">m³</option>
-                            <option value="ltr">ltr</option>
-                            <option value="psch">psch</option>
-                        </select>
+                        <select id="selWaste2" data-units="volume" disabled></select>
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  

@@ -1,0 +1,150 @@
+import $ from '../library.js';
+import {FormHandler } from './library_class.js';
+
+class Material extends FormHandler {
+    unit = 'mm';
+    areaManual = false;
+    areaLength = 0;
+    areaWidth = 0;   
+    tileLength = 0;
+    tileWidth = 0;
+    offcut = 0; 
+    trowel = 0;
+    contactLayer = false;
+    diagonal = false;
+    jointWidth = 0;
+    jointDepth = 0;
+    get jointLength() { 
+        if (this.diagonal) { 
+            // diagonal = mehr Fugenlänge! Diagonale eines Rechteckes ist länger!
+            return parseInt(Math.SQRT2 / Number(this.tileWidth / 1000) + Math.SQRT2 / Number(this.tileLength / 1000) + Math.SQRT2 / 2);
+        } else {
+            return parseInt(1 / Number(this.tileWidth / 1000) + 1 / Number(this.tileLength / 1000)); 
+        }
+    }
+
+    get DENSITY() {return 1700;}  // 1700 ist die Dichte in kg/m³
+
+    #area = 0;
+    get area() {
+        if (this.areaManual) {
+            return this.#area;
+        } else {
+            return this.areaLength / 1000 * this.areaWidth / 1000;
+        }        
+    }
+    set area (newVal) {
+        if (this.areaManual) this.#area = newVal;
+    }
+    
+    get glue() {
+        const glue = this.area * this.trowel;
+        return this.contactLayer ? Math.roundDec(glue + glue * 0.25) : Math.roundDec(glue);
+    }
+
+    get grout() {
+        return Math.roundDec(this.area * this.jointLength * this.jointWidth / 1000 * this.jointDepth / 1000 * this.DENSITY * 1.05, 1);
+    }
+
+    get tilesPerSQM() {
+        const tileSize = (this.tileLength / 1000) * (this.tileWidth / 1000);
+        return (tileSize == 0) ? 0 : 1 / tileSize;
+    }
+    get tiles() {        
+        const amount = Math.ceil(this.tilesPerSQM * this.area);
+        return Math.ceil(amount + amount * this.offcut / 100);
+    }
+
+    constructor(form) {
+        super(form);
+    }
+
+    applyChanges() {
+        let entries = this.#readFormData();
+        const objPb = {}; // create a property object!    
+        for (const prop in entries) {
+            const value = entries[prop];
+            if (value !== undefined) {
+                objPb[prop] = (value === 'on') ? true : value;
+            }
+        }
+        this.#assignProperties(objPb);
+    }
+
+    // https://stackabuse.com/convert-form-data-to-javascript-object/
+    #readFormData() {
+        const frmData = new FormData(this.form),
+              frmEntries = Object.fromEntries(frmData.entries());
+        // handling all named checkboxes to get also UNchecked boxes!
+        Array.from($('[type="checkbox"][name]')).map(box => {
+            frmEntries[box.name] = box.checked;
+        });
+        return frmEntries;
+    }
+
+    /**
+     * Private method.
+     * Assigns the passed settings to the class.
+     * If no settings are available (i.e. first start), default settings are used.
+     * @param {object} settings settings to be assigned to the class
+     */
+    #assignProperties(settings) {
+        if (settings == null) return;
+        for (const prop in settings) {
+            // console.log(`${prop}: ${settings[prop]}`);
+            if (this.hasOwnProperty(prop)) {
+                this[prop] = settings[prop];
+            } else if (this.hasOwnSetter(prop)) {
+                debugger
+                this[prop] = settings[prop];
+            }
+        }
+    }
+    hasOwnSetter(prop) {
+        return !!Object.getOwnPropertyDescriptor(this, prop)['get'];
+    }
+
+}
+
+class Surface extends Material {
+    description = '';    
+    length = 0;
+    defaultHeight = 0;
+    #height = 0;
+    #width = 0;
+    get width() {return this.#width;}
+    set width(value) {
+        this.#width = value;
+        this.#height = value;
+    }
+    get height() {return this.#height;}
+    get area() { return this.length * this.width;}
+    waterproofed = false;
+    waterproofedArea = 0;
+    
+    
+    constructor(defHeight) {
+        super();
+        if (defHeight !== undefined) this.defaultHeight = defHeight;
+    }
+}
+
+class Tiles extends Material {
+    offcut = 0;
+
+    get perSQM() {
+        if (this.area == 0) return 0;
+        return 1 / this.area;
+    }
+    get count() {        
+        const amount = Math.ceil(this.perSQM * this.area);
+        return Math.ceil(amount + amount * this.offcut);
+    }
+
+    constructor(parent) {
+        super();
+        this.parent = parent;
+    }
+}
+
+export { Material, Tiles, Surface };
