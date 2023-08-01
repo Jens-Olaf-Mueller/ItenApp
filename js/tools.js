@@ -5,20 +5,24 @@ import { initPageMeasure} from './tools_measure.js';
 import { Material } from './classes/material_class.js';
 import { FormHandler } from './classes/library_class.js';
 import { Wizard } from './classes/wizard_class.js';
+import Calculator from './classes/calculator_class.js';
 
 const clsMaterialWizard = new Wizard('frmMaterial', 'material');
 const frmMATERIAL = new FormHandler('frmMaterial'),
       frmMEASURE = new FormHandler('frmMeasure');
 
-      const clsInput = new Material('frmMaterial');
+const material = new Material('frmMaterial');
+const calculator = new Calculator();
 
-function initTools(tool) {
+export default function initTools(tool) {
     switch (tool) {
         case 'material':
             frmMATERIAL.show(); 
             initMaterialCalcuator('Materialrechner');        
             break;
+
         case 'measure': 
+        debugger
             frmMEASURE.show();
             initPageMeasure('Ausmass');        
             break;
@@ -26,13 +30,15 @@ function initTools(tool) {
     }
 }
 
+
 function initMaterialCalcuator(title) {
     $('h3Title').innerHTML = title;
     loadDefaultSettings();
     // set event listeners at the end!!!
     frmMATERIAL.addEvents(
         {element: 'inpArea', event: 'input', func: toggleCalculationButton},
-        {element: 'btnCalculate', event: 'click', func: displayCalculationResult},
+        {element: 'btnCalculate', event: 'click', func: displayResult},
+        {element: 'imgCalcButton', event: 'click', func: showCalculator},
         {element: 'btnCloseResult', event: 'click', func: function() {
             $('divResult').classList.add('hidden');
         }},
@@ -40,7 +46,12 @@ function initMaterialCalcuator(title) {
             window.location.reload();
         }},
         {element: Array.from($('[data-autocalc="inpArea"]')), 
-         event: 'input', func: displayArea}
+            event: 'input', func: displayCalculatedArea},
+        {element: window.document, event: 'onresult', func: function() {
+            toggleCalculationButton($('inpArea'));
+        }},
+        {element: Array.from($('select[name="unit"]')),
+            event: 'change', func: changeUnits}
     );
 }
 
@@ -51,24 +62,60 @@ function initMaterialCalcuator(title) {
 function loadDefaultSettings() {
     $('inpTileLength').value = SETTINGS.defaultlength;
     $('inpTileWidth').value = SETTINGS.defaultwidth;
+    $('inpJointWidth').value = SETTINGS.jointWidth;
+    $('inpJointDepth').value = SETTINGS.jointDepth;
+    $('inpOffcut').value = SETTINGS.offcut;
+    if (SETTINGS.showCalculatorIcon) {
+        $('imgCalcButton').removeAttribute('hidden');
+    } else {
+        $('imgCalcButton').setAttribute('hidden');
+    }
 }
 
 
-function displayArea() {
-    clsInput.applyChanges();
+/**
+ * Displays the calculated area from input length and width.
+ * Switches the calculation button on | off depending on the result is greater than 0.01
+ */
+function displayCalculatedArea() {
+    material.applyChanges();
     const input = $('inpArea');
-    input.value = (clsInput.area > 0.01) ? clsInput.area.toFixed(2) : '';
+    input.value = (material.area > 0.01) ? material.area.toFixed(2) : '';
     toggleCalculationButton(input);
 }
 
-function displayCalculationResult() {
-    clsInput.applyChanges();
-    if (clsInput.area == 0) return; 
+
+/**
+ * Displays the calculated material as an overlayed table
+ */
+function displayResult() {
+    material.applyChanges();
+    if (material.area == 0) return; 
+    $('cellArea').innerHTML = `Für ${material.area.toFixed(2)} m² werden benötigt:`;
     $('divResult').classList.remove('hidden');    
-    $('cellGlue').innerText = clsInput.glue;
-    $('cellBags').innerText = Math.ceil(clsInput.glue / 25) + ' Sack';
-    $('cellJoints').innerText = clsInput.grout;
-    $('cellTiles').innerText = clsInput.tiles;
+    $('cellGlue').innerText = material.glue;
+    $('cellBags').innerText = Math.ceil(material.glue / 25) + ' Sack';
+    $('cellJoints').innerText = material.grout;
+    $('cellTiles').innerText = material.tiles;
+    if (material.levelHeight) {
+        const unit = (material.levelCompound < 10000) ? 'kg' : 'to';
+        $('cellLevelCompound').innerHTML = 'Nivelliermasse';
+        $('cellLevel').innerText = (unit == 'kg') ? material.levelCompound : material.levelCompound / 1000;
+        $('cellLevelUnit').innerHTML = unit;
+        $('cellLevelBags').innerText = Math.ceil(material.levelCompound / 25) + ' Sack';
+    }
+}
+
+
+/**
+ * Shows the calculator in order to do interim calculations
+ */
+ function showCalculator() {
+    if (this.hasAttribute('disabled')) return;
+    const buddy = $('inpArea');
+    calculator.stylesheet = './style/' + SETTINGS.calculatorStyle;
+    calculator.parent = 'frmMaterial';
+    calculator.show(buddy);
 }
 
 
@@ -79,13 +126,12 @@ function displayCalculationResult() {
  */
 function toggleCalculationButton(expression) {
     const input = (expression instanceof Event) ? expression.target : expression,
-          btnCalc = $('btnCalculate');
-    // if (parseFloat(this.value) > 0.01) {
-    if (parseFloat(input.value) > 0.01) {
-        btnCalc.removeAttribute('disabled');        
-    } else {
-        btnCalc.setAttribute('disabled','');
-    }
+          btnCalc = $('btnCalculate'),
+          invalid = (parseFloat(input.value) < 0.020);
+    btnCalc.toggleAttribute('disabled', invalid);
 }
 
-export { initTools };
+function changeUnits() {
+    Array.from($('select[name="unit"]')).forEach(elmt => elmt.value = this.value);
+    displayCalculatedArea();
+}

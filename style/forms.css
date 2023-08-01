@@ -6,7 +6,8 @@
     --forms-bg-color: #f5f5f5;
     --theme-color: navy;
     --focus-color: #ffffc8;    
-    --autocalc-bg-color: #4169E1; /* #94afff;*/
+    --autocalc-bg-color: lightsteelblue; /*#4169E1 #94afff;*/
+    --edit-top: 0; /* used in settings.js --> showTimeEditor()*/
 }
 
 /* formular style */
@@ -132,8 +133,52 @@ textarea.txt-fixed {
     min-width: 3.5rem;
 }
 
-.control input[type="date"] {
+.control input[type="date"]:not(#inpCurrentDate) {
     max-width: 10rem;
+    text-align: center;
+}
+
+.control.edit-mode {
+    background: lightgreen;
+    border-bottom: 1.25rem solid lightgreen;
+    /* height: 2.45rem; */
+    /* border-right: 1rem solid lightgreen;
+    border-left: 1.25rem solid green;
+    border-top: 1.25rem solid transparent;
+    border-bottom: 1.25rem solid transparent; */
+}
+
+.control.edit-mode::before,
+.control.edit-mode::after {
+    content: '';
+    background-color: lightgreen;
+    height: 2.45rem;
+    width: 1rem;
+    position: absolute;
+    top: var(--edit-top);
+}
+
+.control.edit-mode::before {
+    left: 0;
+}
+
+.control.edit-mode::after {
+    right: 0;    
+}
+
+label.edit-mode {
+    color: green;
+    font-weight: bold;
+}
+
+img.edit-mode {
+    filter: grayscale(0) hue-rotate(220deg) !important;
+}
+
+input#inpCurrentDate {
+    width: 12rem !important;
+    font-size: 1.5rem;
+    margin: 0 0.25rem;
     text-align: center;
 }
 
@@ -152,6 +197,25 @@ textarea.txt-fixed {
     background-color: lightsalmon !important;
     color: red;
     border: 1px solid red !important;
+}
+
+.sunday {
+    color: red;
+    /* background-color: lightsalmon; */
+    font-weight: bold;
+}
+
+/* Dropdown container for worktime-settings */
+#divDropEditWorktime {
+    position: absolute;
+    top: 0;
+    left: 25%;
+    transform: translateX(-16.75%);
+    width: 75%;
+    background: lightgreen;    
+    padding: 1rem;    
+    z-index: 101;
+    /* transition: all 250ms;     */
 }
 
 /*#######################################*/
@@ -227,7 +291,6 @@ select[disabled]~ .dropdown-arrow {
 input[disabled] {
     background-color: #ddd;
     border: 1px solid #888;
-    /* border: 1px solid #888 !important; */
 }
 
 /*##################################*/
@@ -244,6 +307,12 @@ input[disabled] {
     margin-right: 0.5rem;
 }
 
+/* .checkbox input[type="checkbox"][disabled] {
+    accent-color: red !important;
+    filter: grayscale(0);
+} */
+
+
 .checkbox span, .switchbox span {
     display: flex;
     align-items: center;
@@ -256,7 +325,7 @@ input[disabled] {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    margin: 1rem 1rem 1rem 0;
+    /* margin: 1rem 1rem 1rem 0; */
     padding: 0 1rem;
 }
 
@@ -270,10 +339,10 @@ input[disabled] {
 }
 
 .btn-spin {
-    width: 2rem;
-    height: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
     padding: 0;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: bolder;
 }
 
@@ -320,17 +389,21 @@ input[disabled] {
 }
 
 .result .table-wrapper table {
+    table-layout: fixed;
     width: 100%;
+    max-width: 100vh;
     padding: 4rem 0.25rem;
     font-weight: bold;    
-    background-color: var(--autocalc-bg-color);    
+    background-color: #4169E1; /* var(--autocalc-bg-color); */    
     border: 4px double whitesmoke;
     border-radius: 8px;
 }
 
 .result .table-wrapper table td {
-    font-size: 1.33rem;
+    font-size: 1.25rem;
     color: whitesmoke;
+    overflow:hidden;
+    white-space:nowrap;
 }
 
 .cell-result {
@@ -348,17 +421,17 @@ input[disabled] {
     right: 4px;
 }
 
-.icon-button {
+.wizard-button {
     width: 3rem;
     height: 3rem;
     cursor: pointer;
 }
 
-.icon-button:hover {
+.wizard-button:hover {
     filter: brightness(1.2);
 }
 
-.icon-button[disabled], button[disabled] {
+.wizard-button[disabled], button[disabled] {
     filter: contrast(0.15) grayscale(1);
 }
 
@@ -376,6 +449,13 @@ button[disabled]:hover {
     form {
         width: 100%;
     }
+
+    #divDropEditWorktime {
+        left: 0;
+        transform: none;
+        width: 100vw;
+    }
+
     .control {
         flex-direction: column;
         align-items: flex-start;
@@ -407,12 +487,13 @@ button[disabled]:hover {
         left: 0;
         bottom: 0;
         width: 100%;
+        border-top: 1px solid navy;
     }
 }
 
 @media (max-width: 480px) {
     form {
-        min-height: calc(100vh - var(--navbar-height) - 0.33rem);
+        min-height: calc(100vh - var(--navbar-height) - 0.85rem);
         height: unset;
     }
 
@@ -454,12 +535,5 @@ button[disabled]:hover {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-    }
-
-    .flx-btw {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between !important;
     }
 }

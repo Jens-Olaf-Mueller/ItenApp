@@ -35,13 +35,13 @@ function setInputAutoSelection() {
  * @param {string} off empty string or 'off'
  */
 function setCheckboxBuddies(off = '') {
-    let tmpBoxes = $(`input[data-buddy${off}]`);
-    if (tmpBoxes instanceof NodeList) {
-        Array.from(tmpBoxes).forEach(chk => {
+    const chkBoxes = $(`input[data-buddy${off}]`);
+    if (chkBoxes instanceof NodeList) {
+        Array.from(chkBoxes).forEach(chk => {
             chk.addEventListener('click', switchBuddy);
         });
     } else { 
-        tmpBoxes.addEventListener('click', switchBuddy);
+        chkBoxes.addEventListener('click', switchBuddy);
     }
 }
 
@@ -56,18 +56,25 @@ function setCheckboxBuddies(off = '') {
  function switchBuddy(checkbox) {
     const chkBuddy = checkbox.target.dataset.buddy,
           chkBuddyOff = checkbox.target.dataset.buddyoff,
-          state = checkbox.target.checked;
+          state = !checkbox.target.checked;
     if (chkBuddy) {
         const buddies = chkBuddy.split(' ');
         buddies.forEach(buddy => {
             // this switches corresponding controls ON !
-            document.getElementById(buddy).disabled = !state;
-        }); 
-    } else if (chkBuddyOff) {
+            const ctrl = document.getElementById(buddy);
+            if (ctrl instanceof HTMLImageElement) {
+                ctrl.toggleAttribute('disabled', state);
+            } else {
+                ctrl.disabled = state;
+            }            
+        });
+    }
+    // some checkbox can execute BOTH functions! (i.e. mass calculator, area vs. length + width)
+    if (chkBuddyOff) {
         const buddies = chkBuddyOff.split(' ');
         buddies.forEach(buddy => {
             // this switches corresponding controls OFF !
-            document.getElementById(buddy).disabled = state;
+            document.getElementById(buddy).disabled = !state;
         });
     }    
 }

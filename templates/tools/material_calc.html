@@ -1,20 +1,50 @@
 <fieldset> <legend>  Fläche / Kleber  </legend>
     <div class="control counter inline flx-btw">
         <label for="inpLength">Länge</label>
-        <span><input id="inpLength" type="number" name="areaLength" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
+        <span class="inline">
+            <input id="inpLength" type="number" name="areaLength" data-autocalc="inpArea" pattern="[0-9]{3,5}">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selCalcLength" name="unit" data-units="length">
+                        <option value="1">m</option>
+                        <option value="100">cm</option>
+                        <option value="1000">mm</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>
+        </span>        
     </div>
 
     <div class="control counter inline flx-btw">
         <label for="inpWidth">Breite</label>
-        <span><input id="inpWidth" type="number" name="areaWidth" data-autocalc="inpArea" pattern="[0-9]{3,5}">   mm</span>        
+        <span class="inline">
+            <input id="inpWidth" type="number" name="areaWidth" data-autocalc="inpArea" pattern="[0-9]{3,5}">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selCalcWidth" name="unit" data-units="length">
+                        <option value="1">m</option>
+                        <option value="100">cm</option>
+                        <option value="1000">mm</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>
+        </span>        
     </div>
 
     <div class="switchbox counter  flx-btw">
         <span>
-            <input id="chkArea" type="checkbox" name="areaManual" data-buddy="inpArea">
-            <label for="inpArea"><strong>Fläche</strong></label>
+            <input id="chkArea" type="checkbox" name="areaManual" 
+                data-buddy="inpArea imgCalcButton" 
+                data-buddyoff="inpLength inpWidth selCalcLength selCalcWidth">
+            <label for="inpArea"><strong>Fläche</strong></label>            
         </span>
-        <span><input id="inpArea" class="computed" type="number" name="area" maxlength="7" required disabled>    <strong>m²</strong></span>
+        <span>
+            <input id="inpArea" class="computed" type="number" name="area" disabled>
+            <img id="imgCalcButton" class="image-button" src="./img/calculator.png" hidden disabled>
+            <strong>    m²</strong>
+        </span>
     </div>
 
     <div class="control counter inline flx-btw" data-control="dropbox">
@@ -52,15 +82,15 @@
     </div>
     <div class="control counter inline flx-btw">
         <label for="inpOffcut">Verschnitt</label>
-        <span><input id="inpOffcut" type="number" name="offcut" value="3">  %    </span>        
+        <span><input id="inpOffcut" type="number" name="offcut">  %    </span>        
     </div> <hr>
     <div class="control counter inline flx-btw">
         <label for="inpJointWidth">Fugenbreite</label>
-        <span><input id="inpJointWidth" type="number" name="jointWidth" value="3">   mm</span>        
+        <span><input id="inpJointWidth" type="number" name="jointWidth">   mm</span>        
     </div>
     <div class="control counter inline flx-btw">
         <label for="inpJointDepth">Fugentiefe</label>
-        <span><input id="inpJointDepth" type="number" name="jointDepth" value="10">   mm</span>        
+        <span><input id="inpJointDepth" type="number" name="jointDepth">   mm</span>        
     </div>
     <div class="checkbox" title="markieren, wenn Platten diagonal verlegt werden">
         <input id="chkDiagonal" type="checkbox" name="diagonal">
@@ -68,15 +98,31 @@
     </div> 
 </fieldset>
 
+<fieldset> <legend>  Nivellieren  </legend>
+    <div class="control counter inline flx-btw">
+        <label for="levelHeight">Höhe</label>
+        <span><input id="levelHeight" type="number" name="levelHeight">   mm</span>        
+    </div>
+</fieldset>
+
 <div class="button-bar">
-    <img id="btnReset" class="icon-button" src="./img/refresh512.png" alt="refresh">
-    <img id="btnCalculate" class="icon-button" src="./img/send512.png" alt="send" disabled>
+    <img id="btnReset" class="wizard-button" src="./img/refresh.png" alt="refresh">
+    <img id="btnCalculate" class="wizard-button" src="./img/send.png" alt="send" disabled>
 </div>
 
 <div class="result hidden" id="divResult">    
     <div class="table-wrapper">
-        <img id="btnCloseResult" class="icon-button" src="./img/close512.png">
-        <table>                    
+        <img id="btnCloseResult" class="wizard-button" src="./img/close.png">
+        <table>   
+            <colgroup>
+                <col span="1" style="width: 40%;">
+                <col span="1" style="width: 20%;">
+                <col span="1" style="width: 10%;">
+                <col span="1" style="width: 30%;">
+            </colgroup>   
+            <tr></tr>   
+                <td id="cellArea" colspan="4" style="padding-bottom: 12px;"></td>
+            <tr></tr>        
             <tr></tr>
                 <td>Kleber</td>
                 <td id="cellGlue" class="cell-result"></td>
@@ -91,7 +137,12 @@
                 <td>Platten</td>
                 <td id="cellTiles" class="cell-result"></td>
                 <td>Stk.</td>
-                <td></td>     
+                <td></td>    
+            <tr></tr>
+                <td id="cellLevelCompound"></td>
+                <td id="cellLevel" class="cell-result"></td>
+                <td id="cellLevelUnit"></td>
+                <td id="cellLevelBags" class="cell-result"></td>                 
         </table>
     </div>
 </div>

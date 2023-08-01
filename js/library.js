@@ -77,6 +77,18 @@ Math.randomExt = function (min = 0, max = 1) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+// Returns the ISO week of the date.
+Date.prototype.getWeek = function() {
+    let date = new Date(this.getTime());
+    date.setHours(0, 0, 0, 0);
+    // Thursday in current week decides the year.
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    // January 4 is always in week 1.
+    let week1 = new Date(date.getFullYear(), 0, 4);
+    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
 /**
  * Checks properly (!), if the given expression is numeric.
  * recognizes: undefined, NaN, Null, infinity etc.
@@ -84,7 +96,7 @@ Math.randomExt = function (min = 0, max = 1) {
  * @param {boolean} allowStringNumbers optional, tells if string literals are allowed or not (default)
  * @returns true | false
  */
-function isNumeric(expression, allowStringNumbers) {
+export function isNumeric(expression, allowStringNumbers) {
     if (allowStringNumbers == true) return Number.isFinite(parseFloat(expression));
     return Number.isFinite(expression);
 }
@@ -97,7 +109,7 @@ function isNumeric(expression, allowStringNumbers) {
  *  
  * header w3-include-html="templates/header.html" will load a given header
  */
-async function includeHTML() {
+export async function includeHTML() {
     // let includeElements = $('[w3-include-html]'); 
     // = document.querySelectorAll('[w3-include-html]')
     const W3_ATTR = 'w3-include-html';
@@ -115,7 +127,7 @@ async function includeHTML() {
     }
 }
 
-function initDropDownlist (id, list) {
+export function initDropDownlist (id, list) {
     const dropdown = (id instanceof HTMLSelectElement) ? id : $(id);
     dropdown.innerHTML = '';
     if (typeof list[0] == 'object') {
@@ -136,16 +148,12 @@ function initDropDownlist (id, list) {
 }
 
 
-//  #####################################################################################
-//  PURPOSE 	: Pauses the code for the provided amount of milliseconds
-//  			  Calling function must be 'async' in order to make it work!
-//  PARAMETERS 	: milliseconds 	= time to pause in milliseconds
-//  			:  			     
-//  CALL		: await sleep(3000);    -   pauses for 3 seconds 			     
-//  			:  			 
-//  RETURNS 	: -void-
-//  #####################################################################################
-function sleep(milliseconds) {
+/**
+ * Interrupts the running application for the given time of milliseconds.
+ * @param {number} milliseconds Milliseconds to wait.
+ * @returns Promise: Time interval to wait for.
+ */
+export function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
@@ -156,7 +164,7 @@ function sleep(milliseconds) {
  * @param {boolean} extention determines if with or without file extention
  * @returns string filename
  */
-function getFilename(path, extention = true) {
+export function getFilename(path, extention = true) {
     let file = path.match(/[-_\w]+[.][\w]+$/i)[0];
     if (extention) return file;
     //removing extension and returning just the filename
@@ -170,7 +178,7 @@ function getFilename(path, extention = true) {
  * @param {string} file full path
  * @returns string that contains the path only without filename
  */
-function getPath(filename) {
+export function getPath(filename) {
     return filename.substring(0, filename.lastIndexOf('/') + 1);
 }
 
@@ -179,7 +187,7 @@ function getPath(filename) {
  * @param {string} file the sound file to be played without path
  * @param {boolean} soundEnabled global variable, meant to be used in settings od the app
  */
- function playSound (file, soundEnabled = true, vol = 1) {
+function playSound (file, soundEnabled = true, vol = 1) {
     if (soundEnabled) {
         if (vol > 1) vol = parseFloat(vol / 100);
         if (typeof file == 'string') {
@@ -226,7 +234,7 @@ function fadeSound (audio, fadeEnd = true) {
 // isConst('PI'); // -> true
 // isConst('str'); // -> false
 
-let isConst = function(name, context) {
+export const isConst = function(name, context) {
     // does this thing even exist in context?
     context = context || this;
     if(typeof context[name] === 'undefined') return false;
@@ -243,7 +251,7 @@ let isConst = function(name, context) {
 }.bind(this);
 
 
-function cBool(expression) {
+export function cBool(expression) {
     switch(expression?.toLowerCase()?.trim()){
         case 'true': 
         case 'yes':
@@ -269,7 +277,7 @@ function cBool(expression) {
  * @param {object} dtDate [optional] a valid date-object
  * @returns time string in format dd.mm.yyyy | hh:nn:ss
  */
-function getTime$(dtDate) {
+export function getTime$(dtDate) {
     if (dtDate == undefined) dtDate = new Date();
     // arrow function for each part of the date
     const padLeft = (nr, len = 2, chr = `0`) => `${nr}`.padStart(len, chr);
@@ -281,4 +289,4 @@ function getTime$(dtDate) {
             ${padLeft(dtDate.getSeconds())}`;
 }
 
-export { includeHTML, initDropDownlist};
+// export { includeHTML, initDropDownlist, getTime$};

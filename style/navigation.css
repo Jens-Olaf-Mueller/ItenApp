@@ -16,8 +16,6 @@ nav {
 
 nav * {font-size: 1.33rem;}
 
-
-
 nav ul {
     height: 100%;
     display: flex;
@@ -146,10 +144,6 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
         padding: 1.5rem 0;
     }
 
-    /* nav ul .dropdown-root {
-        min-height: unset;
-    } */
-
     .desk_li {
         display: none;
     }
@@ -169,6 +163,20 @@ nav input[type="checkbox"], .expandable_li input[type="radio"] {
                    input[type="radio"]:checked~.dropdown-mnu {
         display: block;
     }
+
+    .expandable_li input[type="checkbox"]:checked~label,
+                   input[type="radio"]:checked~label {
+        color: var(--darker-background-color);
+        font-weight: bold;
+    }
+
+    .expandable_li input[type="checkbox"]:checked~label>img,
+                   input[type="radio"]:checked~label>img {
+        filter: brightness(0.7);
+        /* filter: contrast(1.5); */
+    }
+
+
     .dropdown-mnu {
         position: static;
         width: 100%;

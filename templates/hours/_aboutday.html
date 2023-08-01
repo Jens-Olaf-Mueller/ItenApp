@@ -1,30 +1,47 @@
-<fieldset class="flx-ccc"> <legend>  Tagesdaten  </legend>
+<fieldset> <legend id="lgdCurrentDay">  Tagesdaten  </legend>
+    <br>
     <div class="control inline">
-        <button id="btnPrevDay" class="btn-spin desk" type="button"  value="-1">&#x2770</button>
+        <img id="btnNextDay" src="./img/dayminus.png" class="wizard-button" alt="-1">
         <input id="inpCurrentDate" type="date">
-        <button id="btnNextDay" class="btn-spin desk" type="button" value="1">&#x2771</button>
+        <img id="btnNextDay" src="./img/dayplus.png" class="wizard-button" alt="1">
+    </div>
+    <br>
+    <div class="control inline flx-btw" data-control="dropbox">
+        <div class="dropdown">
+            <select name="daytype" id="selDayType">
+                <option selected>Werktag</option>
+                <option >Urlaubstag</option>
+                <option >Krank</option>
+                <option >Unbezahlter freier Tag</option>
+                <option disabled>Feiertag</option>
+                <option disabled>Sonntag</option>
+            </select>
+            <span class="dropdown-arrow"></span>
+        </div>
     </div>
 
-    <div class="flx-evn">
-        <div class="flx-col">
-            <div class="checkbox">
-                <input id="radWorkday" type="radio" checked name="daytype">
-                <label for="radWorkday">Werktag</label>                
-            </div>
-            <div class="checkbox">
-                <input id="radHoliday" type="radio" name="daytype" disabled>
-                <label for="radHoliday" disabled>Feiertag</label>                
-            </div>
+    <div class="flx-col">
+        <br>
+        <div class="control counter inline flx-btw">
+            <label for="inpSitesToday"><strong>Baustellen heute:</strong></label>
+            <span><input id="inpSitesToday" class="computed" type="number" name="itesToday" value="0" disabled></span>                
         </div>
-        <div class="flx-col">
-            <div class="checkbox">
-                <input id="radVacation" type="radio" name="daytype">
-                <label for="radVacation">Urlaubstag</label>                
-            </div>
-            <div class="checkbox">
-                <input id="radSickday" type="radio" name="daytype">
-                <label for="radSickday">Krank</label>                
-            </div>                    
+
+        <div class="control counter inline flx-btw">
+            <label for="inpHoursToday"><strong>Stunden heute:</strong></label>
+            <span><input id="inpHoursToday" class="computed" type="number" name="hoursToday" value="0.00" disabled></span>                
         </div>
+    </div>    
+</fieldset>
+
+<fieldset> <legend></legend>
+    <div class="control counter inline flx-btw">
+        <label id="lblHoursWeek" for="inpHoursWeek"><strong>Stunden KW :</strong></label>
+        <span><input id="inpHoursWeek" class="computed" type="text" name="hoursWeek" value="0,00 / 41,00" disabled></span>                
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label id="lblHoursMonth" for="inpHoursMonth"><strong>Stunden Monat :</strong></label>
+        <span><input id="inpHoursMonth" class="computed" type="text" name="hoursMonth" value="0,00 / 170,00" disabled></span>                
     </div>
 </fieldset>

@@ -24,51 +24,38 @@
         <label for="inpOrt">Ort</label>
         <input id="inpOrt" type="text">
     </div>
+    <hr>
 
-    <div class="flx-btw">
-        <div class="checkbox">
-            <input id="radSingleSite" type="radio" checked name="sitesperday">
-            <label for="radSingleSite">eine Baustelle</label>                
-        </div>
-        <div class="checkbox">
-            <input id="radMultiSite" type="radio" name="sitesperday">
-            <label for="radMultiSite">mehrere Baustellen</label>                
-        </div>
+    <div class="control inline flx-btw">
+        <label for="inpArrival" disabled>Ankunft</label>
+        <span><input id="inpArrival" type="time" name="arrival" data-autocalc="inpHours" disabled>   Uhr</span>
     </div>
 
-    <div class="flx-row">
-        <div class="control short">
-            <label for="inpKommt">Ankunft</label>
-            <input id="inpKommt" type="time" data-autocalc="inpHours">
-        </div>
-
-        <div class="control short flx-end-col">
-            <label for="inpGeht">Abfahrt</label>
-            <input id="inpGeht" type="time" data-autocalc="inpHours">
-        </div>
-    </div>
-
-    <div class="flx-row">
-        <div class="control counter short">
-            <label for="inpPause1">Z'nüni (min)</label>
-            <input id="inpPause1" type="number" data-autocalc="inpHours" value="30" max="60" maxlength="3">
-        </div>
-
-        <div class="control counter short flx-end-col">
-            <label for="inpPause2">Mittag (min)</label>
-            <input id="inpPause2" type="number" data-autocalc="inpHours" value="60" max="120" maxlength="3">
-        </div>
-    </div>
-
-    <div class="flx-row">
-        <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
-            <input id="chkRegie" type="checkbox">
-            <label for="chkRegie">Regie</label>                
-        </div> 
+    <div class="control inline flx-btw">
+        <label for="inpDeparture" disabled>Feierabend</label>
+        <span><input id="inpDeparture" type="time" name="departure" data-autocalc="inpHours" disabled>   Uhr</span>                
     </div>
 
     <div class="control counter inline flx-btw">
+        <label for="inpBreakfast" disabled>Frühstückspause (Z'nüni)</label>
+        <span><input id="inpBreakfast" type="number" name="breakfast" data-autocalc="inpHours" disabled>   min</span>
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpLunch" disabled>Mittagspause</label>
+        <span><input id="inpLunch" type="number" name="lunch" data-autocalc="inpHours" disabled>   min</span>
+    </div>
+    <hr>
+
+    <div class="control counter inline flx-btw">
         <label for="inpHours">Stunden</label>
-        <span><input id="inpHours" class="computed" type="number" value="8.50" disabled>   Std</span>                
+        <span><input id="inpHours" class="computed" type="number" value="0" disabled>   Std</span>                
+    </div>    
+
+    <div class="flx-row">
+        <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
+            <input id="chkRegie" type="checkbox" disabled>
+            <label for="chkRegie" disabled>Regie</label>                
+        </div> 
     </div>
 </fieldset>

@@ -13,7 +13,7 @@ const FRM_SITE = $('frmSiteReport'),
 const clsWizard = new Wizard(FRM_EXAM, 'exam');
 const wizRegie = new Wizard(FRM_REGIE, 'commission');
 
-export function initReports(report) {
+export default function initReports(report) {
     document.addEventListener('onwizard', executeWizardEvent);
     switch (report) {
         case 'weekly':

@@ -148,13 +148,13 @@ class Wizard extends FormHandler {
         this.form.innerHTML += `
         <div id="${this.ID}" class="wizard-bar">
             <div>
-                <img class="icon-button" data-wizard-button src="./img/first512.png" alt="${WIZ_ICONS.HOME}" disabled>
-                <img class="icon-button" data-wizard-button src="./img/previous512.png" alt="-1" disabled>
+                <img class="wizard-button" data-wizard-button src="./img/first.png" alt="${WIZ_ICONS.HOME}" disabled>
+                <img class="wizard-button" data-wizard-button src="./img/previous.png" alt="-1" disabled>
             </div>      
-            <img class="icon-button" data-wizard-button src="./img/camera512.png" alt="${WIZ_ICONS.CAM}">    
-            <img class="icon-button" data-wizard-button src="./img/info512.png" alt="${WIZ_ICONS.INFO}">
-            <img class="icon-button" data-wizard-button src="./img/next512.png" alt="1">
-            <img class="icon-button hidden" data-wizard-button src="./img/${this.action}512.png" alt="${WIZ_ICONS.SEND}">
+            <img class="wizard-button" data-wizard-button src="./img/camera.png" alt="${WIZ_ICONS.CAM}">    
+            <img class="wizard-button" data-wizard-button src="./img/info.png" alt="${WIZ_ICONS.INFO}">
+            <img class="wizard-button" data-wizard-button src="./img/next.png" alt="1">
+            <img class="wizard-button hidden" data-wizard-button src="./img/${this.action}.png" alt="${WIZ_ICONS.SEND}">
         </div>`;
     }
 }

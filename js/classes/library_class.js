@@ -1,17 +1,30 @@
 const CLASS_PROPERTIES = {
-    // properties for address class
+    // properties for address class:
     address: ['salutation','surname','firstname', {birthday: null},
               'street','streetNumber','zip','location','country',
               'mail','phone', 'mobile'],
+    // properties for settings class:
     settings: ['user', {employeetype: -1}, {setupDone: false}, {language: 0}, {copyPreviousDay: true}, 
             {showDriveBox: false}, {showSiteID: false}, {maxSitesPerDay: 4}, {sitesActiveFor: 3},
-            {validateHours: true} , {alertHours: 12}, {workFrom: '07:00'}, {workUntil: '17:00'},
-            {breakfast: 30}, {lunch: 60}, {summerTime: true}, 
-            {weekdays: {summer: [8.5, 8.5, 8.5, 8.5, 7.0, 0],
-                        winter: [8.0, 8.0, 8.0, 8.0, 7.0, 0]}                       
+            {validateHours: true}, {alertHours: 12}, 
+            {weekdays: {
+                summer: [
+                    {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:00', until: '16:00', breakfast: 30, lunch: 60}
+                ],
+                winter: [
+                    {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+                    {from: '07:30', until: '16:00', breakfast: 30, lunch: 60}
+                ]}
             }, 
-            {saturday: false},{defaultlength: 600},{defaultwidth: 300},
-            {homescreen: ['clock512.png|hours.html|Stundenerfassung','tiles512.png|tools.html?material|Materialrechner','calculator512.png|calculator.html|Taschenrechner','settings512.png|settings.html|Einstellungen']},
+            {defaultlength: 600}, {defaultwidth: 300}, {offcut: 3}, {jointDepth: 10}, {jointWidth: 3},
+            {homescreen: ['clock.png|hours.html|Stundenerfassung','tiles.png|tools.html?material|Materialrechner','calculator.png|calculator.html|Taschenrechner','settings.png|settings.html|Einstellungen']},
             {calculatorStyle: 'calculator_apple.css'}, {showCalculatorIcon: false}
             // evl. objects: {image: 'clock512.png', link: 'hours.html' }...
     ]

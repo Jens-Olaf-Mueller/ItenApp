@@ -2,7 +2,7 @@ import $ from '../library.js';
 import {FormHandler } from './library_class.js';
 
 class Material extends FormHandler {
-    unit = 'mm';
+    unit = '1'; // = m
     areaManual = false;
     areaLength = 0;
     areaWidth = 0;   
@@ -12,6 +12,7 @@ class Material extends FormHandler {
     trowel = 0;
     contactLayer = false;
     diagonal = false;
+    levelHeight = 0;
     jointWidth = 0;
     jointDepth = 0;
     get jointLength() { 
@@ -28,9 +29,10 @@ class Material extends FormHandler {
     #area = 0;
     get area() {
         if (this.areaManual) {
-            return this.#area;
+            return Number(this.#area);
         } else {
-            return this.areaLength / 1000 * this.areaWidth / 1000;
+            const unit = Number(this.unit) || 1;
+            return (this.areaLength / unit) * (this.areaWidth / unit);
         }        
     }
     set area (newVal) {
@@ -44,6 +46,10 @@ class Material extends FormHandler {
 
     get grout() {
         return Math.roundDec(this.area * this.jointLength * this.jointWidth / 1000 * this.jointDepth / 1000 * this.DENSITY * 1.05, 1);
+    }
+
+    get levelCompound() {
+        return Math.roundDec(this.area * this.levelHeight / 1000 * this.DENSITY);
     }
 
     get tilesPerSQM() {
@@ -91,17 +97,22 @@ class Material extends FormHandler {
     #assignProperties(settings) {
         if (settings == null) return;
         for (const prop in settings) {
-            // console.log(`${prop}: ${settings[prop]}`);
-            if (this.hasOwnProperty(prop)) {
-                this[prop] = settings[prop];
-            } else if (this.hasOwnSetter(prop)) {
-                debugger
+            if (this.hasOwnProperty(prop) || this.hasOwnSetter(prop)) {
                 this[prop] = settings[prop];
             }
         }
     }
-    hasOwnSetter(prop) {
-        return !!Object.getOwnPropertyDescriptor(this, prop)['get'];
+
+    /**
+     * Helper function for #assignProperties.
+     * Checks if the class has a setter with the given name. 
+     * @param {string} property Name of the property we want to determine if it has a setter
+     * @returns true | false
+     */
+    hasOwnSetter(property) {
+        const setters = Object.entries(Object.getOwnPropertyDescriptors(Material.prototype))
+            .filter(([key, descriptor]) => typeof descriptor.set === 'function').map(([key]) => key)
+        return setters.includes(property);
     }
 
 }

@@ -8,7 +8,7 @@ const CALC_POD = 'divCalculator',
       PREV_OPERAND = 'divPrevOperand',
       CURR_OPERAND = 'divCurrOperand';
 
-class Calculator extends Library {
+export default class Calculator extends Library {
     #calculator;
     #buttons;
     #currOpDisplay;
@@ -115,7 +115,16 @@ class Calculator extends Library {
 
     returnValue(event) {
         if (!this.calcDone) this.compute();
-        this.buddy.value = this.error ? '' : this.result;
+        // this.buddy.value = this.error ? '' : this.result;
+        // nessecary if input field type="number": Number(this.result.replace(',','.'))
+        this.buddy.value = this.error ? '' : Number(this.result.replace(',','.')); 
+        document.dispatchEvent(new CustomEvent('onresult', {
+            detail: {
+                result: this.result,
+                source: this,
+                parent: this.parent
+            }
+        }));        
         this.hide(event);
     }
 
@@ -175,7 +184,7 @@ class Calculator extends Library {
             get isInteger() {return isNaN(this.decimalDigits); }
         }
 
-        console.log('therm: ', therm)       
+        // console.log('therm: ', therm)       
   
         let integer = '';
         if (!isNaN(integerDigits)) {
@@ -511,6 +520,9 @@ class Calculator extends Library {
             arrOperators[i].innerHTML = arrCaptions[i];
             const exec = this.executeOperators.includes(arrCaptions[i]) ? 'execute' : '';
             this.setAttributes(arrOperators[i], {class: 'btn-operator', 'data-operator': `${exec}`});
+            // TODO Bracket functionality!!!
+            // remove the next line when done!
+            if (i < 2) this.setAttributes(arrOperators[i], {disabled: ''});
         }
     }
 
@@ -533,6 +545,4 @@ class Calculator extends Library {
             this.calculator.addEventListener('click', (event) => this.hide(event));
         }
     }
-}                 
-
-export { Calculator };
+}

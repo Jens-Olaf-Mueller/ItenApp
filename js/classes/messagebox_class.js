@@ -2,7 +2,7 @@ const OVERLAY_ID = 'msg-BoxOverlay',
       Z_INDEX_TOP = 2147483647,
       BTN_ID = 'msg-btn-';
 
-class MessageBox {
+export default class MessageBox {
     #prompt;
     get prompt() { return this.#prompt };
     set prompt(text) {
@@ -195,5 +195,3 @@ class MessageBox {
         document.querySelector(':root').style.setProperty(`--${varName}`, value);
     }
 }
-
-export { MessageBox };

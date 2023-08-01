@@ -1,20 +1,39 @@
 import {APP_NAME} from '../const.js';
+import { isDebugmode } from '../app.js';
 import $ from '../library.js';
-import {FormHandler, Address, CLASS_PROPERTIES} from './library_class.js';
+import {FormHandler, Address} from './library_class.js';
 
-class Settings extends FormHandler {
+export default class Settings extends FormHandler {
     #lsKey = null;
     get key() { return this.#lsKey }
     set key(value = APP_NAME) { this.#lsKey = value }
 
-    get weeklyHours() {
-        let hrs = 0;
-        for (let i = 0; i < this.weekdays.length; i++) { hrs += +this.weekdays[i]; }
-        return hrs;
-    }
+    setupDone = false;
+
+    // weekdays = {summer: [
+    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:00', until: '16:00', breakfast: 30, lunch: 60}],
+    //             winter: [
+    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+    //                 {from: '07:30', until: '16:00', breakfast: 30, lunch: 60}]}
+    
+    // get weeklyHours() {
+    //     let hrs = 0;
+    //     const days = this.weekdays[this.season];
+    //     for (let i = 0; i < days.length; i++) {
+    //          hrs += +this.weekdays[i]; 
+    //     }
+    //     return hrs;
+    // }
 
     constructor(key, form) {
-        super(form, CLASS_PROPERTIES.settings);
+        super(form, DEFAULT_SETTINGS);
         this.key = key;
         this.user = new Address();
         this.load();
@@ -35,14 +54,16 @@ class Settings extends FormHandler {
         } else {
             console.warn('Settings could not be loaded! Using default settings...');
             this.#assignProperties(DEFAULT_SETTINGS);
-            // this.#assignProperties(CLASS_PROPERTIES.settings);
         }
     }
 
     save(key = this.key) {
         this.setupDone = this.validate();
-        let pbBag = this.#applyChanges();         
+        let pbBag = this.#applyChanges();
+        pbBag.weekdays = this.weekdays;  
+        pbBag.setupDone = this.validate();       
         pbBag.key = key;
+        if (isDebugmode) console.log('Saving changes...', pbBag);
         localStorage.setItem(key, JSON.stringify(pbBag));
         if (this.form) this.form.submit();
     }
@@ -63,18 +84,9 @@ class Settings extends FormHandler {
     #readFormData(form = this.form) {
         const frmData = new FormData(form),
               frmEntries = Object.fromEntries(frmData.entries());
-            //   console.log(frmEntries)
-            //   debugger
-
-        frmEntries.weekdays = frmData.getAll('weekdays');
-        // handling the radio buttons separately!!! it sucks! :-(
-        frmEntries.summerTime = Array.from($('[name="summerTime"]')).map(elm => {
-            return elm.checked;
-        });
         // handling all named checkboxes to get also UNchecked boxes!
-        Array.from($('[type="checkbox"][name]')).map(box => {
-            frmEntries[box.name] = box.checked;
-        });
+        Array.from($('[type="checkbox"][name]')).map(box => frmEntries[box.name] = box.checked);
+        frmEntries.season = $('input[name="season"]:checked').value;
         // handling icons on the home screen must be last!!!
         frmEntries.homescreen = frmData.getAll('homescreen');
         return frmEntries;
@@ -106,7 +118,7 @@ class Settings extends FormHandler {
                 if (setting.hasOwnProperty(key)) {
                     const element = frmElements.namedItem(key), value = setting[key];
                     if (element instanceof RadioNodeList && element[0].type == 'radio') {
-                        // iterating over the radio group.
+                        // iterating over the radio groups.
                         // if the values match, we check the element
                         [...element].forEach(function(radio) {
                             if (radio.value == value) radio.checked = true;
@@ -119,7 +131,6 @@ class Settings extends FormHandler {
                 }
             }      
         });
-        frmElements.namedItem('weeklyhours').value = this.weeklyHours.toFixed(2);
     }
 
     /**
@@ -142,9 +153,9 @@ class Settings extends FormHandler {
     }
 }
 
-export { Settings };
-
 const DEFAULT_SETTINGS = [
+    {language: 'german'},
+    {user: null},
     {surname: ''},
     {firstname: ''},
     {location: ''},
@@ -158,14 +169,37 @@ const DEFAULT_SETTINGS = [
     {sitesActiveFor: 3},
     {validateHours: true},
     {alertHours: '12.00'},
-    {summerTime: [true, false]},
-    {workFrom: '07:00'},
-    {workUntil: '17:00'},
-    {breakfast: 30},
-    {lunch: 60},
-    {weekdays: ['8.50', '8.50', '8.50', '8.50', '7.00', 0]},
-    {saturday: false},
+    {season: 'summer'},
+    {weekdays: {
+        summer: [
+            {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:00', until: '16:00', breakfast: 30, lunch: 60},
+            {from: '00:00', until: '00:00', breakfast: '', lunch: ''}
+        ],
+        winter: [
+            {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
+            {from: '07:30', until: '16:00', breakfast: 30, lunch: 60},
+            {from: '00:00', until: '00:00', breakfast: '', lunch: ''}
+        ]}
+    },
     {defaultlength: 600},
     {defaultwidth: 300},
-    {homescreen: ['clock512.png|hours.html','tiles512.png|tools.html?material','calculator512.png|calculator.html']}   
+    {offcut: 3}, 
+    {jointDepth: 10}, 
+    {jointWidth: 3},
+    {showCalculatorIcon: true},
+    {calculatorStyle: 'calculator_apple.css'},
+    {homescreen: [
+        'clock.png|hours.html|Stundenerfassung',
+        'tiles.png|tools.html?material|Materialrechner',
+        'calculator.png|calculator.html|Taschenrechner',
+        'settings.png|settings.html|Einstellungen'
+    ]},   
+    // evl. {homescreen: [{image: 'clock.png', link: 'hours.html', caption: 'Stundenerfassung'},...]
 ];
