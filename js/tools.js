@@ -4,12 +4,13 @@ import { SETTINGS } from './app.js';
 import { initPageMeasure} from './tools_measure.js';
 import { Material } from './classes/material_class.js';
 import { FormHandler } from './classes/library_class.js';
-import { Wizard } from './classes/wizard_class.js';
+import Wizard from './classes/wizard_class.js';
 import Calculator from './classes/calculator_class.js';
 
 const clsMaterialWizard = new Wizard('frmMaterial', 'material');
 const frmMATERIAL = new FormHandler('frmMaterial'),
-      frmMEASURE = new FormHandler('frmMeasure');
+      frmMEASURE = new FormHandler('frmMeasure'),
+      frmORDER = new FormHandler('frmOrder');
 
 const material = new Material('frmMaterial');
 const calculator = new Calculator();
@@ -21,8 +22,12 @@ export default function initTools(tool) {
             initMaterialCalcuator('Materialrechner');        
             break;
 
+        case 'order':
+            frmORDER.show();
+            break;
+
         case 'measure': 
-        debugger
+        // debugger
             frmMEASURE.show();
             initPageMeasure('Ausmass');        
             break;

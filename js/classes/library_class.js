@@ -328,4 +328,17 @@ class Address extends FormHandler {
     }
 }
 
-export { Library, FormHandler, Address, CLASS_PROPERTIES };
+class Employee extends Address {
+    employedAs = '';
+    dateOfEntry = new Date();
+    get hashKey() {
+        const str = this.surname + this.firstname + this.mail + this.birthday;
+        return str;
+    }
+
+    constructor() {
+        super();
+    }
+}
+
+export { Library, FormHandler, Address, Employee, CLASS_PROPERTIES };

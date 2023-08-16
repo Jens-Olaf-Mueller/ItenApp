@@ -17,12 +17,18 @@ export class Project extends FormHandler {
     lastUpdate = new Date();
     startDate = null;
     status = null;
-    location = new Address();
+    address = new Address();
     client = new Address();
     supervisor = new Address();
+    employees = [];
     description;
     comments;
     
+    /**
+     * Creates a new project class.
+     * @param {HTMLFormElement} form The form assigned to the class in order to display datas.
+     * @param {number} serial Serial number of the project.
+     */
     constructor(form, serial) {
         super(form);
 

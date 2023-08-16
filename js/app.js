@@ -2,16 +2,17 @@ import $, { includeHTML } from './library.js'; // import * as Library from './li
 import { renderLaunchPad, setCheckboxBuddies, setInputAutoSelection } from './main.js';
 import { Project } from './classes/project_class.js';
 import Settings from './classes/settings_class.js';
-import { FormHandler } from './classes/library_class.js';
+import { FormHandler, Employee } from './classes/library_class.js';
 import initSettings from './settings.js';
 import initTools from './tools.js';
 import initHoursRecording from './hours.js';
 import initReports from './report.js';
+import initAdmin from './admin.js';
 import initCalculator from './calculator.js';
 
 export const SETTINGS = new Settings();
-export const PROJECTS = [];
 export const EMPLOYEES = [];
+export const PROJECTS = [];
 
 export const isDebugmode = true;
 
@@ -42,9 +43,9 @@ async function runApp() {
     if (href.includes('settings')) initSettings('Einstellungen');
     if (href.includes('hours')) initHoursRecording('Stunden');
     if (href.includes('report')) initReports(queryString);
-    // if (href.includes('admin')) initAdmin(queryString);
+    if (href.includes('admin')) initAdmin(queryString);
     setCheckboxBuddies();
-    setCheckboxBuddies('off'); // for those who switch corresponding controls off!
+    setCheckboxBuddies('off'); // for those switching corresponding controls off!
     setInputAutoSelection();
     loadEmployeesFromServer();
     loadProjectsFromServer();
@@ -59,23 +60,60 @@ async function loadEmployeesFromServer() {
  */
 async function loadProjectsFromServer() {
     if (isDebugmode) console.log('Todo: Loading projects from server... ');
+    // TODO Just for testing!
+    tempCreateEmployees(); 
     for (let i = 0; i < 2; i++) {
         const proj = new Project(null, PROJECTS.length);
         proj.description = (i == 0) ? 'Magazin' : (i == 1) ? 'Ausstellung / Büro' : '';
         if (i == 1) {
-            proj.location.street = 'Zugerstrasse';
-            proj.location.location = 'Unterägeri';
+            proj.address.street = 'Zugerstrasse';
+            proj.address.location = 'Unterägeri';
         }
         PROJECTS.push(proj); 
     }
 
-    // just for testing...
+    // TODO just for testing...
     ['Villa Hotz','Eichmattpark','Quadrolith','Ahornstrasse 22','Ahornstrasse 20','Sprungstrasse 15'].forEach(prj => {
         const proj = new Project(null, PROJECTS.length);
         proj.description = prj;
+        const nr = Math.randomExt(0, EMPLOYEES.length-1);
+        proj.employees.push(EMPLOYEES[nr]);        
         PROJECTS.push(proj); 
     });
     // console.log(PROJECTS)
+}
+
+function tempCreateEmployees() {
+    let arrSurnames = ['Müller','Krüger','Schlag','Furer','Hensch'],
+        arrFirstnames = ['Jens-Olaf','Achim','Sven','Roger','Tobias'],
+        arrBirthdays = ['06.01.1970','01.01.1963','30.05.1983','01.01.1980','01.01.1985'];
+
+    for (let i = 0; i < 5; i++) {
+        const emp = new Employee();        
+        emp.surname = arrSurnames[i];
+        emp.firstname = arrFirstnames[i];
+        emp.birthday = arrBirthdays[i];
+        EMPLOYEES.push(emp);
+    }
+}
+
+export async function executeWizardEvents(event) {    
+    console.log(event.detail);
+    // debugger
+    const wizAction = event.detail.action;
+    if (wizAction == 'send') {
+        const sender = event.detail.source;
+        sender.submitForm('index.html');
+    } else if (wizAction == 'add') {
+        if (await msgBox.show('Weitere Baustelle hinzufügen?','Fortfahren?','Ja, Nein') == 'Ja') {
+            // clsWizard.page = 0;
+            clsWizard.updatePage(-10);
+            debugger
+            //TODO: saving the previous dataset
+        }
+    } else if (wizAction == 'save') {
+        SETTINGS.save();
+    }
 }
 
 /**

@@ -10,28 +10,6 @@ export default class Settings extends FormHandler {
 
     setupDone = false;
 
-    // weekdays = {summer: [
-    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:00', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:00', until: '16:00', breakfast: 30, lunch: 60}],
-    //             winter: [
-    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:30', until: '17:00', breakfast: 30, lunch: 60},
-    //                 {from: '07:30', until: '16:00', breakfast: 30, lunch: 60}]}
-    
-    // get weeklyHours() {
-    //     let hrs = 0;
-    //     const days = this.weekdays[this.season];
-    //     for (let i = 0; i < days.length; i++) {
-    //          hrs += +this.weekdays[i]; 
-    //     }
-    //     return hrs;
-    // }
-
     constructor(key, form) {
         super(form, DEFAULT_SETTINGS);
         this.key = key;
@@ -39,8 +17,8 @@ export default class Settings extends FormHandler {
         this.load();
     }
 
-    load(key) {
-        if (key === undefined) key = this.key;
+    load(key = this.key) {
+        // if (key === undefined) key = this.key;
         const ls = localStorage.getItem(key), settings = [];
         let jsonSettings = ls ? JSON.parse(ls) : null;
         // convert json-file into a settings-object
@@ -66,6 +44,20 @@ export default class Settings extends FormHandler {
         if (isDebugmode) console.log('Saving changes...', pbBag);
         localStorage.setItem(key, JSON.stringify(pbBag));
         if (this.form) this.form.submit();
+    }
+
+    reset(key = this.key) {
+        localStorage.removeItem(key);
+        this.#assignProperties(DEFAULT_SETTINGS);
+    }
+
+
+    calculateHours(from = '07:00', until = '17:00', breakfast = '30', lunch = '60') {
+        const start = from.split(':').map(Number),
+              end = until.split(':').map(Number),
+              dtFrom = new Date(2020, 0, 1, start[0], start[1]), 
+              dtUntil = new Date(2020, 0, 1, end[0], end[1]);
+        return ((dtUntil.getTime() - dtFrom.getTime()) / 1000 / 60 - Number(breakfast) - Number(lunch)) / 60;
     }
 
     #applyChanges() {
@@ -169,6 +161,7 @@ const DEFAULT_SETTINGS = [
     {sitesActiveFor: 3},
     {validateHours: true},
     {alertHours: '12.00'},
+    {expenses: '18.00'},
     {season: 'summer'},
     {weekdays: {
         summer: [

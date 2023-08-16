@@ -4,13 +4,14 @@
             <label for="selRegieSites">Baustelle / Objekt</label>
             <div class="dropdown">
                 <select name="sites" id="selRegieSites" required>
-                    <!-- <option value="-1" disabled selected>-- bitte wählen --</option>
-                    <option value="0000-000">Magazin</option>
-                    <option value="0000-001">Büro</option>
-                    <option value="2021-001">Eichmattpark</option>
-                    <option value="2021-002">Quadrolith</option>
-                    <option value="2022-003">Ahornstrasse 20</option>
-                    <option value="2022-004">Ahornstrasse 22</option> -->
+                    <option value="-1" selected>-- bitte wählen --</option>
+                    <option value="0000-000" data-site="Unterägeri">Magazin</option>
+                    <option value="0000-001" data-site="Unterägeri">Büro</option>
+                    <option value="2021-001" data-site="Meggen">Eichmattpark</option>
+                    <option value="2021-002" data-site="Baar">Quadrolith</option>
+                    <option value="2022-003" data-site="Unterägeri">Ahornstrasse 20</option>
+                    <option value="2022-004" data-site="Unterägeri">Ahornstrasse 22</option>
+                    <option value="2023-005" data-site="Affoltern a. Albis">Titlisstrasse</option>
                 </select>
                 <span class="dropdown-arrow"></span>
             </div>
@@ -23,7 +24,7 @@
 
         <div class="control counter">
             <label class="lbl-short" for="inpPLZ">PLZ, Ort</label>
-            <span class="control long flx-btw">
+            <span class="control long inline flx-btw">
                 <input id="inpPLZ" class="inp-short" type="number" name="adress">
                 <input id="inpLocation" type="text" name="adress">
             </span>
@@ -51,14 +52,14 @@
             </div>
         </div>
 
-        <div class="control counter flx-btw">
+        <div class="control counter inline flx-btw">
             <label for="inpCommHours">Zeitaufwand</label>
-            <span><input id="inpCommHours" type="number" name="commhours" min="0.5">   Std</span> 
+            <span><input id="inpCommHours" type="number" name="commhours">   Std</span> 
         </div>
 
         <textarea name="regie" id="txtWorkDesription" cols="35" rows="25" placeholder="ausgeführte Regie-Arbeiten..."></textarea>
 
-        <button id="btnAddEmployee" class="desk" type="button" disabled>Hinzufügen</button>
+        <!-- <button id="btnAddEmployee" class="desk" type="button" disabled>Hinzufügen</button> -->
     </fieldset>
 </div>
 
@@ -93,47 +94,55 @@
             </span>   
             <span><input id="inpDrillHammer" type="number" name="drillhammer" disabled>  Std</span>
         </div>
+
         <div class="switchbox counter flx-btw">
             <span>
-                <input id="chkFlexSmall" type="checkbox" data-buddy="inpFlexSmall">
-                <label for="chkFlexSmall">Winkelschleifer klein</label>
+                <input id="chkFlexBig" type="checkbox" data-buddy="inpFlex selFlexSize">
+                <label for="chkFlex">Winkelschleifer</label>
+                <div class="control" data-control="dropbox">
+                    <div class="dropdown">
+                        <select id="selFlexSize" name="flexSize" data-units="" disabled>
+                            <option>klein</option>
+                            <option>gross</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>                   
+                    </div>                
+                </div> 
             </span>   
-            <span><input id="inpFlexSmall" type="number" name="flexsmall" disabled>  Std</span>
+            <span><input id="inpFlex" type="number" name="flex" disabled>  Std</span>
         </div>
         <div class="switchbox counter flx-btw">
             <span>
-                <input id="chkFlexBig" type="checkbox" data-buddy="inpFlexBig">
-                <label for="chkFlexBig">Winkelschleifer gross</label>
+                <input id="chkPolisherSmall" type="checkbox" data-buddy="inpPolisher selPolisherSize">
+                <label for="chkPolisherSmall">Betonschleifer</label>
+                <div class="control" data-control="dropbox">
+                    <div class="dropdown">
+                        <select id="selPolisherSize" name="polisherSize" data-units="" disabled>
+                            <option>klein</option>
+                            <option>gross</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>                   
+                    </div>                
+                </div> 
             </span>   
-            <span><input id="inpFlexBig" type="number" name="flexbig" disabled>  Std</span>
+            <span><input id="inpPolisher" type="number" name="polisher" disabled>  Std</span>
         </div>
+
         <div class="switchbox counter flx-btw">
             <span>
-                <input id="chkPolisherSmall" type="checkbox" data-buddy="inpPolisherSmall">
-                <label for="chkPolisherSmall">Betonschleifer klein</label>
+                <input id="chkCutter" type="checkbox" data-buddy="inpCutter selCutterSize">
+                <label for="chkCutter">Nassfräse></label>
+                <div class="control" data-control="dropbox">
+                    <div class="dropdown">
+                        <select id="selCutterSize" name="cutterSize" data-units="" disabled>
+                            <option>klein</option>
+                            <option>gross</option>
+                        </select>
+                        <span class="dropdown-arrow"></span>                   
+                    </div>                
+                </div>
             </span>   
-            <span><input id="inpPolisherSmall" type="number" name="polishersmall" disabled>  Std</span>
-        </div>
-        <div class="switchbox counter flx-btw">
-            <span>
-                <input id="chkPolisherBig" type="checkbox" data-buddy="inpPolisherBig">
-                <label for="chkPolisherBig">Betonschleifer gross</label>
-            </span>   
-            <span><input id="inpPolisherBig" type="number" name="polisherbig" disabled>  Std</span>
-        </div>
-        <div class="switchbox counter flx-btw">
-            <span>
-                <input id="chkCutterSmall" type="checkbox" data-buddy="inpCutterSmall">
-                <label for="chkCutterSmall">Nassfräse <strong>&lt= 90 cm</strong></label>
-            </span>   
-            <span><input id="inpCutterSmall" type="number" name="cuttersmall" disabled>  Std</span>
-        </div>
-        <div class="switchbox counter flx-btw">
-            <span>
-                <input id="chkCutterBig" type="checkbox" data-buddy="inpCutterBig">
-                <label for="chkCutterBig">Nassfräse <strong>&gt 90 cm</strong></label>
-            </span>   
-            <span><input id="inpCutterBig" type="number" name="cutterbig" disabled>  Std</span>
+            <span><input id="inpCutter" type="number" name="cutter" disabled>  Std</span>
         </div>
         <hr>
 
@@ -156,7 +165,7 @@
         </div>
 
         <div class="control counter">
-            <span class="control long flx-btw">
+            <span class="control long inline flx-btw">
                 <input id="inpOtherTool" type="text" name="othertoolname" placeholder="Maschine / Typ / Nr" disabled>
                 <span><input id="inpOtherToolHours" type="number" name="othertoolhours" disabled>  Std</span>               
             </span>
@@ -165,7 +174,7 @@
 </div>
 
 <div class="wizard hidden" data-wizard="commission" data-name="material1"> <!--  w3-include-html="" -->
-    <fieldset> <legend>  Material 1 / 2  </legend>
+    <fieldset> <legend>  Material 1 / 3  </legend>
         <div class="switchbox counter inline flx-btw" data-control="dropbox">
             <span>
                 <input id="chkGlueGray" type="checkbox" data-buddy="inpGlueGray selGlueGray">
@@ -259,11 +268,12 @@
                         <span class="dropdown-arrow"></span>                   
                     </div>                
                 </div>  
-            </span>
-                        
+            </span>                        
         </div>
         <input  id="inpGroutType" type="text" name="grouttype" placeholder="Fugenfarbe / Fabrikat / Nr." disabled>
         <hr>
+
+
         <div class="switchbox counter flx-btw">
             <span>
                 <input id="chkPrimer" type="checkbox" data-buddy="inpPrimer">
@@ -287,8 +297,11 @@
             <span><input id="inpSilicone" type="number" name="silicone" disabled>  Kart</span>
         </div>
         <input  id="inpSiliconeType" type="text" name="siliconetype" placeholder="Farbe / Fabrikat / Nr." disabled>
-        <hr>
+    </fieldset>
+</div>
 
+<div class="wizard hidden" data-wizard="commission" data-name="material2"> <!--  w3-include-html="" -->
+    <fieldset> <legend>  Material 2 / 3  </legend>
         <div class="switchbox counter flx-btw">
             <span>
                 <input id="chkFibreGlassWeb" type="checkbox" data-buddy="inpFibreGlassWeb">
@@ -334,10 +347,7 @@
                             <option value="4">4</option>
                             <option value="6">6</option>
                             <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">50</option>
+                            <option value="15">15</option>
                         </select>
                         <span class="dropdown-arrow"></span>       
                     </div>                
@@ -345,31 +355,44 @@
                 <span><input id="inpDecoupling" type="number" name="wedi" disabled>   m²</span>
             </span>              
         </div>
+        <div class="switchbox counter flx-btw">
+            <span>
+                <input id="chkSoundInsulation" type="checkbox" data-buddy="inpSoundInsulation">
+                <label for="chkSoundInsulation">Trittschall</label>
+            </span>   
+            <span><input id="inpSoundInsulation" type="number" name="soundinsulation" disabled>   m²</span>
+        </div>
+
         Dämmung <br>
         Abdichtung <br>
-    </fieldset>
-</div>
-
-<div class="wizard hidden" data-wizard="commission" data-name="material2"> <!--  w3-include-html="" -->
-    <fieldset> <legend>  Material 2 / 2  </legend>
-        <div class="switchbox inline" data-control="dropbox">
-            <input id="chkCoveringMaterial" type="checkbox" data-buddy="selCoveringMaterial">
-            <div class="control" data-control="dropbox" style="flex: 1">
+        <hr>
+        <div class="switchbox counter inline flx-btw" data-control="dropbox">
+            <input id="chkCoveringMaterial" type="checkbox" data-buddy="selCoveringMaterial inpCoveringMaterial">
+            <div class="control" data-control="dropbox" style="flex: 1;">
                 <div class="dropdown">
-                    <select id="selCoveringMaterial" disabled>
-                        <option value="0" selected disabled>-- Abdeck- u. Schutzmaterial --</option>                       
-                        <option value="Luftreiniger">Floorliner</option>
-                        <option value="Stichsäge">Kraftpapier</option>
-                        <option value="Sanierungsfräse">Baufolie / Plastik</option>
-                        <option value="Teppichstripper">Permafix (SK-Folie)</option>
+                    <select id="selCoveringMaterial" name="coveringmaterial" disabled>
+                        <option value="0" selected disabled>-- Abdeck- / Schutzmaterial --</option>                       
+                        <option>Floorliner</option>
+                        <option>Kraftpapier</option>
+                        <option>Pavatex</option>
+                        <option>Baufolie / Plastik</option>
+                        <option>Permafix (SK-Folie)</option>
                         <option value="-1">-- nicht aufgeführt --</option>
                     </select>
                     <span class="dropdown-arrow"></span>                   
-                </div>                
+                </div>                                
             </div>
+            <span><input id="inpCoveringMaterial" type="number" name="coveringmaterialSQM" disabled>   m²</span>
         </div>
     </fieldset>
 </div>
+
+ <!--  w3-include-html="" -->
+<!-- <div class="wizard hidden" data-wizard="commission" data-name="material3">
+    <fieldset> <legend>  Material 3 / 3  </legend>
+
+    </fieldset>
+</div> -->
 
 <div class="wizard hidden" data-wizard="commission" data-name="transport"> <!--  w3-include-html="" -->
     <fieldset> <legend>  Fahrzeug / Abfall  </legend>
@@ -430,6 +453,7 @@
 
 <div class="wizard hidden" data-wizard="commission" data-name="signature"> <!--  w3-include-html="" -->
     <fieldset> <legend>  Bemerkungen / Unterschrift  </legend>
-        
+        <canvas id="cnvSignature" class="signature"></canvas>
+        <label for="cnvSignature">Unterschrift</label>  
     </fieldset>
 </div>

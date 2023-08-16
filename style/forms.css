@@ -31,7 +31,7 @@ form.grid {
     grid-template-columns: 1fr 1fr;
 }
 
-fieldset {
+fieldset, .fieldset {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -98,8 +98,8 @@ input:focus, select:focus, textarea:focus {
 textarea {
     resize: vertical;
     max-width: 100%;
-    min-height: 8.25rem;
-    max-height: 12.25rem;
+    min-height: 8rem;
+    max-height: 8rem;
 }
 
 textarea[name="regie"] {
@@ -141,11 +141,6 @@ textarea.txt-fixed {
 .control.edit-mode {
     background: lightgreen;
     border-bottom: 1.25rem solid lightgreen;
-    /* height: 2.45rem; */
-    /* border-right: 1rem solid lightgreen;
-    border-left: 1.25rem solid green;
-    border-top: 1.25rem solid transparent;
-    border-bottom: 1.25rem solid transparent; */
 }
 
 .control.edit-mode::before,
@@ -189,8 +184,14 @@ input#inpCurrentDate {
 .short {
     width: 50%;
 }
+
 .long {
     width: 100%;
+}
+
+#inpBVNr {
+    flex: none;
+    width: 5.25rem;
 }
 
 .input-error {
@@ -356,11 +357,20 @@ input[disabled] {
 
 .computed[disabled] {
     background-color: var(--autocalc-bg-color);
-    /* background-color: var(--autocalc-bg-color) !important; */
-    /* border: 1px solid navy !important; */
+    color: var(--theme-color);
     border: 1px solid navy;
     font-weight: bold;
     filter: grayscale(0);
+}
+
+.computed[disabled].info {
+    padding-right: 1rem;
+    text-align: right;
+    width: 10.5rem;
+}
+
+.lbl-info {
+    font-weight: bold;
 }
 
 .icon-small {
@@ -433,6 +443,13 @@ input[disabled] {
 
 .wizard-button[disabled], button[disabled] {
     filter: contrast(0.15) grayscale(1);
+}
+
+/* Reset button in settings */
+.wizard-button#btnResetSettings {
+    position: absolute;
+    right: 1rem;
+    top: 5.5rem;
 }
 
 button[disabled]:hover {
@@ -509,7 +526,7 @@ button[disabled]:hover {
         min-width: calc(var(--label-width-mobile) - var(--checkbox-size));
     }
 
-    .control label:first-child {
+    .control label:first-child:not([for="selTrowel"]) {
         min-width: unset;
     }
 

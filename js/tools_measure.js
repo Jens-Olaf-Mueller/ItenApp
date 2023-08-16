@@ -1,9 +1,9 @@
 'use strict';
 import $ from './library.js';
 import { SETTINGS } from './app.js';
-import { formatDate } from './main.js';
+import { formatDate } from './date.js';
 import { Surface } from './classes/material_class.js';
-import { Wizard } from './classes/wizard_class.js';
+import Wizard from './classes/wizard_class.js';
 import { Survey } from './classes/survey.class.js';
 
 import { FormHandler } from './classes/library_class.js';

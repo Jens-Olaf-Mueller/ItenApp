@@ -1,29 +1,25 @@
-<fieldset> <legend>  Leistung / Bemerkungen  </legend>
-    <textarea name="" id="txtLeistung" cols="35" rows="25" 
-        placeholder="heute ausgeführte Arbeiten...">
+<fieldset> <legend>  Ausgeführte Arbeiten  </legend>
+    <div class="control" data-control="dropbox">
+        <label for="selWorkCategory">Arbeitskategorie</label>
+        <div class="dropdown">
+            <select name="category" id="selWorkCategory" data-popup="divDoneWork"></select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <div class="control" id="divDoneWork" data-control="dropbox" hidden>
+        <div class="checkbox" style="margin-bottom: 0.75rem;">
+            <input id="chkMultipleWork" type="checkbox" style="min-width: auto;">
+            <label for="chkMultipleWork">Mehrfachauswahl zulassen</label>                
+        </div>
+        <label for="selDoneWork">Ausgeführte Arbeiten</label>
+        <div class="dropdown">
+            <select name="donework" id="selDoneWork"></select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <textarea name="otherwork" id="txtOtherWork" cols="35" rows="5" 
+        placeholder="sonstige, nicht aufgeführte Arbeiten..." value ="" hidden>
     </textarea>
-    <div class="control">
-        <label for="inpBemerkung">Bemerkung</label>
-        <input id="inpBemerkung" type="text">
-    </div>
-</fieldset>
-
-<fieldset class="fldDriveBox"> <legend>  Fahr-Daten...  </legend>
-    <div class="control counter inline">
-        <label for="inpFahrzeit" class="short">Fahrzeit</label>
-        <input id="inpFahrzeit" type="number" min="0" max="120" step="10">   min
-    </div>
-    <div class="control counter inline">
-        <label for="inpKilometer" class="short">Kilometer</label>
-        <input id="inpKilometer" type="number" min="0" max="120" step="10">   km
-    </div>
-
-    <div class="control">
-        <label for="inpStart">Abfahrt von</label>
-        <input id="inpStart" type="text">
-    </div>
-    <div class="control">
-        <label for="inpZiel">Zielort</label>
-        <input id="inpZiel" type="text">
-    </div>
 </fieldset>

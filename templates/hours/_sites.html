@@ -1,5 +1,5 @@
 <fieldset> <legend>  Baustelle  </legend>
-    <div id="divBVNumber" class="control">
+    <div id="divBVNumber" class="control inline flx-btw">
         <label for="inpBVNr">BV-Nummer</label>
         <input id="inpBVNr" type="text" placeholder="####-###" pattern="[0-9]{4}-[0-9]{3}">
     </div>
@@ -8,13 +8,14 @@
         <label for="selBVName">Baustelle / Objekt</label>
         <div class="dropdown">
             <select name="sites" id="selBVName" required>
-                <option value="-1" disabled selected>-- bitte wählen --</option>
-                <option value="0000-000">Magazin</option>
-                <option value="0000-001">Büro</option>
-                <option value="2021-001">Eichmattpark</option>
-                <option value="2021-002">Quadrolith</option>
-                <option value="2022-003">Ahornstrasse 20</option>
-                <option value="2022-004">Ahornstrasse 22</option>
+                <option value="-1" selected>-- bitte wählen --</option>
+                <option value="0000-000" data-site="Unterägerie">Magazin</option>
+                <option value="0000-001" data-site="Unterägerie">Büro</option>
+                <option value="2021-001" data-site="Meggen">Eichmattpark</option>
+                <option value="2021-002" data-site="Baar">Quadrolith</option>
+                <option value="2022-003" data-site="Unterägeri">Ahornstrasse 20</option>
+                <option value="2022-004" data-site="Unterägeri">Ahornstrasse 22</option>
+                <option value="2023-005" data-site="Affoltern a. Albis">Titlisstrasse</option>
             </select>
             <span class="dropdown-arrow"></span>
         </div>
@@ -24,38 +25,38 @@
         <label for="inpOrt">Ort</label>
         <input id="inpOrt" type="text">
     </div>
-    <hr>
 
-    <div class="control inline flx-btw">
-        <label for="inpArrival" disabled>Ankunft</label>
-        <span><input id="inpArrival" type="time" name="arrival" data-autocalc="inpHours" disabled>   Uhr</span>
-    </div>
+    <div class="fieldset" hidden>
+        <hr>
+        <div class="control inline flx-btw">
+            <label for="inpArrival" disabled>Ankunft</label>
+            <span><input id="inpArrival" type="time" name="arrival" data-autocalc="inpHours">   Uhr</span>
+        </div>
 
-    <div class="control inline flx-btw">
-        <label for="inpDeparture" disabled>Feierabend</label>
-        <span><input id="inpDeparture" type="time" name="departure" data-autocalc="inpHours" disabled>   Uhr</span>                
-    </div>
+        <div class="control inline flx-btw">
+            <label for="inpDeparture" disabled>Feierabend</label>
+            <span><input id="inpDeparture" type="time" name="departure" data-autocalc="inpHours">   Uhr</span>                
+        </div>
 
-    <div class="control counter inline flx-btw">
-        <label for="inpBreakfast" disabled>Frühstückspause (Z'nüni)</label>
-        <span><input id="inpBreakfast" type="number" name="breakfast" data-autocalc="inpHours" disabled>   min</span>
-    </div>
+        <div class="control counter inline flx-btw">
+            <label for="inpBreakfast" disabled>Frühstückspause (Z'nüni)</label>
+            <span><input id="inpBreakfast" type="number" name="breakfast" data-autocalc="inpHours">   min</span>
+        </div>
 
-    <div class="control counter inline flx-btw">
-        <label for="inpLunch" disabled>Mittagspause</label>
-        <span><input id="inpLunch" type="number" name="lunch" data-autocalc="inpHours" disabled>   min</span>
-    </div>
-    <hr>
+        <div class="control counter inline flx-btw">
+            <label for="inpLunch" disabled>Mittagspause</label>
+            <span><input id="inpLunch" type="number" name="lunch" data-autocalc="inpHours">   min</span>
+        </div>
 
-    <div class="control counter inline flx-btw">
-        <label for="inpHours">Stunden</label>
-        <span><input id="inpHours" class="computed" type="number" value="0" disabled>   Std</span>                
-    </div>    
-
-    <div class="flx-row">
         <div class="checkbox" title="markieren, wenn Stunden Regiearbeiten sind">
-            <input id="chkRegie" type="checkbox" disabled>
+            <input id="chkRegie" type="checkbox">
             <label for="chkRegie" disabled>Regie</label>                
-        </div> 
+        </div>
+        <hr>
+
+        <div class="control counter inline flx-btw">
+            <label for="inpHours">Stunden</label>
+            <span><input id="inpHours" class="computed" type="number" value="0" disabled>    Std</span>                
+        </div>
     </div>
 </fieldset>

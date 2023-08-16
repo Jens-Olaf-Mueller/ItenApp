@@ -1,20 +1,20 @@
 'use strict';
-import $ from './library.js';
-import { initDropDownlist } from './library.js';
-import { SETTINGS } from './app.js';
-import { formatField } from './main.js';
+import $, { initDropDownlist } from './library.js';
 import { DROPLIST } from './const.js';
-import { Wizard } from './classes/wizard_class.js';
+import { SETTINGS, isDebugmode } from './app.js';
+import { formatField } from './main.js';
+import Wizard from './classes/wizard_class.js';
 import MessageBox from './classes/messagebox_class.js';
-import Worktime from './classes/worktime_class.js';
+import DayRecordset from './classes/worktime_class.js';
 
 
 const clsWizard = new Wizard('frmSettings', 'settings'), 
-      msgBox = new MessageBox('../style/msgbox.css'),
-      HOURS = new Worktime();
+      msgBox = new MessageBox('./style/msgbox.css'),
+      HOURS = new DayRecordset();
 
 export default function initSettings(caption) {
     clsWizard.action = 'save';
+    clsWizard.showSubmitButton = 'always';
     clsWizard.add($('h3Title'), caption);
     initDropDownlist('selProfession', DROPLIST.employees); // before settings !!
     renderWeekdays();
@@ -24,6 +24,7 @@ export default function initSettings(caption) {
     applyWeekdaySettings();
     // Event listeners AFTER settings are loaded!!!
     SETTINGS.addEvents(
+        {element: 'btnResetSettings', event: 'click', func: promptForReset},
         {element: document, event: 'onwizard', func: executeWizardEvent},
         {element: Array.from($('.image-button, [data-edit]')), 
             event: 'click', func: showTimeEditor},
@@ -36,6 +37,15 @@ export default function initSettings(caption) {
     );
     displaySeasonWeekdays($('input[name="season"]:checked'));
     setCalculatorPreviewImage($('input[name="calculatorStyle"]:checked'));
+}
+
+async function promptForReset() {
+    if (await msgBox.show(
+        '<strong>ACHTUNG!</strong> <br><br> Alle Einstellungen werden gelöscht!',
+        'Einstellungen zurücksetzen?','Ja, Nein') == 'Ja') {
+        SETTINGS.reset();
+        window.location.reload();
+    }
 }
 
 
@@ -63,18 +73,19 @@ function applyWorkingHours() {
         output.setAttribute(`data-${set}`, inputs[i]);
         i++;
     });
-    output.value = HOURS.hours(inputs[0],inputs[1],inputs[2],inputs[3]).toFixed(2);
+    output.value = HOURS.calculateHours(inputs[0],inputs[1],inputs[2],inputs[3]).toFixed(2);
     hideTimeEditor();
 }
 
 
 function calculateHours(source) {
-    console.log(this)
-    debugger
-
+    if (isDebugmode) {
+        console.log(this, source)
+        debugger
+    }
     const inputs = Array.from($('input[data-autocalc]')).map(inp => inp.value),
           output = $(this.dataset.autocalc);
-    output.value = HOURS.hours(inputs[0],inputs[1],inputs[2],inputs[3]).toFixed(2);
+    output.value = HOURS.calculateHours(inputs[0],inputs[1],inputs[2],inputs[3]).toFixed(2);
     updateWeeklyHours();
 }
 
@@ -219,7 +230,7 @@ function applyWeekdaySettings() {
             }    
             const data = input.dataset;   
             // now calculate the daily hours...
-            input.value = HOURS.hours(data.from, data.until, data.breakfast, data.lunch).toFixed(2);                 
+            input.value = HOURS.calculateHours(data.from, data.until, data.breakfast, data.lunch).toFixed(2);                 
         }
     });
 }

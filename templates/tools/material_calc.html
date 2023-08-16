@@ -32,6 +32,7 @@
             </div>
         </span>        
     </div>
+    <hr>
 
     <div class="switchbox counter  flx-btw">
         <span>
@@ -43,23 +44,23 @@
         <span>
             <input id="inpArea" class="computed" type="number" name="area" disabled>
             <img id="imgCalcButton" class="image-button" src="./img/calculator.png" hidden disabled>
-            <strong>    m²</strong>
+            <strong>   m²</strong>
         </span>
     </div>
 
     <div class="control counter inline flx-btw" data-control="dropbox">
-        <label for="selTrowel">Zahnung (mm)</label>
-        <div class="dropdown">
+        <label for="selTrowel">Zahnung</label>
+        <div class="dropdown flx-btw">
             <select name="trowel" id="selTrowel">
-                <option value="1">2</option>
-                <option value="1.25">3</option>
-                <option value="1.5">4</option>
-                <option value="1.75">6</option>
-                <option value="2.75">8</option>
-                <option value="3.5" selected>10</option>
-                <option value="3.75">12</option>
-                <option value="4.75">15</option>
-                <option value="6.75">Mittelbett 20</option>
+                <option value="1">2 mm</option>
+                <option value="1.25">3 mm</option>
+                <option value="1.5">4 mm</option>
+                <option value="1.75">6 mm</option>
+                <option value="2.75">8 mm</option>
+                <option value="3.5" selected>10 mm</option>
+                <option value="3.75">12 mm</option>
+                <option value="4.75">15 mm</option>
+                <option value="6.75">Mittelbett 20 mm</option>
             </select>
             <span class="dropdown-arrow"></span>
         </div>
@@ -69,6 +70,12 @@
         <input id="chkContact" type="checkbox" name="contactLayer">
         <label for="chkContact">Kontaktschicht</label>                
     </div>
+    
+    <div class="control counter inline flx-btw">
+        <label for="levelHeight"> Nivellieren </label>
+        <span><input id="levelHeight" type="number" name="levelHeight">   mm</span>        
+    </div>
+    
 </fieldset>
 
 <fieldset> <legend>  Platten / Fugen  </legend>
@@ -96,16 +103,9 @@
         <input id="chkDiagonal" type="checkbox" name="diagonal">
         <label for="chkDiagonal">Verlegung diagonal</label>                
     </div> 
-</fieldset>
+</fieldset><br>
 
-<fieldset> <legend>  Nivellieren  </legend>
-    <div class="control counter inline flx-btw">
-        <label for="levelHeight">Höhe</label>
-        <span><input id="levelHeight" type="number" name="levelHeight">   mm</span>        
-    </div>
-</fieldset>
-
-<div class="button-bar">
+<div class="wizard-bar">
     <img id="btnReset" class="wizard-button" src="./img/refresh.png" alt="refresh">
     <img id="btnCalculate" class="wizard-button" src="./img/send.png" alt="send" disabled>
 </div>

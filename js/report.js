@@ -1,17 +1,19 @@
 'use strict';
 import $, { initDropDownlist } from './library.js';
-import { formatField, formatDate } from './main.js';
+import { formatField } from './main.js';
+import { formatDate } from './date.js';
 import { DROPLIST } from './const.js';
-import { Wizard } from './classes/wizard_class.js';
+import { FormHandler } from './classes/library_class.js';
+import Wizard from './classes/wizard_class.js';
 import { PROJECTS, SETTINGS } from './app.js';
 
 const FRM_SITE = $('frmSiteReport'),
-      FRM_EXAM = $('frmCM'),
-      FRM_REGIE = $('frmRegie'),
+      FRM_EXAM = new FormHandler('frmCM'),
+      FRM_REGIE = new FormHandler('frmRegie'),
       FRM_WEEKLY = $('frmWeeklyReport');
 
-const clsWizard = new Wizard(FRM_EXAM, 'exam');
-const wizRegie = new Wizard(FRM_REGIE, 'commission');
+const clsWizard = new Wizard('frmCM', 'exam');
+const wizRegie = new Wizard('frmRegie', 'commission');
 
 export default function initReports(report) {
     document.addEventListener('onwizard', executeWizardEvent);
@@ -24,9 +26,11 @@ export default function initReports(report) {
             $('legendKW').innerText = '  Kalenderwoche ' + getKW();
             break;
         case 'ordered':
-            FRM_REGIE.removeAttribute('hidden');
+            FRM_REGIE.show();
             wizRegie.add($('h3Title'), 'Regierapport');
+            wizRegie.showAddButton = 1;
             $('selTools').addEventListener('change', enableTextBox);
+            initDropDownlist('selEmployeeType', DROPLIST.employees);
             // load all dropdown-units (kg, Sack, etc.)
             $('[data-units="powder"]').forEach(drop => initDropDownlist(drop, DROPLIST.units.powder));
             $('[data-units="volume"]').forEach(drop => initDropDownlist(drop, DROPLIST.units.volume));
@@ -41,7 +45,7 @@ export default function initReports(report) {
         // initDropDownlist('selRegieSites', SITES);
         // initDropDownlist('selEmployeeType', EMPLOYEES);
             $('selEmployeeType').value = SETTINGS.employeetype;
-            $('inpWorker').value = SETTINGS.fullname;
+            $('inpWorker').value = SETTINGS.user.fullname;
             break;
         case 'site':
             $('h3Title').innerHTML = 'Baustellenrapport';
@@ -49,7 +53,8 @@ export default function initReports(report) {
             $('inpReportUntilDate').value = formatDate();
             break;
         case 'exam':
-            FRM_EXAM.classList.remove('hidden');
+            // FRM_EXAM.classList.remove('hidden');
+            FRM_EXAM.show();
             clsWizard.add($('h3Title'), 'CM-Messung');
             clsWizard.showCamButton = true;
             clsWizard.showInfoButton = true;
@@ -85,7 +90,7 @@ function enableAddButton(event) {
     }
 }
 
-function executeWizardEvent(event) {
+async function executeWizardEvent(event) {
     if (event.detail.action == 'send') {
         clsWizard.submitForm();
     } else if (event.detail.action == 'save') {

@@ -127,9 +127,12 @@ export async function includeHTML() {
     }
 }
 
-export function initDropDownlist (id, list) {
+export function initDropDownlist (id, list, placeholder) {
     const dropdown = (id instanceof HTMLSelectElement) ? id : $(id);
     dropdown.innerHTML = '';
+    if (placeholder) {
+        dropdown.innerHTML += `<option value="-1" disabled selected>${placeholder}</option>`;
+    }
     if (typeof list[0] == 'object') {
         for (let i = 0; i < list.length; i++) {
             const item = list[i];
@@ -142,6 +145,12 @@ export function initDropDownlist (id, list) {
                     option.setAttribute(key, item[key]);
                 }                
             }
+            dropdown.appendChild(option);
+        }
+    } else if (list instanceof Array && typeof list[0] == 'string') {
+        for (let i = 0; i < list.length; i++) {
+            const option = document.createElement('option');
+            option.innerText = list[i];
             dropdown.appendChild(option);
         }
     }

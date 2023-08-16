@@ -14,6 +14,14 @@
         <label for="chkShowSiteID">Baustellen-Nummer anzeigen</label>                
     </div> 
 
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkValidateHours" type="checkbox" name="validateHours" data-buddy="inpValidateHours">
+            <label for="chkValidateHours">Plausibilitätswarnung ab</label>                        
+        </span>
+        <span><input id="inpValidateHours" type="number" name="alertHours" max="12" step="0.50" value="12.00">    Std</span>                    
+    </div>
+
     <div class="control counter inline flx-btw">
         <label for="inpMaxSitesPerDay">Baustellen pro Tag</label>
         <span><input id="inpMaxSitesPerDay" type="number" name="maxSitesPerDay" min="1">   max</span> 
@@ -23,12 +31,9 @@
         <label for="inpSitesActiveFor">Baustellen aktiv für</label>
         <span><input id="inpSitesActiveFor" type="number" name="sitesActiveFor" max="12">  Mon</span>
     </div>
-    
-    <div class="switchbox counter flx-btw">
-        <span>
-            <input id="chkValidateHours" type="checkbox" name="validateHours" data-buddy="inpValidateHours">
-            <label for="chkValidateHours">Plausibilitätsprüfung ab</label>                        
-        </span>
-        <span><input id="inpValidateHours" type="number" name="alertHours" max="12" step="0.50" value="12.00">    Std</span>                    
+
+    <div class="control counter inline flx-btw">
+        <label for="inpExpenses">Spesen</label>
+        <span><input id="inpExpenses" type="number" name="expenses">   CHF</span> 
     </div>
 </fieldset>

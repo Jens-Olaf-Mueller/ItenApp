@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StundenApp - Administrator</title>
+    <link rel="icon" type="image/png" href="./img/logo.png">
 
-
-    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/iten.css">
+    <link rel="stylesheet" href="./style/navigation.css">
     <link rel="stylesheet" href="./style/forms.css">
-    <link rel="stylesheet" href="./style/new_form.css">
+    <!-- <link rel="stylesheet" href="./style/new_form.css"> -->
     
-    <script src="./js/library.js"></script>
+    <!-- <script src="./js/library.js"></script>
     <script src="./js/classes/settings.class.js"></script>
     <script src="./js/classes/color.class.js"></script>
     <script src="./js/classes/site.class.js"></script>
@@ -21,13 +21,15 @@
 
     <script defer src="./js/classes/wizard.class.js"></script>
     <script defer src="./js/main.js"></script>
-    <script defer src="./js/admin.js"></script>
+    <script defer src="./js/admin.js"></script> -->
+
+    <script defer src="./js/app.js" type="module"></script>
 
 </head>
 <body>
     <header w3-include-html="templates/header.html"></header>
 
-    <form id="frmLogin" class="frm-login">
+    <form id="frmLogin" class="frm-login" hidden>
         <fieldset> <legend>  Administrator-Login  </legend>
             <div data-control="textbox">
                 <label for="txtLoginUsername">Benutzername</label>

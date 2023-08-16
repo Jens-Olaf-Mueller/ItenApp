@@ -42,6 +42,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
+    /* inset: 8rem 1rem 10rem 1rem; */
     /* inset: 0; */
     background-color: var(--parent-bg-color);
     border-radius: var(--grid-border-width);
