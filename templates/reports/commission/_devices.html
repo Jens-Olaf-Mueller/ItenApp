@@ -1,0 +1,105 @@
+<fieldset> <legend>  Maschinen  </legend>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkCauklkingHammer" type="checkbox" data-buddy="inpCauklkingHammer">
+            <label for="chkCauklkingHammer"><strong>Spitzhammer</strong></label>
+        </span>   
+        <span><input id="inpCauklkingHammer" type="number" name="cauklkingHammer" disabled>  Std</span>
+    </div> 
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkVacuumCleaner" type="checkbox" data-buddy="inpVacuumCleaner">
+            <label for="chkVacuumCleaner"><strong>Staubsauger</strong></label>
+        </span>   
+        <span><input id="inpVacuumCleaner" type="number" name="vacuumcleaner" disabled>  Std</span>
+    </div>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkJointCutter" type="checkbox" data-buddy="inpJointCutter">
+            <label for="chkJointCutter"><strong>Fugenschneider</strong></label>
+        </span>   
+        <span><input id="inpJointCutter" type="number" name="jointcutter" disabled>  Std</span>
+    </div>
+    <hr>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkDrillHammer" type="checkbox" data-buddy="inpDrillHammer">
+            <label for="chkDrillHammer">Schlagbohrmaschine</label>
+        </span>   
+        <span><input id="inpDrillHammer" type="number" name="drillhammer" disabled>  Std</span>
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkFlexBig" type="checkbox" data-buddy="inpFlex selFlexSize">
+            <label for="chkFlex">Winkelschleifer</label>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selFlexSize" name="flexSize" data-units="" disabled>
+                        <option>klein</option>
+                        <option>gross</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div> 
+        </span>   
+        <span><input id="inpFlex" type="number" name="flex" disabled>  Std</span>
+    </div>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkPolisherSmall" type="checkbox" data-buddy="inpPolisher selPolisherSize">
+            <label for="chkPolisherSmall">Betonschleifer</label>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selPolisherSize" name="polisherSize" data-units="" disabled>
+                        <option>klein</option>
+                        <option>gross</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div> 
+        </span>   
+        <span><input id="inpPolisher" type="number" name="polisher" disabled>  Std</span>
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkCutter" type="checkbox" data-buddy="inpCutter selCutterSize">
+            <label for="chkCutter">Nassfräse></label>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selCutterSize" name="cutterSize" data-units="" disabled>
+                        <option>klein</option>
+                        <option>gross</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>
+        </span>   
+        <span><input id="inpCutter" type="number" name="cutter" disabled>  Std</span>
+    </div>
+    <hr>
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <input id="chkTools" type="checkbox" data-buddy="selTools inpOtherToolHours">
+        <div class="control" data-control="dropbox" style="flex: 1;">
+            <div class="dropdown">
+                <select id="selTools" name="othertools" disabled>
+                    <option value="0" selected disabled>Sonstige</option>                       
+                    <option value="Luftreiniger">Luftreiniger (Staubfilter)</option>
+                    <option value="Stichsäge">Stichsäge</option>
+                    <option value="Sanierungsfräse">Sanierungsfräse (Chipper)</option>
+                    <option value="Teppichstripper">Teppichstripper</option>
+                    <option value="Poliermaschine">Poliermaschine (Naturstein)</option>
+                    <option value="-1">-- nicht aufgeführt --</option>
+                </select>
+                <span class="dropdown-arrow"></span>                   
+            </div>                                
+        </div>
+        <span><input id="inpOtherToolHours" type="number" name="othertoolhours" disabled>  Std</span>
+    </div>
+
+    <div class="control long inline flx-btw">
+        <input id="inpOtherTool" type="text" name="othertoolname" placeholder="Maschine / Typ / Nr" disabled>
+    </div>
+</fieldset>

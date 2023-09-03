@@ -1,4 +1,4 @@
-<div class="wizard" data-wizard="exam" data-name="screedtype"> <!--  w3-include-html="" -->
+<div class="wizard" data-wizard="exam" data-name="screedtype"> 
     <fieldset> <legend>  Bauvorhaben  </legend>    
         <div class="control" data-control="dropbox">
             <label for="selExaminationSites">Baustelle / Objekt</label>
@@ -24,7 +24,7 @@
             <input id="inpExaminer" type="text">
         </div>
     </fieldset>
-    
+    <br>
     <fieldset> <legend>  Estrich-Typ  </legend>
         <div class="control" data-control="dropbox">
             <label for="selScreedType">Estrich-Typ</label>
@@ -76,8 +76,8 @@
     </fieldset>
 </div>
 
-<div class="wizard hidden" data-wizard="exam" data-name="screedmeasuring"> <!--  w3-include-html="" -->
-    <fieldset> <legend>  Messung  </legend>
+<div class="wizard hidden" data-wizard="exam" data-name="screedmeasuring"> 
+    <fieldset> <legend>  Messpunkt  </legend>
         <div class="control">
             <label for="inpExaminationPart">Etage / Whg / Raum</label>
             <input id="inpExaminationPart" type="text">
@@ -104,9 +104,44 @@
             </span>
         </div>
     </fieldset>
-    
-    <fieldset> <legend>  Unterschrift  </legend>    
-        <canvas id="cnvSignature" class="signature"></canvas>
-        <label for="cnvSignature">Unterschrift</label>    
-    </fieldset>
+    <br> <hr> <br>
+    <canvas id="cnvSignature" class="signature"></canvas>
+    <label for="cnvSignature">Unterschrift</label>
+</div>
+
+<div class="result hidden" id="divResult">    
+    <div class="table-wrapper">
+        <img id="btnCloseResult" class="wizard-button" src="./img/close.png">
+        <table>   
+            <colgroup>
+                <col span="1" style="width: 40%;">
+                <col span="1" style="width: 20%;">
+                <col span="1" style="width: 10%;">
+                <col span="1" style="width: 30%;">
+            </colgroup>   
+            <tr></tr>   
+                <td id="cellArea" colspan="4" style="padding-bottom: 12px;"></td>
+            <tr></tr>        
+            <tr></tr>
+                <td>Kleber</td>
+                <td id="cellGlue" class="cell-result"></td>
+                <td>kg</td>
+                <td id="cellBags" class="cell-result"></td>
+            <tr></tr>
+                <td>Fugenmasse</td>
+                <td id="cellJoints" class="cell-result"></td>
+                <td>kg</td>
+                <td></td>
+            <tr></tr>
+                <td>Platten</td>
+                <td id="cellTiles" class="cell-result"></td>
+                <td>Stk.</td>
+                <td></td>    
+            <tr></tr>
+                <td id="cellLevelCompound"></td>
+                <td id="cellLevel" class="cell-result"></td>
+                <td id="cellLevelUnit"></td>
+                <td id="cellLevelBags" class="cell-result"></td>                 
+        </table>
+    </div>
 </div>

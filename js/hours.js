@@ -4,13 +4,10 @@ import { DROPLIST } from './const.js';
 import { SETTINGS, PROJECTS, executeWizardEvents } from './app.js';
 import { formatField } from './main.js';
 import { formatDate, getWeek, isHoliday, dateAdd } from './date.js';
-import { FormHandler } from './classes/library_class.js';
-import Wizard from './classes/wizard_class.js';
+import FormHandler from './classes/formhandler_class.js';
 import MessageBox from './classes/messagebox_class.js';
 
-const clsWizard = new Wizard('frmHours', 'hours'),
-      frmHOURS = new FormHandler('frmHours'),
-      msgBox = new MessageBox('./style/msgbox.css');
+const msgBox = new MessageBox('./style/msgbox.css');
 
 const objTouch = {
     startX: 0,
@@ -29,12 +26,13 @@ const objTouch = {
 }
 
 export default function initHoursRecording(caption) {
-    frmHOURS.show();
-    clsWizard.add($('h3Title'), caption);
-    clsWizard.showAddButton = 2;
+    const frmHOURS = new FormHandler('frmHours');
+    frmHOURS.show();    
+    frmHOURS.wizard.showButton('add', 2);
+    frmHOURS.wizard.caption = caption;
     initDropDownlist('selWorkCategory', DROPLIST.categories);
     loadDefaultSettings();
-    clsWizard.updateCaption();
+    frmHOURS.wizard.updateCaption();
     changeDay();     
     // set event listeners at the end!!!
     frmHOURS.addEvents(
@@ -81,23 +79,6 @@ function loadDefaultSettings() {
     // calcHours();
 }
 
-// async function executeWizardEvent(event) {
-//     const wizAction = event.detail.action;
-//     if (wizAction == 'send') {
-//         const sender = event.detail.source;
-//         sender.submitForm('index.html');
-//     } else if (wizAction == 'add') {
-//         if (await msgBox.show('Weitere Baustelle hinzufügen?','Fortfahren?','Ja, Nein') == 'Ja') {
-//             // clsWizard.page = 0;
-//             clsWizard.updatePage(-10);
-//             debugger
-//             //TODO: saving the previous dataset
-//         }
-//     } else if (wizAction == 'save') {
-//         SETTINGS.save();
-//     }
-// }
-
 
 function handleTouchEvents(evt) {
     if (evt.type == 'touchstart') {
@@ -111,7 +92,7 @@ function handleTouchEvents(evt) {
     }
     const step = objTouch.direction == 'left' ? 1: -1;
     // console.log(objTouch.delay)
-    if (objTouch.delay > 0.25) clsWizard.updatePage(step);
+    if (objTouch.delay > 0.25) frmHOURS.wizard.updatePage(step);
     // evt.preventDefault();
     
 }
@@ -223,7 +204,7 @@ function siteSelected() {
     const selected = (this.value != -1),
           index = this.options.selectedIndex;
     // controls.forEach(ctrl => ctrl.toggleAttribute('hidden', state));
-    $('div.fieldset').toggleAttribute('hidden', !selected);
+    $('divWorktime').toggleAttribute('hidden', !selected);
     $('inpBVNr').value = selected ? this.value : '';
     $('inpOrt').value = selected ? this.options[index].dataset.site : '';    
 }

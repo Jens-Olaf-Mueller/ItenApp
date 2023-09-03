@@ -1,7 +1,7 @@
 import {APP_NAME} from '../const.js';
 import { isDebugmode } from '../app.js';
 import $ from '../library.js';
-import {FormHandler, Address} from './library_class.js';
+import FormHandler, { Address } from "./formhandler_class.js";
 
 export default class Settings extends FormHandler {
     #lsKey = null;

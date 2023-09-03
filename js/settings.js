@@ -1,31 +1,29 @@
 'use strict';
 import $, { initDropDownlist } from './library.js';
 import { DROPLIST } from './const.js';
-import { SETTINGS, isDebugmode } from './app.js';
+import { SETTINGS, isDebugmode, executeWizardEvents } from './app.js';
 import { formatField } from './main.js';
 import Wizard from './classes/wizard_class.js';
 import MessageBox from './classes/messagebox_class.js';
 import DayRecordset from './classes/worktime_class.js';
 
-
-const clsWizard = new Wizard('frmSettings', 'settings'), 
-      msgBox = new MessageBox('./style/msgbox.css'),
+const msgBox = new MessageBox('./style/msgbox.css'),
       HOURS = new DayRecordset();
 
 export default function initSettings(caption) {
-    clsWizard.action = 'save';
-    clsWizard.showSubmitButton = 'always';
-    clsWizard.add($('h3Title'), caption);
-    initDropDownlist('selProfession', DROPLIST.employees); // before settings !!
+    initDropDownlist('selProfession', DROPLIST.employees); // execute before settings !!
     renderWeekdays();
     SETTINGS.form = 'frmSettings';
+    SETTINGS.wizard = SETTINGS.form; // important since there is no wizard yet !!
+    SETTINGS.wizard.caption = caption;
+    SETTINGS.wizard.showButton('save');
     SETTINGS.show();
     SETTINGS.load();
     applyWeekdaySettings();
     // Event listeners AFTER settings are loaded!!!
     SETTINGS.addEvents(
         {element: 'btnResetSettings', event: 'click', func: promptForReset},
-        {element: document, event: 'onwizard', func: executeWizardEvent},
+        {element: document, event: 'onwizard', func: executeWizardEvents},
         {element: Array.from($('.image-button, [data-edit]')), 
             event: 'click', func: showTimeEditor},
         {element: Array.from($('input[data-autocalc]')),
@@ -41,7 +39,7 @@ export default function initSettings(caption) {
 
 async function promptForReset() {
     if (await msgBox.show(
-        '<strong>ACHTUNG!</strong> <br><br> Alle Einstellungen werden gelöscht!',
+        '<span class="red">ACHTUNG!</span> <br><br> Alle Einstellungen werden gelöscht!',
         'Einstellungen zurücksetzen?','Ja, Nein') == 'Ja') {
         SETTINGS.reset();
         window.location.reload();
@@ -166,16 +164,6 @@ function setCalculatorPreviewImage(expression) {
     $('imgCalcPreview').src = './img/' + input.value.slice(0,-3) + 'jpg';
 }
 
-async function executeWizardEvent(event) {
-    if (await msgBox.show('Einstellungen speichern?','Bitte bestätigen!','Ja, Nein') == 'Ja') {
-        if (event.detail.action == 'send') {
-            clsWizard.submitForm();
-        } else if (event.detail.action == 'save') {
-            SETTINGS.save();
-            window.location.replace('index.html');  
-        }
-    }
-}
 
 /**
  * Renders 2 x 6 controls for input of daily schedule.

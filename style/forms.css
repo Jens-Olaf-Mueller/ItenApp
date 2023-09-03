@@ -200,7 +200,7 @@ input#inpCurrentDate {
     border: 1px solid red !important;
 }
 
-.sunday {
+.sunday, .red {
     color: red;
     /* background-color: lightsalmon; */
     font-weight: bold;

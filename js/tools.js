@@ -1,16 +1,10 @@
 'use strict';
 import $ from './library.js';
 import { SETTINGS } from './app.js';
-import { initPageMeasure} from './tools_measure.js';
 import { Material } from './classes/material_class.js';
-import { FormHandler } from './classes/library_class.js';
-import Wizard from './classes/wizard_class.js';
+import FormHandler from './classes/formhandler_class.js';
 import Calculator from './classes/calculator_class.js';
-
-const clsMaterialWizard = new Wizard('frmMaterial', 'material');
-const frmMATERIAL = new FormHandler('frmMaterial'),
-      frmMEASURE = new FormHandler('frmMeasure'),
-      frmORDER = new FormHandler('frmOrder');
+      
 
 const material = new Material('frmMaterial');
 const calculator = new Calculator();
@@ -18,46 +12,46 @@ const calculator = new Calculator();
 export default function initTools(tool) {
     switch (tool) {
         case 'material':
-            frmMATERIAL.show(); 
             initMaterialCalcuator('Materialrechner');        
             break;
-
         case 'order':
-            frmORDER.show();
-            break;
-
-        case 'measure': 
-        // debugger
-            frmMEASURE.show();
-            initPageMeasure('Ausmass');        
+            initOrder('Bestellung');
             break;
         default: return;
     }
 }
 
 
-function initMaterialCalcuator(title) {
-    $('h3Title').innerHTML = title;
+function initMaterialCalcuator(caption = 'Materialrechner') {
+    const frmMATERIAL = new FormHandler('frmMaterial');
+    frmMATERIAL.show();
+    frmMATERIAL.wizard.caption = caption;
+    frmMATERIAL.wizard.buttonsVisible = 'send|refresh';
     loadDefaultSettings();
+    toggleCalculationButton($('inpArea')); // disables send button
     // set event listeners at the end!!!
     frmMATERIAL.addEvents(
         {element: 'inpArea', event: 'input', func: toggleCalculationButton},
-        {element: 'btnCalculate', event: 'click', func: displayResult},
+        {element: 'imgSend', event: 'click', func: displayResult},
         {element: 'imgCalcButton', event: 'click', func: showCalculator},
-        {element: 'btnCloseResult', event: 'click', func: function() {
-            $('divResult').classList.add('hidden');
-        }},
-        {element: 'btnReset', event: 'click', func: function() {
-            window.location.reload();
-        }},
+        {element: 'btnCloseResult', event: 'click', 
+            func: () => $('divResult').classList.add('hidden')},
+        {element: 'imgRefresh', event: 'click', func: () => window.location.reload()},
         {element: Array.from($('[data-autocalc="inpArea"]')), 
             event: 'input', func: displayCalculatedArea},
-        {element: window.document, event: 'onresult', func: function() {
-            toggleCalculationButton($('inpArea'));
-        }},
+        {element: window.document, event: 'onresult', 
+            func: () => toggleCalculationButton($('inpArea'))},
         {element: Array.from($('select[name="unit"]')),
             event: 'change', func: changeUnits}
     );
+}
+
+
+function initOrder(caption = 'Bestellung') {
+    const frmORDER = new FormHandler('frmOrder');
+    frmORDER.show();
+    frmORDER.wizard.caption = caption;
+    frmORDER.wizard.buttonsVisible = 'send';
 }
 
 
@@ -70,11 +64,7 @@ function loadDefaultSettings() {
     $('inpJointWidth').value = SETTINGS.jointWidth;
     $('inpJointDepth').value = SETTINGS.jointDepth;
     $('inpOffcut').value = SETTINGS.offcut;
-    if (SETTINGS.showCalculatorIcon) {
-        $('imgCalcButton').removeAttribute('hidden');
-    } else {
-        $('imgCalcButton').setAttribute('hidden');
-    }
+    $('imgCalcButton').toggleAttribute('hidden', !SETTINGS.showCalculatorIcon);
 }
 
 
@@ -131,8 +121,8 @@ function displayResult() {
  */
 function toggleCalculationButton(expression) {
     const input = (expression instanceof Event) ? expression.target : expression,
-          btnCalc = $('btnCalculate'),
-          invalid = (parseFloat(input.value) < 0.020);
+          btnCalc = $('imgSend'),
+          invalid = (input.value == '') || (parseFloat(input.value) < 0.020);
     btnCalc.toggleAttribute('disabled', invalid);
 }
 

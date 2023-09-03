@@ -1,34 +1,27 @@
 'use strict';
-import $ from './library.js';
-import { SETTINGS } from './app.js';
-import { formatDate } from './date.js';
-import { Surface } from './classes/material_class.js';
-import Wizard from './classes/wizard_class.js';
-import { Survey } from './classes/survey.class.js';
+import $ from '../library.js';
+import { SETTINGS, executeWizardEvents } from '../app.js';
+import { formatDate } from '../date.js';
+import { Surface } from '../classes/material_class.js';
+import { Survey } from '../classes/survey.class.js';
+import FormHandler from '../classes/formhandler_class.js';
 
-import { FormHandler } from './classes/library_class.js';
-
-let appTitle = '',
-    btnAdd,
-    tileComponents,
+let tileComponents,
     chkWaterproofed,
     txtDescription,
     arrSurface = [],
     oSurface = new Surface();
 
-const FRM_MEASURE = $('frmMeasure');
-    
-const clsWizard = new Wizard(FRM_MEASURE, 'survey'),
-      clsSurvey = new Survey(FRM_MEASURE);
 
-function initPageMeasure(caption) {
-    appTitle = caption;
-    document.addEventListener('onwizard', executeWizardEvent);
-    clsWizard.add($('h3Title'), caption);
+export function initSurvey(caption = 'Ausmass') {
+    const FRM_MEASURE = new FormHandler('frmMeasure');
+    FRM_MEASURE.show();
+    FRM_MEASURE.wizard.caption = caption;
+    FRM_MEASURE.wizard.showButton('add', 2);
+
+    document.addEventListener('onwizard', executeWizardEvents);
     $('inpCreatedAt').value = formatDate();
-
-    debugger
-    $('inpCreatedBy').value = SETTINGS.fullname || 'TODO: tools_measure.js.initPageMeasure()';
+    $('inpCreatedBy').value = SETTINGS.fullname || 'TODO: report_survey.js.initSurvey()';
 
     // $('[data-units="tiles"]').forEach(drop => loadDropDown(drop, UNITS.tiles));
     Array.from($('[data-autocalc="inpAreaResult"]')).forEach(fld => {
@@ -42,16 +35,8 @@ function initPageMeasure(caption) {
     chkWaterproofed.addEventListener('change', handleWaterproofedState);
     txtDescription = $('inpAreaName');
     txtDescription.addEventListener('input', validateSurface);
-    btnAdd = $('btnAddArea');
-    btnAdd.addEventListener('click', addNewSurface);
-}
-
-function executeWizardEvent(event) {
-    if (event.detail.action == 'send') {
-        clsWizard.submitForm();
-    } else if (event.detail.action == 'save') {
-        SETTINGS.save();
-    }
+    // btnAdd = $('btnAddArea');
+    // btnAdd.addEventListener('click', addNewSurface);
 }
 
 function displaySurfaceArea() {
@@ -177,12 +162,5 @@ function enableElements(concerns) {
         }        
     }
 
-    if (concerns == 'wall') {
-        lblWidth.innerHTML = 'Höhe';
-    } else {
-        lblWidth.innerHTML = 'Breite';
-    }
-     
+    lblWidth.innerHTML = (concerns == 'wall') ? 'Höhe' : 'Breite';     
 }
-
-export { initPageMeasure };

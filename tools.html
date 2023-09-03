@@ -14,15 +14,15 @@
     <script defer src="./js/app.js" type="module"></script>
 
     <!-- https://github.com/szimek/signature_pad -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 </head>
 
 <body>
     <header w3-include-html="templates/header.html"></header>
     <!------  M A T E R I A L R E C H N E R ----->
-    <form id="frmMaterial" w3-include-html="templates/tools/material_calc.html"></form>
+    <form id="frmMaterial" name="material" w3-include-html="templates/tools/material_calc.html"></form>
 
     <!------  B E S T E L L U N G  ------>
-    <form id="frmOrder" w3-include-html="templates/tools/order.html"></form>
+    <form id="frmOrder" name="order" w3-include-html="templates/tools/order.html"></form>
 </body>
 </html>

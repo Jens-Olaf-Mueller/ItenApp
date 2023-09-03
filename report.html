@@ -19,66 +19,101 @@
 <body>
     <header w3-include-html="templates/header.html"></header>
         <!------  W O C H E N R A P P O R T  ----->
-        <form id="frmWeeklyReport" w3-include-html="templates/reports/_week.html"></form>
+        <form id="frmWeeklyReport" name="weekly" hidden w3-include-html="templates/reports/_week.html"></form>
+
+        <!------  U R L A U B S  -  R A P P O R T  ----->
+        <form id="frmVacation" name="vacation" hidden w3-include-html="templates/reports/_vacation.html"></form>
 
         <!------  R E G I E  -  R A P O R T  ----->
-        <form id="frmRegie" w3-include-html="templates/reports/_comm.html"></form>
+        <form id="frmRegie" name="commission" hidden>
+            <div class="wizard" data-wizard="commission" data-name="commissiondetails" 
+                w3-include-html="templates/reports/commission/_details.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="worktime" 
+                w3-include-html="templates/reports/commission/_worktime.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="tools" 
+                w3-include-html="templates/reports/commission/_devices.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="material1" 
+                w3-include-html="templates/reports/commission/_material1.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="material2" 
+                w3-include-html="templates/reports/commission/_material2.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="material3" 
+                w3-include-html="templates/reports/commission/_material3.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="transport" 
+                w3-include-html="templates/reports/commission/_transport.html">
+            </div>
+
+            <div class="wizard hidden" data-wizard="commission" data-name="signature" 
+                w3-include-html="templates/reports/commission/_signature.html">
+            </div>
+        </form>
 
         <!------  B A U S T E L L E N R A P P O R T  ----->
-        <form id="frmSiteReport" w3-include-html="templates/reports/_site.html"></form>
+        <form id="frmSiteReport" name="site" hidden w3-include-html="templates/reports/_site.html"></form>
         
         <!------  A U F M A S S  ----->
-        <form id="frmMeasure">
+        <form id="frmMeasure" name="survey" hidden>
             <div class="wizard" data-wizard="survey" data-concerned="floor wall stairs" data-name="start"
-                w3-include-html="templates/tools/survey/start.html">
+                w3-include-html="templates/reports/survey/start.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="install"
-            w3-include-html="templates/tools/survey/install.html">
+            w3-include-html="templates/reports/survey/install.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="surface"
-                w3-include-html="templates/tools/survey/surface.html">
+                w3-include-html="templates/reports/survey/surface.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="groundwork"       
-                w3-include-html="templates\tools\survey\groundwork.html">
+                w3-include-html="templates\reports\survey\groundwork.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="cuts"
-                w3-include-html="templates/tools/survey/cuts.html">
+                w3-include-html="templates/reports/survey/cuts.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="stairs" data-name="stairs"
-                w3-include-html="templates/tools/survey/stairs.html">
+                w3-include-html="templates/reports/survey/stairs.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="edges"
-                w3-include-html="templates/tools/survey/edges.html">
+                w3-include-html="templates/reports/survey/edges.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="holes"
-                w3-include-html="templates/tools/survey/holes.html">
+                w3-include-html="templates/reports/survey/holes.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall" data-name="tapes"
-                w3-include-html="templates/tools/survey/tapes.html">
+                w3-include-html="templates/reports/survey/tapes.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor stairs" data-name="socket"
-                w3-include-html="templates/tools/survey/sockets.html">
+                w3-include-html="templates/reports/survey/sockets.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="silicone"
-                w3-include-html="templates/tools/survey/silicone.html">
+                w3-include-html="templates/reports/survey/silicone.html">
             </div>
 
             <div class="wizard hidden" data-wizard="survey" data-concerned="floor wall stairs" data-name="notes"
-                w3-include-html="templates/tools/survey/notes.html">
+                w3-include-html="templates/reports/survey/notes.html">
             </div>
         </form>
 
         <!------  C M - M E S S U N G  ----->
-        <form id="frmCM" w3-include-html="templates/reports/_exam.html"></form>
+        <form id="frmCM"  name="exam" hidden w3-include-html="templates/reports/_exam.html"></form>
 </body>
 </html>

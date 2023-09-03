@@ -1,20 +1,12 @@
 import $ from '../library.js';
-import { FormHandler } from './library_class.js';
 
-// indizes of wizard-buttons
-export const ICON = {
-    HOME: 0, PREV: 1, ADD: 2, CAM : 3, INFO: 4, SEND: 5, NEXT: 6
-    // HOME: 0, PREV: -1, NEXT: 1, ADD: 'add', CAM : 'cam', INFO: 'info', SEND: 'send'
-};
+export default class Wizard {
+    get ID() { return 'divWizard' + this.name.charAt(0).toUpperCase() + this.name.slice(1); }
+    get form() { return this.parent.form || null; }
 
-export default class Wizard extends FormHandler {
-    get ID() { return 'divWizard' + this.name; }
-
-    #page = 0;    
-    get page() { return this.#page; }
     get lastPage() { return this.pages.length - 1; }   
     get pages() { 
-        let pages = $(`[data-wizard="${this.name}"]:not([hidden])`)
+        let pages = $(`[data-wizard="${this.name}"]:not([hidden])`);
         if (pages instanceof NodeList) {
             return Array.from(pages);
         } else { // we got only a single element and convert it to an array!
@@ -23,128 +15,168 @@ export default class Wizard extends FormHandler {
             return arrPages; 
         }
     }    
-    #arrButtons = [];
-    get buttons() { return this.#arrButtons; }
-    set buttons(arr) { this.#arrButtons = arr; }
 
-    #btnInfo = false
-    get showInfoButton() { return this.#btnInfo; }
-    set showInfoButton(state) {
-        this.#btnInfo = state;
-        this.#updateButtons();
-    }
-    #btnCam = false;
-    get showCamButton() { return this.#btnCam; }  
-    set showCamButton(state) {
-        this.#btnCam = state;
-        this.#updateButtons();
-    }   
-    #btnAdd = false;
-    get showAddButton() { return this.#btnAdd; }
-    set showAddButton(state) {
-        this.#btnAdd = state;
+    // #buttonsVisible = 2**0 + 2**1 + 2**2 + 2**11; // = 1027
+    #buttonsVisible = 0;
+    get buttonsVisible() { return this.#buttonsVisible; }
+    set buttonsVisible(buttons) {
+        if (typeof buttons == 'string') {
+            this.#buttonsVisible = 0;
+            for (let i = 0; i < WIZ_BUTTONS.length; i++) {
+                if (buttons.includes(WIZ_BUTTONS[i].type)) {
+                    this.#buttonsVisible = this.#buttonsVisible | 2**i;
+                }
+            }            
+        } else if (typeof buttons == 'number') {
+            this.#buttonsVisible = buttons;
+        }
+        this.#renderWizard();
         this.#updateButtons();
     }
 
-    #btnSubmit = 'last'; // 'last' | 'always'
-    get showSubmitButton() { return this.#btnSubmit; }
-    set showSubmitButton(state) {
-        this.#btnSubmit = state;
-        this.#updateButtons();
+
+    // #btnInfo = false
+    // get showInfoButton() { return this.#btnInfo; }
+    // set showInfoButton(state) {
+    //     this.#btnInfo = state;
+    //     this.#updateButtons();
+    // }
+    // #btnCam = false;
+    // get showCamButton() { return this.#btnCam; }  
+    // set showCamButton(state) {
+    //     this.#btnCam = state;
+    //     this.#updateButtons();
+    // }   
+    // #btnAdd = false;
+    // get showAddButton() { return this.#btnAdd; }
+    // set showAddButton(state) {
+    //     this.#btnAdd = state;
+    //     this.#updateButtons();
+    // }
+
+    // #btnSubmit = 'last'; // 'last' | 'always'
+    // get showSubmitButton() { return this.#btnSubmit; }
+    // set showSubmitButton(state) {
+    //     this.#btnSubmit = state;
+    //     this.#updateButtons();
+    // }
+
+    #caption = '';
+    get caption() { return this.#caption; }
+    set caption(text) {
+        this.#caption = text;
+        this.updateCaption(text);
     }
 
-    caption = '';
-    name; // wizard="commission"
-    title;
-    action = 'send'; // save   
+    page = 0;
+    buttons = [];
+    title = $('h3Title') || null;
+    parent = null; 
+    name;
 
-    constructor(form, name) {
-        super(form)
+
+    constructor(parent, name) {
+        this.parent = parent;
         this.name = name ? name : '';
+        this.buttonsVisible = 'home|prev|next|send'; // set default buttons!
+        this.#createButtons();
     }
 
-    remove() {
-        this.form.removeChild($(this.ID));
-    }   
+    // remove() {
+    //     this.parent.form.removeChild($(this.ID));
+    // }   
 
-    add(titleElement, caption = '') {
-        this.title = titleElement;
-        this.caption = caption;
-        this.updateCaption();        
-        this.#renderButtons();
-        // now we add the event-listeners!
-        this.buttons = Array.from($('img[data-wizard-button]'));
-        this.buttons.forEach(btn => 
-            btn.addEventListener ('click', event => this.#handleButtonEvent(event, this))
-        );
-        this.#updateButtons(); // and display them depending on their visible-state
+    showButton(button, page = 'all') {        
+        let changed = false;
+        for (let i = 0; i < this.buttons.length; i++) {
+            const oBtn = this.buttons[i];
+            if (Object.keys(oBtn)[0] == button) {
+                const btn = oBtn[button];
+                if (page) {
+                    btn.page = page == 'all' ? null : page;
+                    btn.visible = true;
+                    this.buttonsVisible = (this.buttonsVisible | btn.key);                  
+                } else if (page === false) {
+                    btn.page = null;
+                    btn.visible = false;
+                    this.buttonsVisible = (this.buttonsVisible - btn.key);
+                }
+                changed = true;
+            }
+        } 
+        if (changed) this.#updateButtons();
+    }
+    
+    #createButtons() {        
+        for (let i = 0; i < WIZ_BUTTONS.length; i++) {
+            const btn = WIZ_BUTTONS[i];
+            const button = new WizardButton(btn.type, i);
+            button.page = btn.page;   
+            const oBtn = {};
+            oBtn[btn.type] = button;
+            this.buttons.push(oBtn);
+        }
+        this.#renderWizard();
+        this.#updateButtons();
     }
 
-    #handleButtonEvent(event, $this) {
+    #raiseButtonEvent(event, $this) {
         if (event.target.hasAttribute('disabled')) return;
-        const step = parseInt(event.target.alt);     
-        $this.#updateButtons();
-        // raise custom event:
-        // TODO Renew the dispatching of events...
-        if (step == ICON.SEND) document.dispatchEvent(new CustomEvent('onwizard', {
+        const action = event.target.alt,
+              step = parseInt(action); 
+        document.dispatchEvent(new CustomEvent('onwizard', {
             detail: {
-                action: this.action, 
-                source: this
+                action: action, 
+                source: this,
+                parent: this.parent,
+                form: this.form
             }}
         ));
-        if (step == ICON.ADD) document.dispatchEvent(new CustomEvent('onwizard', {
-            detail: {
-                action: 'add', 
-                source: this
-            }}
-        ));
-        if (step > 1) return;
-        $this.updatePage(step);
     }
 
     
-    updatePage(step) {
-        const buttons = this.buttons;
-        this.#page += step;      
-        // const start = (this.#page < 1 || step == 0);
-        if (this.#page < 1 || step == 0) this.#page = 0;
-        if (this.#page > this.lastPage) this.#page = this.lastPage;
+    switchPage(step) {
+        this.page += step;
+        if (this.page < 1 || step == 0) this.page = 0;
+        if (this.page > this.lastPage) this.page = this.lastPage;        
         this.pages.forEach(pge => pge.classList.add('hidden'));
-        this.pages[this.#page].classList.remove('hidden');
+        this.pages[this.page].classList.remove('hidden');
         this.updateCaption();
         this.#updateButtons();
     }
 
-    updateCaption() {
-        this.title.innerHTML = this.caption + ' ' + (this.#page + 1) + '/' + (this.lastPage + 1);
-    }
 
-    
-    // HOME: 0, PREV: 1, ADD: 2, CAM : 3, INFO: 4, SEND: 5, NEXT: 6
-    #updateButtons() {
-        const buttons = this.buttons,
-              start = (this.#page == 0),
-              isLastPage = (this.#page == this.lastPage);
-        if (buttons && buttons.length > 0) {
-            buttons[ICON.HOME].toggleAttribute('disabled', start);
-            buttons[ICON.PREV].toggleAttribute('disabled', start);
-            buttons[ICON.NEXT].toggleAttribute('disabled', isLastPage);
-            buttons[ICON.NEXT].toggleAttribute('hidden', isLastPage);
-
-            const onPage = (this.#page === this.showAddButton);
-            // buttons[ICON.ADD].toggleAttribute('disabled', !isLastPage);
-            // buttons[ICON.ADD].toggleAttribute('hidden', !this.showAddButton); 
-            buttons[ICON.ADD].toggleAttribute('hidden', !onPage); 
-
-            buttons[ICON.INFO].toggleAttribute('hidden', !this.showInfoButton);
-            buttons[ICON.CAM].toggleAttribute('hidden', !this.showCamButton);
-            buttons[ICON.SEND].toggleAttribute('hidden', this.showSubmitButton == 'last' && !isLastPage);
+    updateCaption(text = this.#caption) {
+        if (this.title) {      
+            this.title.innerHTML = (this.pages.length == 1) ? text : text + ' ' + (this.page + 1) + '/' + (this.lastPage + 1);      
         }
     }
 
+    
+    #updateButtons() {
+        const isFirstPage = (this.page == 0),
+              isLastPage = (this.page == this.lastPage);
+        for (let i = 0; i < this.buttons.length; i++) {
+            const oButton = this.buttons[i], 
+                  key = Object.keys(oButton)[0],
+                  btn = oButton[key],
+                  visible = Boolean(this.buttonsVisible & btn.key),
+                  pageValid = (btn.page == this.page || btn.page == null || (btn.page == 'last' && isLastPage)),
+                  icon = $(oButton[key].id);
+            if (icon) {
+                btn.visible = (visible && pageValid);
+                icon.hidden = !btn.visible || 
+                               btn.action == 'send' && !isLastPage ||
+                               btn.action == 1 && isLastPage;
+                icon.toggleAttribute('disabled', (isFirstPage && (btn.type == 'home' || btn.type == 'prev')));
+            }          
+        }
+    }
+
+
     submitForm(redirect = 'index.html') {
-        if (this.form) {
-            this.form.submit(); // Submit the form. Preferably do server side validation!
+        if (this.parent.form) {
+            this.parent.form.submit(); // Submit the form. Preferably do server side validation!
             // Simulate HTTP redirect and avoid back button issues.
             // this is better than: window.location.href("destination.html");
             if (redirect && (typeof redirect == 'string')) {
@@ -154,21 +186,108 @@ export default class Wizard extends FormHandler {
     }
 
 
-    // ICON... HOME: 0, PREV: -1, NEXT: 1, ADD: 'add', CAM : 'cam', INFO: 'info', SEND: 'send'
-    #renderButtons() {
-        this.form.innerHTML += `
-        <div id="${this.ID}" class="wizard-bar">
-            <div>
-                <img class="wizard-button" data-wizard-button="${ICON.HOME}" src="./img/first.png" alt="${ICON.HOME}" disabled>
-                <img class="wizard-button" data-wizard-button="${ICON.PREV}" src="./img/previous.png" alt="-1" disabled>
-            </div>      
-            <img class="wizard-button" data-wizard-button="${ICON.ADD}" src="./img/add.png" alt="${ICON.ADD}" disabled hidden>    
-            <img class="wizard-button" data-wizard-button="${ICON.CAM}" src="./img/camera.png" alt="${ICON.CAM}" hidden>
-            <img class="wizard-button" data-wizard-button="${ICON.INFO}" src="./img/info.png" alt="${ICON.INFO}" hidden>
-            <div>
-                <img class="wizard-button" data-wizard-button="${ICON.SEND}" src="./img/${this.action}.png" alt="${ICON.SEND}">
-                <img class="wizard-button" data-wizard-button="${ICON.NEXT}" src="./img/next.png" alt="1">
-            </div>          
-        </div>`;
+    #renderWizard() {
+        const wizard = $(this.ID);
+        if (wizard) {
+            wizard.innerHTML = `
+                <div id="${this.ID}Left">
+                </div> <div id="${this.ID}Center">
+                </div> <div id="${this.ID}Right"></div>`;
+        } else if (this.parent.form) {
+            this.parent.form.innerHTML += `
+                <div id="${this.ID}" class="wizard-bar">
+                    <div id="${this.ID}Left"></div> <div id="${this.ID}Center"></div> <div id="${this.ID}Right"></div>
+                </div>`;
+        } else {
+            return;
+        }
+        this.#renderWizardButtons();
+    }
+
+    #renderWizardButtons() {
+        const left = $(this.ID + 'Left'), 
+              center = $(this.ID + 'Center'), 
+              right = $(this.ID + 'Right');
+        for (let i = 0; i < this.buttons.length; i++) {
+            const oButton = this.buttons[i], key = Object.keys(oButton)[0];
+            const btn = oButton[key];
+            if ('home|prev|refresh'.includes(btn.type)) {
+                left.innerHTML += btn.html;
+            } else if ('next|save|send'.includes(btn.type)) {
+                right.innerHTML += btn.html;
+            } else {
+                center.innerHTML += btn.html;
+            }
+        }
+        this.#addButtonEvents();
+    }
+
+
+    // now we add the event-listeners!
+    #addButtonEvents() {        
+        for (let i = 0; i < this.buttons.length; i++) {
+            const oButton = this.buttons[i], key = Object.keys(oButton)[0],
+                    icon = $(oButton[key].id);
+            if (icon) {
+                icon.addEventListener ('click', event => this.#raiseButtonEvent(event, this))
+            }
+        }
     }
 }
+
+class WizardButton {
+    type;
+    visible = false;
+    icon = '';
+    html = '';
+    id = '';
+    key = 0;
+    page = null;
+    #action = null;
+    get action() { return this.#action; }
+    set action(value) { this.#initButton(value); }
+
+    constructor(type, key) {
+        this.type = type || null;
+        if (key != undefined) this.key = Math.pow(2, key);
+        this.id = 'img' + type.charAt(0).toUpperCase() + type.slice(1);
+        this.icon = './img/' + type + '.png';
+        this.#initButton(type);
+    }
+
+
+    #initButton(type) {
+        const typeL = type.toLowerCase();
+        switch (typeL) {
+            case 'home':
+                this.#action = 0;
+                break;
+            case 'prev':
+                this.#action = -1;
+                break;
+            case 'next':
+                this.#action = 1;
+                break;
+            default:
+                this.#action = typeL;
+                break;
+        }
+        this.html = `<img id="${this.id}" class="wizard-button" data-wizard-button="${typeL}" src="./img/${typeL}.png" alt="${this.#action}">`;
+    }
+}
+
+const WIZ_BUTTONS = [
+    {type: 'home', page: null},
+    {type: 'prev', page: null},    
+    {type: 'add', page: null},
+    {type: 'minus', page: null},
+    {type: 'delete', page: null},
+    {type: 'cam', page: null},
+    {type: 'info', page: null},
+    {type: 'help', page: null},
+    {type: 'print', page: null},
+    {type: 'save', page: 'last'},
+    {type: 'send', page: 'last'},
+    {type: 'next', page: null},
+    {type: 'refresh', page: null}   
+];

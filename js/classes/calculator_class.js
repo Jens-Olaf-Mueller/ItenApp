@@ -1,5 +1,5 @@
 import $ from '../library.js';
-import { Library } from './library_class.js';
+import Library from './library_class.js';
 
 const CALC_POD = 'divCalculator',
       CALC_GRID = 'divGrid',

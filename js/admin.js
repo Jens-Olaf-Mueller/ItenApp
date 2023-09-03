@@ -1,5 +1,5 @@
 import $, { includeHTML } from './library.js';
-import { FormHandler } from './classes/library_class.js';
+import FormHandler from './classes/formhandler_class.js';
 import MessageBox from './classes/messagebox_class.js';
 
 const FRM_SITES = new FormHandler('frmSites'),

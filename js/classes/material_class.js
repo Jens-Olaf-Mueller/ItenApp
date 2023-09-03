@@ -1,5 +1,5 @@
 import $ from '../library.js';
-import {FormHandler } from './library_class.js';
+import FormHandler from './formhandler_class.js';
 
 class Material extends FormHandler {
     unit = '1'; // = m
@@ -121,14 +121,18 @@ class Surface extends Material {
     description = '';    
     length = 0;
     defaultHeight = 0;
-    #height = 0;
+    
     #width = 0;
     get width() {return this.#width;}
     set width(value) {
         this.#width = value;
+    }
+    
+    #height = 0;
+    get height() {return this.#height;}
+    set height(value) {
         this.#height = value;
     }
-    get height() {return this.#height;}
     get area() { return this.length * this.width;}
     waterproofed = false;
     waterproofedArea = 0;

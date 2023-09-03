@@ -1,15 +1,17 @@
 import $, { includeHTML } from './library.js'; // import * as Library from './library.js';
+import MessageBox from './classes/messagebox_class.js';
 import { renderLaunchPad, setCheckboxBuddies, setInputAutoSelection } from './main.js';
 import { Project } from './classes/project_class.js';
 import Settings from './classes/settings_class.js';
-import { FormHandler, Employee } from './classes/library_class.js';
+import FormHandler, { Employee } from './classes/formhandler_class.js';
 import initSettings from './settings.js';
 import initTools from './tools.js';
 import initHoursRecording from './hours.js';
-import initReports from './report.js';
+import initReports from './reports/init_reports.js';
 import initAdmin from './admin.js';
 import initCalculator from './calculator.js';
 
+const msgBox = new MessageBox('./style/msgbox.css');
 export const SETTINGS = new Settings();
 export const EMPLOYEES = [];
 export const PROJECTS = [];
@@ -38,12 +40,12 @@ async function runApp() {
         initCalculator();
         return;
     }
-    if (href.includes('tools')) initTools(queryString);  
-
+    if (href.includes('tools')) initTools(queryString);
     if (href.includes('settings')) initSettings('Einstellungen');
     if (href.includes('hours')) initHoursRecording('Stunden');
     if (href.includes('report')) initReports(queryString);
     if (href.includes('admin')) initAdmin(queryString);
+    
     setCheckboxBuddies();
     setCheckboxBuddies('off'); // for those switching corresponding controls off!
     setInputAutoSelection();
@@ -98,23 +100,52 @@ function tempCreateEmployees() {
 }
 
 export async function executeWizardEvents(event) {    
-    console.log(event.detail);
-    // debugger
-    const wizAction = event.detail.action;
-    if (wizAction == 'send') {
-        const sender = event.detail.source;
-        sender.submitForm('index.html');
-    } else if (wizAction == 'add') {
-        if (await msgBox.show('Weitere Baustelle hinzufügen?','Fortfahren?','Ja, Nein') == 'Ja') {
-            // clsWizard.page = 0;
-            clsWizard.updatePage(-10);
-            debugger
-            //TODO: saving the previous dataset
+    if (isDebugmode) console.log(event.detail);
+    const action = event.detail.action,
+          step = Number(action),
+          sender = event.detail.source,
+          parent = event.detail.parent,
+          form = event.detail.form;
+          
+    if (!isNaN(step)) {
+        sender.switchPage(step);
+    } else if (action == 'send') {
+        if (form) sender.submitForm();
+    } else if (action == 'save') {
+        if (form.name == 'settings') {
+            if (await msgBox.show('Einstellungen speichern?','Bitte bestätigen!','Ja, Nein') == 'Ja') {
+                SETTINGS.save(); 
+                window.location.replace('index.html');
+            }            
+        }  
+    } else if (action == 'cam') {
+        await msgBox.show('Foto aufnehmen...','Camera');
+    } else if (action == 'print') {
+        await msgBox.show('Rapport drucken...','Drucken');
+    } else if (action == 'add') {
+        switch (form.name) {
+            case 'hours':
+                if (await msgBox.show('Weitere Baustelle hinzufügen?','Fortfahren?','Ja, Nein') == 'Ja') {    
+                    //TODO: saving the previous dataset,                    
+                    console.log('Hier Daten der aktuellen Baustelle speichern... ');
+                    //TODO: Reset-function for controls: --> hours.siteSelected()...???
+                    $('selBVName').value = -1;
+                    $('divWorktime').setAttribute('hidden', true);
+                    $('inpBVNr').value = '';
+                    $('inpOrt').value = '';
+                    sender.switchPage(-1);
+                }
+                break;
+            case 'settings':
+
+                break;
+            default:
+                debugger
+                break;
         }
-    } else if (wizAction == 'save') {
-        SETTINGS.save();
     }
 }
+
 
 /**
  * Resets all HTML-forms to a defined shape and hides them.

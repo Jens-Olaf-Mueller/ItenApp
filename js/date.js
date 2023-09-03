@@ -17,6 +17,14 @@ export function getWeek(date) {
     return 1 + Math.ceil((firstThursday - dtDate) / 604800000);
 }
 
+export function getAge(birthdate) {
+    const today = new Date();
+    const age = today.getFullYear() - birthdate.getFullYear() - 
+               (today.getMonth() < birthdate.getMonth() || 
+               (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate()));
+    return age;
+}
+
 export function formatDate(date = new Date()) {
     return [
         date.getFullYear(),
@@ -37,7 +45,7 @@ function getKW (date = new Date()) {
  * @param {number} firstDayOfWeek 0 sunday | 1 monday | 2 tuesday | 3 wednesday | 4 thursday | 5 friday | 6 saturday
  * @returns 
  */
-function firstDayOfWeek(date, firstDayOfWeek = 1) {
+export function firstDayOfWeek(date, firstDayOfWeek = 1) {
     if (typeof date == 'string') date = new Date(date);
     if (date == undefined) date = new Date();
     const dayOfWeek = date.getDay(),

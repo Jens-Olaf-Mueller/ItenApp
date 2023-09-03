@@ -1,26 +1,21 @@
-<fieldset> <legend id="legendKW">  Kalenderwoche 01 </legend> 
-    <div class="checkbox flx-btw">
-        <span>
-            <input id="chkThisWeek" type="checkbox" data-buddyoff="inpWeekFromDate inpWeekUntilDate">
-            <label for="chkThisWeek">aktuelle Kalenderwoche</label>
-        </span>                        
-    </div>   
+<div class="wizard" data-wizard="weekly">
+    <fieldset> <legend id="legendKW">  Kalenderwoche 01 </legend> 
+        <div class="checkbox flx-btw">
+            <span>
+                <input id="chkThisWeek" type="checkbox" data-buddyoff="inpWeekFromDate inpWeekUntilDate">
+                <label for="chkThisWeek">aktuelle Kalenderwoche</label>
+            </span>                        
+        </div>   
 
-    <div class="control inline flx-btw">
-        <label for="inpWeekFromDate">vom</label>
-        <input id="inpWeekFromDate" type="date">
-    </div>
+        <div class="control inline flx-btw">
+            <label for="inpWeekFromDate">vom</label>
+            <input id="inpWeekFromDate" type="date">
+        </div>
 
-    <div class="control inline flx-btw">
-        <label for="inpWeekUntilDate">bis</label>
-        <input id="inpWeekUntilDate" type="date">
-    </div>  
-</fieldset>
-<hr>
-<div id="divWizardbar" class="wizard-bar">
-    <div>
-        <img class="wizard-button" src="./img/save.png" alt="save">
-        <img class="wizard-button" src="./img/print.png" alt="print">
-    </div>
-    <img class="wizard-button" src="./img/send.png" alt="send">
+        <div class="control inline flx-btw">
+            <label for="inpWeekUntilDate">bis</label>
+            <input id="inpWeekUntilDate" type="date">
+        </div>  
+    </fieldset>  
 </div>
+<hr>

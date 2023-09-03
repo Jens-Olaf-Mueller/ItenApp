@@ -1,0 +1,20 @@
+<fieldset> <legend>  Mitarbeiter  </legend>
+    <div class="control">
+        <label for="inpWorker">Mitarbeiter</label>
+        <input id="inpWorker" type="text">
+    </div>
+
+    <div class="control" data-control="dropbox">
+        <div class="dropdown">
+            <select name="employeetype" id="selEmployeeType" required></select>
+            <span class="dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <div class="control counter inline flx-btw">
+        <label for="inpCommHours">Zeitaufwand</label>
+        <span><input id="inpCommHours" type="number" name="commhours">   Std</span> 
+    </div>
+
+    <textarea name="workdescription" id="txtWorkDescription" cols="35" rows="25" placeholder="ausgeführte Regie-Arbeiten..."></textarea>
+</fieldset>

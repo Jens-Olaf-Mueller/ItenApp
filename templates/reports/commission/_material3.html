@@ -1,0 +1,128 @@
+<fieldset> <legend>  Material 3 / 3  </legend>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkFibreGlassWeb" type="checkbox" data-buddy="inpFibreGlassWeb">
+            <label for="chkFibreGlassWeb">Gewebe / Netz</label>
+        </span>   
+        <span><input id="inpFibreGlassWeb" type="number" name="fibreglassweb" disabled>   m²</span>
+    </div>
+
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkMarginStrip" type="checkbox" data-buddy="inpMarginStrip">
+            <label for="chkMarginStrip">Stellstreifen</label>
+        </span>   
+        <span><input id="inpMarginStrip" type="number" name="marginstrip" disabled>   m </span>
+    </div>
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkWedi" type="checkbox" data-buddy="inpWedi selWedi">
+            <label class="lbl-short" for="chkWedi">Wedi</label>            
+        </span>
+        <span class="inline">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown" style="margin-right: 1rem;">
+                    <select id="selWedi" disabled>
+                        <option value="4">4 mm</option>
+                        <option value="6">6 mm</option>
+                        <option value="10">10 mm</option>
+                        <option value="20">20 mm</option>
+                        <option value="30">30 mm</option>
+                        <option value="40">40 mm</option>
+                        <option value="50">50 mm</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>       
+                </div>                
+            </div>
+            <span><input id="inpWedi" type="number" name="wedi" disabled>   m²</span>
+        </span>              
+    </div> 
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkDecoupling" type="checkbox" data-buddy="inpDecoupling selDecoupling">
+            <label class="lbl-short" for="chkDecoupling">Entkopplung</label>            
+        </span>
+        <span class="inline">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown" style="margin-right: 1rem;">
+                    <select id="selDecoupling" disabled>
+                        <option value="1">1 mm</option>
+                        <option value="4">4 mm</option>
+                        <option value="6">6 mm</option>
+                        <option value="10">10 mm</option>
+                        <option value="15">15 mm</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>       
+                </div>                
+            </div>
+            <span><input id="inpDecoupling" type="number" name="decoupling" disabled>   m²</span>
+        </span>              
+    </div>
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkSoundInsulation" type="checkbox" data-buddy="inpSoundInsulation selSoundInsulation">
+            <label class="lbl-short" for="chkSoundInsulation">Trittschall</label>
+        </span>  
+        <span class="inline">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown" style="margin-right: 1rem;">
+                    <select id="selSoundInsulation" disabled>
+                        <option value="5 G">5 mm</option>
+                        <option value="15 SW">15 mm</option>
+                        <option value="20 SW">20 mm</option>
+                        <option value="20 PS2">20 mm</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>       
+                </div>                
+            </div>
+            <span><input id="inpSoundInsulation" type="number" name="soundinsulation" disabled>   m²</span>
+        </span>           
+    </div>
+
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkInsulation" type="checkbox" data-buddy="inpInsulation selInsulation">
+            <label class="lbl-short" for="chkInsulation">Dämmung mm</label>
+        </span>  
+        <span class="inline">
+            <div class="control" data-control="dropbox">
+                <div class="dropdown" style="margin-right: 1rem;">
+                    <select id="selInsulation" disabled>
+                        <option value="15 SW">15 SW</option>
+                        <option value="20 SW">20 SW</option>
+                        <option value="20 SW">40 SW</option>
+                        <option value="20 SW">60 SW</option>
+                        <option value="20 PS2">20 XPS</option>
+                        <option value="20 PS2">30 XPS</option>
+                        <option value="20 PS2">40 XPS</option>
+                        <option value="20 PS2">20 XPS</option>
+                    </select>
+                    <span class="dropdown-arrow"></span>       
+                </div>                
+            </div>
+            <span><input id="inpInsulation" type="number" name="insulation" disabled>   m²</span>
+        </span>           
+    </div>
+    <hr>
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <input id="chkCoveringMaterial" type="checkbox" data-buddy="selCoveringMaterial inpCoveringMaterial">
+        <div class="control" data-control="dropbox" style="flex: 1;">
+            <div class="dropdown">
+                <select id="selCoveringMaterial" name="coveringmaterial" disabled>
+                    <option value="0" selected disabled>-- Abdeck- / Schutzmaterial --</option>                       
+                    <option>Floorliner</option>
+                    <option>Kraftpapier</option>
+                    <option>Pavatex</option>
+                    <option>Baufolie / Plastik</option>
+                    <option>Permafix (SK-Folie)</option>
+                    <option value="-1">-- nicht aufgeführt --</option>
+                </select>
+                <span class="dropdown-arrow"></span>                   
+            </div>                                
+        </div>
+        <span><input id="inpCoveringMaterial" type="number" name="coveringmaterialSQM" disabled>   m²</span>
+    </div>
+</fieldset>

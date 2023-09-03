@@ -1,4 +1,20 @@
-<fieldset> <legend>  Material- / Werkzeugbestellung  </legend>
-    <p>Bitte folgendes Material bestellen:</p>
-
-</fieldset>
+<div class="wizard" data-wizard="order">
+    <fieldset> <legend>  Material- / Werkzeugbestellung  </legend>
+        <div class="control" data-control="dropbox">
+            <label for="selBVName">Bitte folgendes Material / Werkeug bestellen für:</label>
+            <div class="dropdown">
+                <select name="sites" id="selBVName" required>
+                    <option value="-1" selected>-- bitte wählen --</option>
+                    <option value="0000-000" data-site="Unterägeri">Magazin</option>
+                    <option value="0000-001" data-site="Unterägeri">Büro</option>
+                    <option value="2021-001" data-site="Meggen">Eichmattpark</option>
+                    <option value="2021-002" data-site="Baar">Quadrolith</option>
+                    <option value="2022-003" data-site="Unterägeri">Ahornstrasse 20</option>
+                    <option value="2022-004" data-site="Unterägeri">Ahornstrasse 22</option>
+                    <option value="2023-005" data-site="Affoltern a. Albis">Titlisstrasse</option>
+                </select>
+                <span class="dropdown-arrow"></span>
+            </div>
+        </div>
+    </fieldset>
+</div>

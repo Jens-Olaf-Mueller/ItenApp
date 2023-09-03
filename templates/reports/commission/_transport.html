@@ -1,0 +1,54 @@
+<fieldset> <legend>  Fahrzeug / Abfall  </legend>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkCaddy" type="checkbox" data-buddy="inpCaddy">
+            <label for="chkCaddy">Servicewagen / Caddy</label>
+        </span>   
+        <span><input id="inpCaddy" type="number" name="car" disabled>  Std</span>
+    </div>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkVan" type="checkbox" data-buddy="inpVan">
+            <label for="chkVan">Transporter / Bus</label>
+        </span>   
+        <span><input id="inpVan" type="number" name="car" disabled>  Std</span>
+    </div>
+    <div class="switchbox counter flx-btw">
+        <span>
+            <input id="chkLorry" type="checkbox" data-buddy="inpLorry">
+            <label for="chkLorry">LKW 2.0 to</label>
+        </span>   
+        <span><input id="inpLorry" type="number" name="car" disabled>  Std</span>
+    </div>
+    <hr>
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkWaste1" type="checkbox" data-buddy="inpWaste1 selWaste1">
+            <label class="lbl-short" for="chkWaste1">Abfall / Schutt</label>            
+        </span>
+        <span class="inline">
+            <input id="inpWaste1" type="number" style="margin-right: 1rem;" disabled>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selWaste1" data-units="volume" disabled></select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>  
+        </span>              
+    </div>
+    <div class="switchbox counter inline flx-btw" data-control="dropbox">
+        <span>
+            <input id="chkWaste2" type="checkbox" data-buddy="inpWaste2 selWaste2">
+            <label class="lbl-short" for="chkWaste2">Abfall / Schutt</label>            
+        </span>
+        <span class="inline">
+            <input id="inpWaste2" type="number" style="margin-right: 1rem;" disabled>
+            <div class="control" data-control="dropbox">
+                <div class="dropdown">
+                    <select id="selWaste2" data-units="volume" disabled></select>
+                    <span class="dropdown-arrow"></span>                   
+                </div>                
+            </div>  
+        </span>              
+    </div>
+</fieldset>

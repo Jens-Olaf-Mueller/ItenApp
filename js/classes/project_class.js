@@ -1,4 +1,4 @@
-import { FormHandler, Address } from "./library_class.js";
+import FormHandler, { Address } from "./formhandler_class.js";
 
 export class Project extends FormHandler {
     #id = null;
